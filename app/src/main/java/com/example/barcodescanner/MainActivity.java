@@ -95,7 +95,7 @@ animationDrawable.start();*/
         textView=findViewById(R.id.textview);
         ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, PackageManager.PERMISSION_GRANTED);*/
     }
-
+/*
 public void ScaneButton (View view) {
     IntentIntegrator  intentIntegrator =new IntentIntegrator(this);
           intentIntegrator.initiateScan();
@@ -119,5 +119,5 @@ public void ScaneButton (View view) {
 
         IntentIntegrator  intentIntegrator =new IntentIntegrator(this);
         intentIntegrator.initiateScan();
-    }
+    }*/
 }
