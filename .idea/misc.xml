@@ -32,9 +32,17 @@
         <entry key="..\:/Users/Medo/Desktop/Barcodescanner/app/src/main/res/layout/fragment_inventory.xml" value="0.12360688956433637" />
         <entry key="..\:/Users/Medo/Desktop/Barcodescanner/app/src/main/res/layout/fragment_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Medo/Desktop/Barcodescanner/app/src/main/res/layout/fragment_scanner.xml" value="0.16" />
+        <entry key="..\:/Users/Moudy/AndroidStudioProjects/Barcode_scanner/app/src/main/res/drawable/producticon.xml" value="0.19" />
         <entry key="..\:/Users/Moudy/AndroidStudioProjects/Barcode_scanner/app/src/main/res/layout/activity_login.xml" value="0.15806159420289856" />
+        <entry key="..\:/Users/Moudy/AndroidStudioProjects/Barcode_scanner/app/src/main/res/layout/activity_sign_up.xml" value="0.25" />
+        <entry key="..\:/Users/Moudy/AndroidStudioProjects/Barcode_scanner/app/src/main/res/layout/checkboxdialog.xml" value="0.25925925925925924" />
+        <entry key="..\:/Users/Moudy/AndroidStudioProjects/Barcode_scanner/app/src/main/res/layout/confirm_dialog.xml" value="0.67" />
         <entry key="..\:/Users/Moudy/AndroidStudioProjects/Barcode_scanner/app/src/main/res/layout/donedialog.xml" value="0.33" />
-        <entry key="..\:/Users/Moudy/AndroidStudioProjects/Barcode_scanner/app/src/main/res/layout/scansettingsdialog.xml" value="0.15806159420289856" />
+        <entry key="..\:/Users/Moudy/AndroidStudioProjects/Barcode_scanner/app/src/main/res/layout/fragment_add.xml" value="0.22" />
+        <entry key="..\:/Users/Moudy/AndroidStudioProjects/Barcode_scanner/app/src/main/res/layout/fragment_dashboard.xml" value="0.3900497512437811" />
+        <entry key="..\:/Users/Moudy/AndroidStudioProjects/Barcode_scanner/app/src/main/res/layout/fragment_scanner.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Moudy/AndroidStudioProjects/Barcode_scanner/app/src/main/res/layout/scansettingsdialog.xml" value="0.67" />
+        <entry key="..\:/Users/Moudy/AppData/Local/Android/Sdk/platforms/android-32/data/res/layout/simple_spinner_dropdown_item.xml" value="0.15806159420289856" />
       </map>
     </option>
   </component>

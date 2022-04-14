@@ -69,7 +69,7 @@
             android:background="@drawable/btn_rounded_green"
             style="@style/Widget.AppCompat.Button.Borderless"
 
-            android:text="Continue"
+            android:text="@string/Continue"
             android:textColor="@android:color/white" />
 
     </LinearLayout>

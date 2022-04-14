@@ -2,4 +2,42 @@
     <string name="app_name">Barcode scanner</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Search">Search</string>
+
+    <string name="Cancel">Cancel</string>
+    <string name="Save">Save</string>
+    <string name="Continue">Continue</string>
+    <string name="ADD">ADD</string>
+    <string name="ProductName">Product Name</string>
+    <string name="Description">Description</string>
+    <string name="ProductType">Product Type</string>
+    <string name="ExpirationDate">Expiration Date</string>
+    <string name="ProductionDate">Production Date</string>
+    <string name="Barcode">Barcode</string>
+    <string name="Addproduct">ADD Product</string>
+    <string name="SelectTypeOfProduct">Select Type Of Product :</string>
+    <string name="Pt1">Cleaners</string>
+    <string name="Pt2">Canned</string>
+    <string name="Pt3">Freezers</string>
+    <string name="Pt4">Chips</string>
+    <string name="Pt5">Chocolate</string>
+    <string name="Pt6">Coal</string>
+    <string name="Pt7">Soft Drink</string>
+    <string name="Pt8">Household Items</string>
+    <string name="Pt9">Legumes</string>
+    <string name="Pt10">Milk</string>
+    <string name="Pt11">Homs</string>
+    <string name="Pt12">Salad</string>
+    <string name="Pt13">Diapers</string>
+    <string name="Pt14">Oils</string>
+    <string name="Pt15">coffee</string>
+    <string name="Pt16">Tea</string>
+    <string name="Pt17">Spices</string>
+    <string name="Pt18">Nescafe</string>
+    <string name="Pt19">cheese</string>
+    <string name="Pt20">Herbs</string>
+    <string name="Pt21">Stationery</string>
+    <string name="Pt22">Ketchup</string>
+    <string name="Pt23">Mayonnaise</string>
+    <string name="pt24">Tahini</string>
 </resources>

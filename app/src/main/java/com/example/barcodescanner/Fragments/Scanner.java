@@ -18,21 +18,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bitvale.switcher.SwitcherX;
 import com.example.barcodescanner.MainActivity;
 import com.example.barcodescanner.R;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
+
 
 public class Scanner extends Fragment {
 //here you can type instans varible
-static TextView text ;
-
-Context thiscontext;
+static TextView text,tvscannumber ;
+public int scannumber;
+    SwitcherX switcherorientation,switcherbeepsound;
+    Context thiscontext;
+    TextView orientation,beepsound;
+    IntentIntegrator integrator;
     public Scanner() {
         // Required empty public constructor
 
@@ -44,20 +57,25 @@ Context thiscontext;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        thiscontext = container.getContext();
 
         View view =inflater.inflate(R.layout.fragment_scanner, container, false);
-         Button scan=(Button) view.findViewById(R.id.scanbtn);
+        thiscontext = container.getContext();
+        orientation= (TextView)view.findViewById(R.id.Orientation);
+        beepsound= (TextView)view.findViewById(R.id.beepsound);
+tvscannumber =(TextView) view.findViewById(R.id.scannumber);
+        switcherbeepsound =(SwitcherX) view.findViewById(R.id.switcherbeepsound) ;
+        switcherorientation =(SwitcherX) view.findViewById(R.id.switcherorientation) ;
 
+        Button scan=(Button) view.findViewById(R.id.scanbtn);
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                IntentIntegrator integrator = IntentIntegrator.forSupportFragment(Scanner.this);
+                integrator = IntentIntegrator.forSupportFragment(Scanner.this);
 
                 //integrator.setOrientationLocked(false);
                 //integrator.setPrompt("Scan QR code");
                 //integrator.setBeepEnabled(false);
-               // integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
+              //  integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
 
 
                 integrator.initiateScan();
@@ -73,6 +91,7 @@ scan.setOnLongClickListener(new View.OnLongClickListener() {
         return view;
 
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
@@ -83,8 +102,8 @@ scan.setOnLongClickListener(new View.OnLongClickListener() {
 
                 Toast.makeText(getContext(), "Scanned : " + result.getContents(), Toast.LENGTH_LONG).show();
 
-
-
+                scannumber++;
+                tvscannumber.setText(Integer.toString(scannumber));
             }
         }
     }
@@ -92,7 +111,7 @@ scan.setOnLongClickListener(new View.OnLongClickListener() {
 
         final Dialog dialog = new Dialog(thiscontext);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.donedialog);
+        dialog.setContentView(R.layout.scansettingsdialog);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.setCancelable(true);
         ((Button) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
@@ -103,6 +122,22 @@ scan.setOnLongClickListener(new View.OnLongClickListener() {
             }
         });
         dialog.show();
+       /*
+switcherbeepsound.setOnCheckedChangeListener(new Function1<Boolean, Unit>() {
+    @Override
+    public Unit invoke(Boolean aBoolean) {
+        if (switcherbeepsound.isChecked()){
+            beepsound.setTextColor(Color.parseColor("#48ea8b"));
+            integrator.setBeepEnabled(true);
+        }else{
+            beepsound.setTextColor(Color.parseColor("#ff4651"));
+            integrator.setBeepEnabled(false);
+        }
+
+
+            return null;
+    }
+})  ;*/
+         }
     }
 
-}

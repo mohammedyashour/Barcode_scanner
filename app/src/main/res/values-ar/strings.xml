@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Barcode scanner</string>
+    <string name="hello_blank_fragment">"قارئ "</string>
+    <string name="Search">بحث</string>
+
+    <string name="Cancel">إلغاء</string>
+    <string name="Save">حفظ</string>+
+    <string name="Continue">استمر</string>
+    <string name="ADD">إضافة</string>
+    <string name="ProductName">اسم المنتج</string>
+    <string name="Description">الوصف</string>
+    <string name="ProductType">نوع المنتج</string>
+    <string name="ExpirationDate">تاريخ الإنتهاء</string>
+    <string name="ProductionDate">تاريخ الإنتاج</string>
+    <string name="Barcode">الباركود</string>
+    <string name="Addproduct">إضافة منتج</string>
+    <string name="SelectTypeOfProduct">اختر نوع المنتج :</string>
+    <string name="Pt1">منظفات</string>
+    <string name="Pt2">معلبات</string>
+    <string name="Pt3">مجمدات</string>
+    <string name="Pt4">شيبس</string>
+    <string name="Pt5">شوكولاتة</string>
+    <string name="Pt6">فحم</string>
+    <string name="Pt7">مشروبات غازية</string>
+    <string name="Pt8">أدوات منزلية</string>
+    <string name="Pt9">بقوليات</string>
+    <string name="Pt10">لبن</string>
+    <string name="Pt11">حمص</string>
+    <string name="Pt12">سلطات</string>
+    <string name="Pt13">حفاضات اطفال</string>
+    <string name="Pt14">زيت</string>
+    <string name="Pt15">قهوة</string>
+    <string name="Pt16">شاي</string>
+    <string name="Pt17">توابل</string>
+    <string name="Pt18">نسكافيه</string>
+    <string name="Pt19">جبنة</string>
+    <string name="Pt20">أعشاب</string>
+    <string name="Pt21">قرطاسية</string>
+    <string name="Pt22">كاتشب</string>
+    <string name="Pt23">مايونيز</string>
+    <string name="pt24">طحينة</string>
+</resources>

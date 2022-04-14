@@ -15,6 +15,41 @@
         app:lottie_loop="true"
         android:scaleType="fitXY"
         />
+    <androidx.cardview.widget.CardView
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:translationZ="2dp"
+android:layout_margin="90dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ff4651"
+            android:backgroundTint="#E30D26"
+            android:backgroundTintMode="screen"
+
+            android:orientation="vertical"
+            android:gravity="center">
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Scanned"
+    android:textSize="20sp"
+    android:textColor="@color/white"
+    android:textStyle="bold"
+    />
+            <TextView
+                android:id="@+id/scannumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:id="@+id/mainlayout"

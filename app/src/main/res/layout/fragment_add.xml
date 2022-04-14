@@ -15,11 +15,182 @@
         app:lottie_loop="true"
         android:scaleType="fitXY"
         />
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="ADD"
-        android:textColor="@color/white"/>
+
+
+
+<androidx.cardview.widget.CardView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+   android:layout_gravity="center"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="40dp"
+    android:layout_marginStart="40dp"
+    android:layout_marginEnd="40dp"
+    app:cardCornerRadius="40dp"
+    >
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+       android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_margin="40dp"
+
+        >
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Addproduct"
+            android:textColor="@color/gray"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layname"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/ProductName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:startIconDrawable="@drawable/aaicon"
+            app:helperText=""
+            app:helperTextTextColor="@color/red_50"
+
+            app:endIconMode="clear_text"
+            android:layout_marginTop="10dp"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:inputType="text"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/descriptionlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/Description"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:startIconDrawable="@drawable/descriptionicon"
+            app:helperText=""
+            app:helperTextTextColor="@color/red_50"
+
+            app:endIconMode="clear_text"
+            android:layout_marginTop="10dp"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ed_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:inputType="text"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/type_lay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/ProductType"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:startIconDrawable="@drawable/descriptionicon"
+            app:helperText=""
+            app:helperTextTextColor="@color/red_50"
+
+            app:endIconMode="dropdown_menu"
+            android:layout_marginTop="10dp"
+            >
+
+
+            <AutoCompleteTextView
+
+                android:id="@+id/filled_exposed_dropdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/lay_Production_date"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/ProductionDate"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:startIconDrawable="@drawable/calendar_icon"
+            app:helperText=""
+            app:helperTextTextColor="@color/red_50"
+
+            app:endIconMode="clear_text"
+            android:layout_marginTop="10dp"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ed_Production_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:inputType="datetime"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/lay_Expiration_date"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/ExpirationDate"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:startIconDrawable="@drawable/expired"
+            app:helperText=""
+            app:helperTextTextColor="@color/red_50"
+
+            app:endIconMode="clear_text"
+            android:layout_marginTop="10dp"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ed_Expiration_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:inputType="number"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/lay_Barcode"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/Barcode"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:startIconDrawable="@drawable/qr_code_scanner"
+            app:helperText=""
+            app:helperTextTextColor="@color/red_50"
+
+            app:endIconMode="clear_text"
+            android:layout_marginTop="10dp"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ed_barcode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:inputType="numberDecimal"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ADD" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
 
 </FrameLayout>
