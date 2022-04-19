@@ -34,6 +34,8 @@
         android:padding="12dp"
         android:layout_alignParentBottom="true"
         android:translationZ="12dp"
+        android:layoutDirection="ltr"
+
         >
         <com.gauravk.bubblenavigation.BubbleToggleView
             android:id="@+id/l_item_home2"
@@ -81,7 +83,7 @@ android:layout_marginEnd="12dp"
             app:bt_colorActive="@color/green_active"
             app:bt_colorInactive="@color/green_inactive"
             app:bt_shape="@drawable/transition_background_drawable_home"
-
+            app:bt_titlePadding="2dp"
             app:bt_title="@string/Add"
             android:layout_marginStart="12dp"
             />
