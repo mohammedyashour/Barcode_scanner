@@ -39,5 +39,48 @@
     <string name="Pt21">Stationery</string>
     <string name="Pt22">Ketchup</string>
     <string name="Pt23">Mayonnaise</string>
-    <string name="pt24">Tahini</string>
+    <string name="Pt24">Tahini</string>
+    <string name="Username">User Name</string>
+    <string name="Password">Password</string>
+    <string name="forgetpasswoed">FORGET PASSWORD ?</string>
+    <string name="newuser">New User?</string>
+    <string name="SignUp">Sign Up</string>
+    <string name="Signintocontinue">Sign In To Continue</string>
+    <string name="signin">S I G N I N</string>
+    <string name="inventory">Inventory</string>
+    <string name="home">Home</string>
+    <string name="Scanner">Scanner</string>
+    <string name="Add">Add</string>
+    <string name="Price">Price</string>
+    <string name="voiceSearch">Voice Search</string>
+    <string-array name="pt">
+        <item>@string/Pt1</item>
+        <item>@string/Pt2</item>
+        <item>@string/Pt3</item>
+        <item>@string/Pt4</item>
+        <item>@string/Pt5</item>
+        <item>@string/Pt6</item>
+        <item>@string/Pt7</item>
+        <item>@string/Pt8</item>
+        <item>@string/Pt9</item>
+        <item>@string/Pt10</item>
+        <item>@string/Pt11</item>
+        <item>@string/Pt12</item>
+        <item>@string/Pt13</item>
+        <item>@string/Pt14</item>
+        <item>@string/Pt15</item>
+        <item>@string/Pt16</item>
+        <item>@string/Pt17</item>
+        <item>@string/Pt18</item>
+        <item>@string/Pt19</item>
+        <item>@string/Pt20</item>
+        <item>@string/Pt21</item>
+        <item>@string/Pt22</item>
+        <item>@string/Pt23</item>
+        <item>@string/Pt24</item>
+
+
+    </string-array>
+    <string name="thisfieldcantbeempty">this field cant be empty!</string>
+    <string name="Required">Required</string>
 </resources>

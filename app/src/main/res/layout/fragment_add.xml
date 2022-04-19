@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.Add">
+    <!--**************LottieAnimationView***********************-->
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animationView"
@@ -17,6 +18,7 @@
         />
 
 
+    <!--***************** Card View***********************-->
 
 <androidx.cardview.widget.CardView
     android:layout_width="wrap_content"
@@ -32,14 +34,14 @@
     <LinearLayout
         android:layout_width="300dp"
         android:orientation="vertical"
-        android:layout_height="wrap_content"
+        android:layout_height="590dp"
         android:background="@color/white"
        android:gravity="center"
         android:layout_gravity="center"
         android:layout_margin="40dp"
 
         >
-
+        <!--**************ADD Product text view***********************-->
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
@@ -49,6 +51,17 @@
             android:textSize="34sp"
             android:textStyle="bold"
             />
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <!--************** Product Name Edit Text***********************-->
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layname"
             android:layout_width="match_parent"
@@ -57,8 +70,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:startIconDrawable="@drawable/aaicon"
             app:helperText=""
-            app:helperTextTextColor="@color/red_50"
-
+            app:helperTextTextColor="@color/RED"
             app:endIconMode="clear_text"
             android:layout_marginTop="10dp"
             >
@@ -69,8 +81,10 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:inputType="text"
+
                 />
         </com.google.android.material.textfield.TextInputLayout>
+        <!--************** Product Description Edit Text***********************-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/descriptionlay"
@@ -80,7 +94,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:startIconDrawable="@drawable/descriptionicon"
             app:helperText=""
-            app:helperTextTextColor="@color/red_50"
+            app:helperTextTextColor="@color/RED"
 
             app:endIconMode="clear_text"
             android:layout_marginTop="10dp"
@@ -94,28 +108,67 @@
                 android:inputType="text"
                 />
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/type_lay"
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <!--************** Product Type Edit Text***********************-->
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/type_lay"
+        android:layout_width="175dp"
+        android:layout_height="match_parent"
+        android:hint="@string/ProductType"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:startIconDrawable="@drawable/product"
+        app:helperText=""
+        app:helperTextTextColor="@color/RED"
+
+        app:endIconMode="dropdown_menu"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        >
+
+
+        <AutoCompleteTextView
+
+            android:id="@+id/filled_exposed_dropdown"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/ProductType"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:startIconDrawable="@drawable/descriptionicon"
-            app:helperText=""
-            app:helperTextTextColor="@color/red_50"
+            android:inputType="none"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <!--************** Product Price Edit Text***********************-->
 
-            app:endIconMode="dropdown_menu"
-            android:layout_marginTop="10dp"
-            >
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/Pricelay"
+        android:layout_width="120dp"
+        android:layout_height="match_parent"
+        android:hint="@string/Price"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:startIconDrawable="@drawable/shekel"
+        app:helperText=""
+        app:helperTextTextColor="@color/RED"
 
 
-            <AutoCompleteTextView
+        android:layout_marginTop="10dp"
 
-                android:id="@+id/filled_exposed_dropdown"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none"/>
-        </com.google.android.material.textfield.TextInputLayout>
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ed_Price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:inputType="number"
+
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+</LinearLayout>
+
+
+        <!--************** Production Date Edit Text***********************-->
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/lay_Production_date"
             android:layout_width="match_parent"
@@ -124,7 +177,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:startIconDrawable="@drawable/calendar_icon"
             app:helperText=""
-            app:helperTextTextColor="@color/red_50"
+            app:helperTextTextColor="@color/RED"
 
             app:endIconMode="clear_text"
             android:layout_marginTop="10dp"
@@ -134,10 +187,10 @@
                 android:id="@+id/ed_Production_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
                 android:inputType="datetime"
-                />
+                android:textSize="18sp" />
         </com.google.android.material.textfield.TextInputLayout>
+        <!--************** Expiration Date Edit Text***********************-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/lay_Expiration_date"
@@ -147,7 +200,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:startIconDrawable="@drawable/expired"
             app:helperText=""
-            app:helperTextTextColor="@color/red_50"
+            app:helperTextTextColor="@color/RED"
 
             app:endIconMode="clear_text"
             android:layout_marginTop="10dp"
@@ -161,6 +214,7 @@
                 android:inputType="number"
                 />
         </com.google.android.material.textfield.TextInputLayout>
+        <!--************** Barcode Edit Text***********************-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/lay_Barcode"
@@ -170,7 +224,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:startIconDrawable="@drawable/qr_code_scanner"
             app:helperText=""
-            app:helperTextTextColor="@color/red_50"
+            app:helperTextTextColor="@color/RED"
 
             app:endIconMode="clear_text"
             android:layout_marginTop="10dp"
@@ -184,12 +238,18 @@
                 android:inputType="numberDecimal"
                 />
         </com.google.android.material.textfield.TextInputLayout>
+        <!--************** ADD Product Button ***********************-->
+            <Button
+                android:id="@+id/addbtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ADD"
+                android:translationZ="4dp"
+                android:layout_marginTop="20dp"
+                />
+        </LinearLayout>
+    </ScrollView>
 
-        <Button
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/ADD" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
 

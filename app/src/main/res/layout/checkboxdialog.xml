@@ -22,26 +22,27 @@
         />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/layname"
+        android:id="@+id/lay_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:hint="@string/Search"
+        android:hint="@string/voiceSearch"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:startIconDrawable="@drawable/ic_search"
-        app:helperText=""
+        app:startIconDrawable="@drawable/mic"
         app:helperTextTextColor="@color/red_50"
 
-        app:endIconMode="clear_text"
         android:layout_marginTop="10dp"
+        app:endIconDrawable="@drawable/mic"
         >
+        <AutoCompleteTextView
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edname"
+            android:id="@+id/searchautotextview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:inputType="text"
             />
+
+
     </com.google.android.material.textfield.TextInputLayout>
     <ScrollView
 
@@ -53,7 +54,7 @@
             android:orientation="vertical">
             <RadioGroup
                 android:id="@+id/radioGroup"
-                android:checkedButton="@+id/radio_button_1"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <RadioButton
@@ -198,7 +199,7 @@
                     android:id="@+id/radio_button_24"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/pt24"
+                    android:text="@string/Pt24"
                     android:textSize="18sp"
                   />
 

@@ -45,7 +45,7 @@
             app:bt_icon="@drawable/ic_home"
             app:bt_shape="@drawable/transition_background_drawable_home"
 android:layout_marginEnd="12dp"
-            app:bt_title="Home"
+            app:bt_title="@string/home"
 
             />
         <com.gauravk.bubblenavigation.BubbleToggleView
@@ -58,7 +58,7 @@ android:layout_marginEnd="12dp"
             app:bt_colorInactive="@color/green_inactive"
             app:bt_shape="@drawable/transition_background_drawable_home"
 
-            app:bt_title="Scanner"
+            app:bt_title="@string/Scanner"
             />
         <com.gauravk.bubblenavigation.BubbleToggleView
             android:id="@+id/inventory"
@@ -69,7 +69,7 @@ android:layout_marginEnd="12dp"
             app:bt_colorActive="@color/green_active"
             app:bt_colorInactive="@color/green_inactive"
             app:bt_shape="@drawable/transition_background_drawable_home"
-            app:bt_title="inventory"
+            app:bt_title="@string/inventory"
             app:bt_titlePadding="2dp"
             />
         <com.gauravk.bubblenavigation.BubbleToggleView
@@ -82,8 +82,8 @@ android:layout_marginEnd="12dp"
             app:bt_colorInactive="@color/green_inactive"
             app:bt_shape="@drawable/transition_background_drawable_home"
 
-            app:bt_title="Add"
-            android:layout_marginLeft="12dp"
+            app:bt_title="@string/Add"
+            android:layout_marginStart="12dp"
             />
 
         <com.gauravk.bubblenavigation.BubbleToggleView
@@ -95,11 +95,10 @@ android:layout_marginEnd="12dp"
             app:bt_colorActive="@color/green_active"
             app:bt_colorInactive="@color/green_inactive"
             app:bt_shape="@drawable/transition_background_drawable_home"
-android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             app:bt_title="Menu"
             />
         <!-- Add more child items here - max upto 5 -->
-
     </com.gauravk.bubblenavigation.BubbleNavigationLinearView>
 
 

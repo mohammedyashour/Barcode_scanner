@@ -39,5 +39,20 @@
     <string name="Pt21">قرطاسية</string>
     <string name="Pt22">كاتشب</string>
     <string name="Pt23">مايونيز</string>
-    <string name="pt24">طحينة</string>
+    <string name="Pt24">طحينة</string>
+    <string name="Username">اسم المستخدم</string>
+    <string name="Password">كلمة المرور</string>
+    <string name="forgetpasswoed">نسيت كلمة المرور</string>
+    <string name="signin">تـسـجـيـل الـدخـول</string>
+    <string name="newuser">مستخدم جديد؟</string>
+    <string name="SignUp">تسجيل</string>
+    <string name="Signintocontinue">تسجيل الدخول للاستمرار</string>
+    <string name="inventory">المخزن</string>
+    <string name="home">الرئيسية</string>
+    <string name="Scanner">القارئ</string>
+    <string name="Add">إضافة</string>
+    <string name="Price">السعر</string>
+    <string name="voiceSearch">البحث الصوتي</string>
+    <string name="thisfieldcantbeempty">هذا الحقل لا يمكن ان يكون فارغ!</string>
+    <string name="Required">*مطلوب</string>
 </resources>
