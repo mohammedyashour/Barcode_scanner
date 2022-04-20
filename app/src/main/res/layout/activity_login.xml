@@ -66,6 +66,7 @@ android:visibility="visible"
         android:layout_marginTop="25dp"/>
 
     <TextView
+        android:id="@+id/tv_Signintocontinue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -135,6 +136,7 @@ android:layout_marginTop="20dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
     <TextView
+        android:id="@+id/tv_forget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/forgetpasswoed"
@@ -172,6 +174,7 @@ android:layout_marginTop="20dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
     <TextView
+        android:id="@+id/tv_newuser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/newuser"
@@ -181,6 +184,8 @@ android:layout_marginTop="20dp"
 
         />
         <TextView
+            android:id="@+id/tv_SignUp"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/SignUp"
@@ -192,4 +197,43 @@ android:layout_marginStart="5dp"
     </LinearLayout>
 
 </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_gravity= "bottom"
+        android:layoutDirection="rtl"
+        android:layout_marginBottom="2dp"
+        >
+        <TextView
+            android:id="@+id/tv_english"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="English"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/blue_grey_300"
+            android:textSize="12sp"
+            />
+        <TextView
+            android:id="@+id/tv_arabic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="اللغة العربية"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/blue_grey_300"
+            android:textSize="12sp"
+            android:layout_marginStart="20dp"
+
+            />
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/language"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="120dp"
+            />
+    </LinearLayout>
+
 </FrameLayout>

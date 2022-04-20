@@ -6,7 +6,7 @@
     <color name="RED">#FFFA575D</color>
     <color name="GREEN">#00818A</color>
     <color name="trans">#00000000</color>
-
+    <color name="default_text_view_color">#757575</color>
 
 
 

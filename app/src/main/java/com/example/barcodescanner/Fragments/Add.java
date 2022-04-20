@@ -132,6 +132,7 @@ public class Add extends Fragment implements AdapterView.OnItemClickListener{
             if (TextUtils.isEmpty(nameTextInputEditText.getText().toString()) || TextUtils.isEmpty(descriptionTextEditText.getText().toString()) || TextUtils.isEmpty(autoCompleteTextView.getText().toString()) || TextUtils.isEmpty(priceTextInputEditText.getText().toString()) || TextUtils.isEmpty(proddateTextInputEditText.getText().toString()) || TextUtils.isEmpty(expdateTextInputEditText.getText().toString()) || TextUtils.isEmpty(BarcodetextInputEditText.getText().toString())) {
                 addtextboxcheck();
             } else {
+
                 Toast toast = Toast.makeText(thiscontext,
                         "DONE",
                         Toast.LENGTH_SHORT);
