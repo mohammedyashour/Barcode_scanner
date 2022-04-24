@@ -46,6 +46,7 @@ public int scannumber;
     Context thiscontext;
     TextView orientation,beepsound;
     IntentIntegrator integrator;
+    Boolean beepsoundischaked =true;
     public Scanner() {
         // Required empty public constructor
 
@@ -60,11 +61,9 @@ public int scannumber;
 
         View view =inflater.inflate(R.layout.fragment_scanner, container, false);
         thiscontext = container.getContext();
-        orientation= (TextView)view.findViewById(R.id.Orientation);
-        beepsound= (TextView)view.findViewById(R.id.beepsound);
+
 tvscannumber =(TextView) view.findViewById(R.id.scannumber);
-        switcherbeepsound =(SwitcherX) view.findViewById(R.id.switcherbeepsound) ;
-        switcherorientation =(SwitcherX) view.findViewById(R.id.switcherorientation) ;
+
 
         Button scan=(Button) view.findViewById(R.id.scanbtn);
         scan.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +80,7 @@ tvscannumber =(TextView) view.findViewById(R.id.scannumber);
                 integrator.initiateScan();
             }
         });
+
 scan.setOnLongClickListener(new View.OnLongClickListener() {
     @Override
     public boolean onLongClick(View view) {
@@ -114,6 +114,19 @@ scan.setOnLongClickListener(new View.OnLongClickListener() {
         dialog.setContentView(R.layout.scansettingsdialog);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.setCancelable(true);
+        orientation= (TextView)dialog.findViewById(R.id.Orientation);
+        beepsound= (TextView)dialog.findViewById(R.id.beepsound);
+        switcherbeepsound =(SwitcherX) dialog.findViewById(R.id.switcherbeepsound) ;
+        switcherorientation =(SwitcherX) dialog.findViewById(R.id.switcherorientation) ;
+
+        switcherbeepsound.setOnCheckedChangeListener(new Function1<Boolean, Unit>() {
+            @Override
+            public Unit invoke(Boolean aBoolean) {
+                integrator = IntentIntegrator.forSupportFragment(Scanner.this);
+                swichercheck();
+                return null;
+            }
+        });
         ((Button) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,6 +151,18 @@ switcherbeepsound.setOnCheckedChangeListener(new Function1<Boolean, Unit>() {
             return null;
     }
 })  ;*/
+
+         }
+         public  void  swichercheck(){
+
+             if (switcherbeepsound.isChecked()){
+
+                 beepsound.setTextColor(getResources().getColor(R.color.switcher_on_color));
+                 beepsoundischaked =true;
+             }else {
+                 beepsound.setTextColor(getResources().getColor(R.color.switcher_off_color));
+                 beepsoundischaked =false;
+             }
          }
     }
 

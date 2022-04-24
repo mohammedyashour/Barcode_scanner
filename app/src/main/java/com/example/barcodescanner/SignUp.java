@@ -40,6 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.regex.Matcher;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import kotlin.Unit;
@@ -194,4 +195,9 @@ check=0;
         mAccel = 10f;
         mAccelCurrent = SensorManager.GRAVITY_EARTH;
         mAccelLast = SensorManager.GRAVITY_EARTH;}
+    public static  boolean IsValidEmail(String email){
+        //    String email_pattern ="[a-zA-0z-9._-]+@gmail.com";
+    String email_pattern ="[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\\.+[a-z]+";
+    return email.matches(email_pattern);
+    }
 }
