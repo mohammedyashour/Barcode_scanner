@@ -83,4 +83,8 @@
     </string-array>
     <string name="thisfieldcantbeempty">this field cant be empty!</string>
     <string name="Required">Required</string>
+    <string name="Statistics">Statistics</string>
+    <string name="Dates">Dates</string>
+    <string name="lessthen6">The password can\'t be less than 6 characters</string>
+    <string name="passerror">password is not true</string>
 </resources>

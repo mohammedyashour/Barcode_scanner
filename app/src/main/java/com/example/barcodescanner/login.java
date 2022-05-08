@@ -1,5 +1,6 @@
 package com.example.barcodescanner;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -23,16 +24,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.jaeger.library.StatusBarUtil;
 
 import java.util.Locale;
 import java.util.Objects;
 
 public class login extends AppCompatActivity {
-
+private FirebaseAuth firebaseAuth;
     private static final String TAG = "moudy";
     TextView tv_english,tv_arabic,tv_forget,tv_Signintocontinue,tv_newuser,tv_SignUp;
     private Button login;
@@ -54,13 +59,12 @@ public class login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        firebaseAuth=FirebaseAuth.getInstance();
         Log.v(TAG, "current language"+(Locale.getDefault().getDisplayLanguage().toString()));
-
+        initViews();
         tv_arabic=findViewById(R.id.tv_arabic);
         tv_english=findViewById(R.id.tv_english);
-        login = findViewById(R.id.signin);
-        username_ed = findViewById(R.id.username_ed);
-        usernamelayout = findViewById(R.id.usernamelay);
+
         fireworks=findViewById(R.id.fireworks);
         tv_forget=findViewById(R.id.tv_forget);
         tv_Signintocontinue=findViewById(R.id.tv_Signintocontinue);
@@ -74,8 +78,7 @@ public class login extends AppCompatActivity {
         mAccel = 10f;
         mAccelCurrent = SensorManager.GRAVITY_EARTH;
         mAccelLast = SensorManager.GRAVITY_EARTH;
-        password_ed = findViewById(R.id.ed_pass);
-        passwordlayout = findViewById(R.id.passwordil);
+
         sharedPreferences = getSharedPreferences("MySP",MODE_PRIVATE); //open
        if((Locale.getDefault().getDisplayLanguage().toString()).equals("العربية")&&sharedPreferences.getString("language","").isEmpty()){
            allarabic();
@@ -110,23 +113,18 @@ public class login extends AppCompatActivity {
 
 
         login.setOnClickListener(view -> {
-            if (TextUtils.isEmpty(username_ed.getText().toString()) || TextUtils.isEmpty(password_ed.getText().toString())) {
-            textboxcheck();
-
-            } else {
-                Intent intent = new Intent(login.this, MainActivity.class);
-                startActivity(intent);
-            }
+            LogIn();
 
         });
 //******************login***************************
         ((View) findViewById(R.id.sign_up_for_account)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent = new Intent(login.this, SignUp.class);
                 startActivity(intent);
             }
+
+
         });
         //****************forget password************
         ((View) findViewById(R.id.forgetpassword)).setOnClickListener(new View.OnClickListener() {
@@ -140,7 +138,20 @@ public class login extends AppCompatActivity {
         });
     }
 
-    public void textboxcheck() {
+    private void initViews() {
+        login = findViewById(R.id.signin);
+        username_ed = findViewById(R.id.username_ed);
+        usernamelayout = findViewById(R.id.usernamelay);
+        password_ed = findViewById(R.id.ed_pass);
+        passwordlayout = findViewById(R.id.passwordil);
+    }
+
+    public void LogIn() {
+        String email,password;
+        email=username_ed.getText().toString();
+        password=password_ed.getText().toString();
+
+        if (TextUtils.isEmpty(username_ed.getText().toString())||TextUtils.isEmpty(password_ed.getText().toString())){
         if (TextUtils.isEmpty(username_ed.getText().toString())) {
             usernamelayout.setError(resources.getString(R.string.thisfieldcantbeempty));
             new Handler().postDelayed(new Runnable() {
@@ -167,6 +178,31 @@ public class login extends AppCompatActivity {
         } else {
             passwordlayout.setHelperText("");
 
+        }}else{
+        firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+            if(task.isSuccessful()){
+                Log.v(TAG, "Successfully login");
+
+                 Thread t1 = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(login.this, MainActivity.class);
+                        Log.v(TAG, "Successfully intent");
+
+                        startActivity(intent);
+                        Log.v(TAG, "Successfully start");
+
+                    }
+                });
+                t1.start();
+
+                         }else{
+
+            }
+            }
+        });
         }
     }
 
