@@ -54,13 +54,7 @@
         android:textColor="@color/white"
        android:textStyle="bold"/>
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:padding="2dp"
-        android:scaleType="fitXY"
-        android:scaleX="-1"
-        android:src="@drawable/qrcode3d" />
+
 </LinearLayout>
 
     </androidx.cardview.widget.CardView>
@@ -76,6 +70,7 @@
 
 
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cardView"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
@@ -93,13 +88,6 @@
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:padding="2dp"
-                android:scaleType="fitXY"
-                android:scaleX="-1"
-                android:src="@drawable/ic__charcteradd" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
     <androidx.cardview.widget.CardView
@@ -130,14 +118,7 @@
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
 
-                android:padding="2dp"
-                android:scaleType="fitXY"
-
-                android:src="@drawable/calendar3d" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -169,14 +150,6 @@
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-
-                android:padding="2dp"
-                android:scaleType="fitXY"
-                android:scaleX="-1"
-                android:src="@drawable/pie" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
     <androidx.cardview.widget.CardView
@@ -207,14 +180,7 @@
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
 
-                android:padding="2dp"
-                android:scaleType="fitXY"
-                android:scaleX="-1"
-                android:src="@drawable/pie" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
     <androidx.cardview.widget.CardView
@@ -245,14 +211,7 @@
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
 
-                android:padding="2dp"
-                android:scaleType="fitXY"
-
-                android:src="@drawable/calendar3d" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
