@@ -50,13 +50,22 @@
         <entry key="..\:/Users/Moudy/Desktop/Barcode_Scanner/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable/ic__add.xml" value="0.14635416666666667" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable/ic__charcteradd.xml" value="0.152" />
+        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable/ic__email.xml" value="0.14635416666666667" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable/ic_top_of_dashboard.xml" value="0.2324074074074074" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/font/ascent.xml" value="0.536" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/font/blitzwing.xml" value="0.536" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/font/blo.xml" value="0.4" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/font/breul.xml" value="0.24722222222222223" />
+        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout-land/Calendar_Dialog.xml" value="0.12169312169312169" />
+        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout-land/calendar_dialog.xml" value="0.6" />
+        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout-port/calendar_dialog.xml" value="0.12943262411347517" />
+        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout-sw600dp/calendar_dialog.xml" value="0.1" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/activity_login.xml" value="0.25052083333333336" />
-        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/activity_sign_up.xml" value="0.2" />
+        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/activity_sign_up.xml" value="0.4" />
+        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/activity_splash_screen.xml" value="0.12360688956433637" />
+        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/checkboxdialog.xml" value="0.12360688956433637" />
+        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/confirm_dialog.xml" value="0.12943262411347517" />
+        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/fragment_add.xml" value="0.25416666666666665" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/fragment_dashboard.xml" value="0.2" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/successfuldialog.xml" value="0.536" />
       </map>

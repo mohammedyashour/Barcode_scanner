@@ -6,6 +6,8 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -23,10 +25,14 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -42,28 +48,43 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.zxing.integration.android.IntentIntegrator;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
+import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Random;
 import java.util.regex.Matcher;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
-public class SignUp extends AppCompatActivity {
+public class SignUp extends AppCompatActivity implements View.OnClickListener  {
+
+    static Random rand;
+    static char[] SYMBOLS = "^$*.[]{}()?-\"!@#%&/\\,><':;|_~`".toCharArray();
+    static char[] LOWERCASE = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+    static char[] UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+    static char[] NUMBERS = "0123456789".toCharArray();
+    static char[] ALL_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789^$*.[]{}()?-\"!@#%&/\\,><':;|_~`".toCharArray();
+
    private FirebaseAuth firebaseAuth;
-
-
+   private FirebaseFirestore firebaseFirestore;
+    final Calendar myCalendar = Calendar.getInstance();
+Boolean not_a_robot;
     private SwitcherX switcher;
 TextView switchtv;
     CircleImageView addprofileimg;
     private int check;
-    private TextInputEditText username_et,password_et,dateofbirth_et,confirmpassword_et,email_et;
+    private AutoCompleteTextView date;
+    private TextInputEditText username_et,password_et,confirmpassword_et,email_et;
   private   TextInputLayout username_lay,password_lay,dateofbirth_lay,confirmpass_lay,email_lay;
     private SensorManager mSensorManager;
     private float mAccel;
@@ -77,7 +98,26 @@ private Button signupbtn;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         firebaseAuth=FirebaseAuth.getInstance();
+        firebaseFirestore=FirebaseFirestore.getInstance();
         initViews();
+        android.app.DatePickerDialog.OnDateSetListener  datedialog = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                date.setText(dayOfMonth+"/"+(monthOfYear+1) +"/"+year);
+            }
+        };
+password_lay.setStartIconOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        Random_Password_Generator(10);
+
+    }
+});
 
 signupbtn.setOnClickListener(new View.OnClickListener() {
     @Override
@@ -103,11 +143,14 @@ check=0;
 
                 if (switcher.isChecked()){
                     showDialogCongrat();
+                    not_a_robot=true;
+
                     check+=1;
                     switchtv.setTextColor(Color.parseColor("#48ea8b"));
                     //color start icon mode
                     if (password_et.getText().toString().equals(confirmpassword_et.getText().toString())&& !TextUtils.isEmpty(password_et.getText().toString())){
                         confirmpass_lay.setStartIconTintList(ColorStateList.valueOf(Color.parseColor("#48ea8b")));}else{
+                        password_lay.setStartIconTintList(ColorStateList.valueOf(Color.parseColor("#ff4651")));
                         confirmpass_lay.setStartIconTintList(ColorStateList.valueOf(Color.parseColor("#ff4651")));
                     }
                 }else{
@@ -117,13 +160,100 @@ check=0;
                     if (password_et.getText().toString().equals(confirmpassword_et.getText().toString())&& !TextUtils.isEmpty(password_et.getText().toString())){
                         confirmpass_lay.setStartIconTintList(ColorStateList.valueOf(Color.parseColor("#48ea8b")));}else{
                         confirmpass_lay.setStartIconTintList(ColorStateList.valueOf(Color.parseColor("#ff4651")));
+                        not_a_robot=false;
                     }
                 }
 
                 return null;
             }
         });
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                DatePickerDialog datePickerDialog=  new DatePickerDialog(SignUp.this,R.style.DialogTheme, datedialog, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+
+
+            }
+
+
+        });
+        dateofbirth_lay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog datePickerDialog=  new DatePickerDialog(SignUp.this,R.style.DialogTheme, datedialog, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+            }
+        });
+    email_lay.setEndIconOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+
+                switch (email_lay.getSuffixText().toString()){
+                    case "@gmail.com":
+                        email_lay.setSuffixText("@hotmail.com");
+
+                        break;
+                    case "@hotmail.com":
+                        email_lay.setSuffixText("@mail.com");
+
+                        break;
+                    case "@mail.com":
+                        email_lay.setSuffixText("@gmail.com");
+
+                        break;
+
+
+                }
+
+
+
+
+
+}
+
+    });
+    }
+
+    private void Random_Password_Generator(int passlength) {
+
+        for (int i = 0; i < 100; i++) {
+            String password=getPassword(passlength).toString();
+            password_et.setText(password);
+            confirmpassword_et.setText(password);
+            confirmpass_lay.setStartIconTintList(ColorStateList.valueOf(Color.parseColor("#48ea8b")));
+            password_lay.setStartIconTintList(ColorStateList.valueOf(Color.parseColor("#48ea8b")));
+
+        }
+    }
+
+    public static String getPassword(int length) {
+        assert length >= 4;
+        char[] password = new char[length];
+
+        //get the requirements out of the way
+        password[0] = LOWERCASE[rand.nextInt(LOWERCASE.length)];
+        password[1] = UPPERCASE[rand.nextInt(UPPERCASE.length)];
+        password[2] = NUMBERS[rand.nextInt(NUMBERS.length)];
+        password[3] = SYMBOLS[rand.nextInt(SYMBOLS.length)];
+
+        //populate rest of the password with random chars
+        for (int i = 4; i < length; i++) {
+            password[i] = ALL_CHARS[rand.nextInt(ALL_CHARS.length)];
+        }
+
+        //shuffle it up
+        for (int i = 0; i < password.length; i++) {
+            int randomPosition = rand.nextInt(password.length);
+            char temp = password[i];
+            password[i] = password[randomPosition];
+            password[randomPosition] = temp;
+        }
+
+        return new String(password);
     }
     public void showDialogCongrat() {
         final Dialog dialogconfrim = new Dialog(this);
@@ -152,6 +282,7 @@ check=0;
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
         dialog.setContentView(R.layout.donedialog);
+
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.setCancelable(true);
         ((Button) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
@@ -213,10 +344,11 @@ check=0;
     return email.matches(email_pattern);
     }
     private void initViews() {
-
+          rand = new SecureRandom();
+        not_a_robot=false;
         username_et=findViewById(R.id.ed_user);
         email_et=findViewById(R.id.ed_email);
-        dateofbirth_et=findViewById(R.id.ed_date);
+        date=findViewById(R.id.ed_date);
         password_et=findViewById(R.id.ed_password);
         confirmpassword_et=findViewById(R.id.ed_conpassword);
 //**************************************
@@ -233,11 +365,29 @@ check=0;
         switchtv=findViewById(R.id.robotchecktextview);
         addprofileimg=findViewById(R.id.addprofileimage);
 
+
     }
         private void signup(){
-        username=username_et.getText().toString();
-            email=email_et.getText().toString()+"@gmail.com";
-            dateofbirth=dateofbirth_et.getText().toString();
+ switch (email_lay.getSuffixText().toString()){
+
+         case "@gmail.com":
+             email=email_et.getText().toString()+"@gmail.com";
+
+             break;
+         case "@hotmail.com":
+             email=email_et.getText().toString()+"@hotmail.com";
+
+             break;
+     case "@mail.com":
+         email=email_et.getText().toString()+"@mail.com";
+
+         break;
+ }
+
+
+            username=username_et.getText().toString();
+
+            dateofbirth=date.getText().toString();
             password=password_et.getText().toString();
             confirmpassword=confirmpassword_et.getText().toString();
 
@@ -301,15 +451,36 @@ check=0;
 
                     }
                 }, 4000);
-            }if(TextUtils.isEmpty(username_et.getText().toString())||TextUtils.isEmpty(email_et.getText().toString()) ||
-            TextUtils.isEmpty(password_et.getText().toString())||TextUtils.isEmpty(dateofbirth_et.getText().toString())||
+            }
+            if(not_a_robot!=true){
+                Snackbar.make(findViewById(android.R.id.content),"please chacke that your are not a robot",Snackbar.LENGTH_LONG).show();
+
+            }
+            if(TextUtils.isEmpty(username_et.getText().toString())||TextUtils.isEmpty(email_et.getText().toString()) ||
+            TextUtils.isEmpty(password_et.getText().toString())||TextUtils.isEmpty(date.getText().toString())||
                     TextUtils.isEmpty(confirmpassword_et.getText().toString())){
             }else{
                 firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
-                            successfuldialog();
+                            HashMap<String,String> data= new HashMap<>();
+                            data.put("Username",username);
+                            data.put("Email",email);
+                            data.put("dateofbirth",dateofbirth);
+                            firebaseFirestore.collection("users").add(data).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                    if (task.isSuccessful()){
+
+                                        successfuldialog();
+
+                                    }else{
+                                        Snackbar.make(findViewById(android.R.id.content),"SignUp Field",Snackbar.LENGTH_LONG).show();
+
+                                    }
+                                }
+                            });
                         }else{
                             Snackbar.make(findViewById(android.R.id.content),"SignUp Field",Snackbar.LENGTH_LONG).show();
                         }
@@ -318,7 +489,7 @@ check=0;
 
             }
         }
-    private void successfuldialog () {
+    public void successfuldialog () {
 
         final Dialog dialog = new Dialog(SignUp.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
@@ -339,4 +510,8 @@ check=0;
 
     }
 
+    @Override
+    public void onClick(View view) {
+
+    }
 }

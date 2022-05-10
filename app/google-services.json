@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "723051516442",
+    "project_id": "fir-autbarcode",
+    "storage_bucket": "fir-autbarcode.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:723051516442:android:4710a3db906e07c277b7a3",
+        "android_client_info": {
+          "package_name": "com.example.barcodescanner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "723051516442-q91cfspst5rtr2qp17nu2ul9q83bv0u6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANeYq6XFjNro3ZGZlksm9Xxe6pLCOUTIU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "723051516442-q91cfspst5rtr2qp17nu2ul9q83bv0u6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

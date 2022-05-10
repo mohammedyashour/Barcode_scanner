@@ -33,9 +33,16 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.barcodescanner.R;
+import com.example.barcodescanner.SignUp;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -43,11 +50,15 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Objects;
 
 
 public class Add extends Fragment implements AdapterView.OnItemClickListener{
+
+    private FirebaseFirestore firebaseFirestore;
+
     Boolean currency = false;
     private static final int REQUEST_CODE_SPEECH_INPUT = 1;
     TextInputLayout BarcodeTextInputLayout, typeTextInputLayout, priceTextInputLayout, produdateTextInputLayout,
@@ -73,23 +84,11 @@ public class Add extends Fragment implements AdapterView.OnItemClickListener{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add, container, false);
-
+        SignUp signUp =new SignUp();
+firebaseFirestore =FirebaseFirestore.getInstance();
         thiscontext = container.getContext();
-        addbtn = view.findViewById(R.id.addbtn);
-        expdateTextInputEditText = view.findViewById(R.id.ed_Expiration_date);
-        expdateTextInputLayout = view.findViewById(R.id.lay_Expiration_date);
-        descriptionTextInputLayout = view.findViewById(R.id.descriptionlay);
-        descriptionTextEditText = view.findViewById(R.id.ed_description);
-        nameTextInputLayout = view.findViewById(R.id.layname);
-        nameTextInputEditText = view.findViewById(R.id.edname);
-        produdateTextInputLayout = view.findViewById(R.id.lay_Production_date);
-        proddateTextInputEditText = view.findViewById(R.id.ed_Production_date);
-        priceTextInputLayout = view.findViewById(R.id.Pricelay);
-        priceTextInputEditText = view.findViewById(R.id.ed_Price);
-        autoCompleteTextView = view.findViewById(R.id.filled_exposed_dropdown);
-        typeTextInputLayout = view.findViewById(R.id.type_lay);
-        BarcodeTextInputLayout = (TextInputLayout) view.findViewById(R.id.lay_Barcode);
-        BarcodetextInputEditText = (TextInputEditText) view.findViewById(R.id.ed_barcode);
+        initViews(view);
+
         priceTextInputLayout.setStartIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,13 +131,85 @@ public class Add extends Fragment implements AdapterView.OnItemClickListener{
             if (TextUtils.isEmpty(nameTextInputEditText.getText().toString()) || TextUtils.isEmpty(descriptionTextEditText.getText().toString()) || TextUtils.isEmpty(autoCompleteTextView.getText().toString()) || TextUtils.isEmpty(priceTextInputEditText.getText().toString()) || TextUtils.isEmpty(proddateTextInputEditText.getText().toString()) || TextUtils.isEmpty(expdateTextInputEditText.getText().toString()) || TextUtils.isEmpty(BarcodetextInputEditText.getText().toString())) {
                 addtextboxcheck();
             } else {
+                Addproduct();
 
-                Toast toast = Toast.makeText(thiscontext,
-                        "DONE",
-                        Toast.LENGTH_SHORT);
             }
         });
         return view;
+    }
+
+    private void Addproduct() {
+String product_name,Description,product_type,price,pord_date,exp_date,barcode;
+        product_name=nameTextInputEditText.getText().toString();
+        Description=descriptionTextEditText.getText().toString();
+        product_type=autoCompleteTextView.getText().toString();
+        price=priceTextInputEditText.getText().toString();
+        pord_date=proddateTextInputEditText.getText().toString();
+        exp_date=expdateTextInputEditText.getText().toString();
+        barcode=BarcodetextInputEditText.getText().toString();
+
+        HashMap<String,String> data= new HashMap<>();
+        data.put("product_name",product_name);
+        data.put("Description",Description);
+        data.put("product_type",product_type);
+        data.put("price",price);
+        data.put("pord_date",pord_date);
+        data.put("exp_date",exp_date);
+        data.put("barcode",barcode);
+
+        firebaseFirestore.collection("Products").add(data).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentReference> task) {
+                if (task.isSuccessful()){
+                    successfuldialog();
+                    Toast
+                            .makeText(thiscontext, " product add successful" ,
+                                    Toast.LENGTH_SHORT)
+                            .show();
+                }else{
+
+                }
+            }
+        });
+
+    }
+    public void successfuldialog () {
+        final Dialog dialog = new Dialog(thiscontext);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.successfuldialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setCancelable(true);
+        LottieAnimationView lottieAnimationView =dialog.findViewById(R.id.fireworks);
+lottieAnimationView.setAnimation(R.raw.add_product);
+
+        ((Button) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+            }
+        });
+        dialog.show();
+
+
+    }
+
+    private void initViews(View view) {
+        addbtn = view.findViewById(R.id.addbtn);
+        expdateTextInputEditText = view.findViewById(R.id.ed_Expiration_date);
+        expdateTextInputLayout = view.findViewById(R.id.lay_Expiration_date);
+        descriptionTextInputLayout = view.findViewById(R.id.descriptionlay);
+        descriptionTextEditText = view.findViewById(R.id.ed_description);
+        nameTextInputLayout = view.findViewById(R.id.layname);
+        nameTextInputEditText = view.findViewById(R.id.edname);
+        produdateTextInputLayout = view.findViewById(R.id.lay_Production_date);
+        proddateTextInputEditText = view.findViewById(R.id.ed_Production_date);
+        priceTextInputLayout = view.findViewById(R.id.Pricelay);
+        priceTextInputEditText = view.findViewById(R.id.ed_Price);
+        autoCompleteTextView = view.findViewById(R.id.filled_exposed_dropdown);
+        typeTextInputLayout = view.findViewById(R.id.type_lay);
+        BarcodeTextInputLayout = (TextInputLayout) view.findViewById(R.id.lay_Barcode);
+        BarcodetextInputEditText = (TextInputEditText) view.findViewById(R.id.ed_barcode);
     }
 
 
@@ -468,60 +539,6 @@ public class Add extends Fragment implements AdapterView.OnItemClickListener{
 
     }
 
-    public void texttospeechautoselect() {
-//******************************************* auto check radio button by sound from string file.xml**************************************************
-//        if (searchautotextview.getText().toString().equalsIgnoreCase(getString(R.string.Pt1))) {
-//            rbtn1.setChecked(true);
-//        }else if(searchautotextview.getText().toString().equalsIgnoreCase(getString(R.string.Pt2))){
-//            rbtn2.setChecked(true);
-//        }else if(searchautotextview.getText().toString().equalsIgnoreCase(getString(R.string.Pt3))){
-//            rbtn3.setChecked(true);
-//        }else if(searchautotextview.getText().toString().equalsIgnoreCase(getString(R.string.Pt4))){
-//            rbtn4.setChecked(true);
-//        }else if(searchautotextview.getText().toString().equalsIgnoreCase(getString(R.string.Pt5))){
-//            rbtn5.setChecked(true);
-//        }else if(searchautotextview.getText().toString().equalsIgnoreCase(getString(R.string.Pt6))){
-//            rbtn6.setChecked(true);
-//        }else if(searchautotextview.getText().toString().equalsIgnoreCase(getString(R.string.Pt7))){
-//            rbtn7.setChecked(true);
-//        }else if(searchautotextview.getText().toString().equalsIgnoreCase(getString(R.string.Pt8))){
-//            rbtn8.setChecked(true);
-//        }else if(searchautotextview.getText().toString().equalsIgnoreCase(getString(R.string.Pt9))){
-//            rbtn9.setChecked(true);
-//        }else if(searchautotextview.getText().toString().equalsIgnoreCase(getString(R.string.Pt10))){
-//            rbtn10.setChecked(true);
-//        }else if(searchautotextview.getText().toString().equalsIgnoreCase(getString(R.string.Pt11))){
-//            rbtn11.setChecked(true);
-//        }else if(searchautotextview.getText().toString().equalsIgnoreCase(getString(R.string.Pt12))){
-//            rbtn12.setChecked(true);
-//        }else if(searchautotextview.getText().toString().equalsIgnoreCase(getString(R.string.Pt13))){
-//            rbtn13.setChecked(true);
-//        }else if(searchautotextview.getText().toString().equalsIgnoreCase(getString(R.string.Pt14))){
-//            rbtn14.setChecked(true);
-//        }else if(searchautotextview.getText().toString().equalsIgnoreCase(getString(R.string.Pt15))){
-//            rbtn15.setChecked(true);
-//        }else if(searchautotextview.getText().toString().equalsIgnoreCase(getString(R.string.Pt16))){
-//            rbtn16.setChecked(true);
-//        }else if(searchautotextview.getText().toString().equalsIgnoreCase(getString(R.string.Pt17))){
-//            rbtn17.setChecked(true);
-//        }else if(searchautotextview.getText().toString().equalsIgnoreCase(getString(R.string.Pt18))){
-//            rbtn18.setChecked(true);
-//        }else if(searchautotextview.getText().toString().equalsIgnoreCase(getString(R.string.Pt19))){
-//            rbtn19.setChecked(true);
-//        }else if(searchautotextview.getText().toString().equalsIgnoreCase(getString(R.string.Pt20))){
-//            rbtn20.setChecked(true);
-//        }else if(searchautotextview.getText().toString().equalsIgnoreCase(getString(R.string.Pt21))){
-//            rbtn21.setChecked(true);
-//        }else if(searchautotextview.getText().toString().equalsIgnoreCase(getString(R.string.Pt22))){
-//            rbtn22.setChecked(true);
-//        }else if(searchautotextview.getText().toString().equalsIgnoreCase(getString(R.string.Pt23))){
-//            rbtn23.setChecked(true);
-//        }else if(searchautotextview.getText().toString().equalsIgnoreCase(getString(R.string.Pt24))){
-//            rbtn24.setChecked(true);
-//        }
-        autoselectmethod(searchautotextview.getText().toString());
-        //searchautotextview.getText().toString() هو المتغير الي بدنا نمرره من نوع نص
-    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long l) {

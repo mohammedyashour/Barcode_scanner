@@ -187,7 +187,7 @@
                 android:id="@+id/ed_Production_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="datetime"
+                android:inputType="none"
                 android:textSize="18sp" />
         </com.google.android.material.textfield.TextInputLayout>
         <!--************** Expiration Date Edit Text***********************-->
@@ -211,7 +211,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                android:inputType="number"
+                android:inputType="none"
                 />
         </com.google.android.material.textfield.TextInputLayout>
         <!--************** Barcode Edit Text***********************-->

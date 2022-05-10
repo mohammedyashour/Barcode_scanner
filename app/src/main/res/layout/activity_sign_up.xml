@@ -67,7 +67,8 @@
 
         app:boxBackgroundColor="@color/white"
         app:boxStrokeColor="@color/GREEN"
-        app:endIconMode="clear_text"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/ic__email"
         app:helperText=""
         app:helperTextTextColor="@color/RED"
         app:hintTextColor="@color/green_300"
@@ -91,6 +92,7 @@
         android:layout_marginTop="20dp"
         android:hint="Date Of Birth"
         app:errorTextColor="@color/RED"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 
         app:boxBackgroundColor="@color/white"
         app:boxStrokeColor="@color/GREEN"
@@ -99,17 +101,15 @@
         app:helperText=""
         app:helperTextTextColor="@color/RED"
         app:hintTextColor="@color/green_300"
-        app:startIconDrawable="@drawable/cake">
-
-        <com.google.android.material.textfield.TextInputEditText
+        app:startIconDrawable="@drawable/cake"
+        >
+        <AutoCompleteTextView
+android:inputType="none"
             android:id="@+id/ed_date"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberSigned"
-            android:textSize="18sp"
+            android:layout_height="60dp"
+            android:textSize="18sp"/>
 
-
-            />
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/lay_password"
