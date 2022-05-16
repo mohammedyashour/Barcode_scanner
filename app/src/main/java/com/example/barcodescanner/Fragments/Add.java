@@ -2,21 +2,31 @@ package com.example.barcodescanner.Fragments;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -37,12 +47,20 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.example.barcodescanner.R;
 import com.example.barcodescanner.SignUp;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -53,19 +71,29 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.UUID;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class Add extends Fragment implements AdapterView.OnItemClickListener{
 
     private FirebaseFirestore firebaseFirestore;
+    private FirebaseStorage firebaseStorage;
+    private StorageReference storageReference;
+    final Calendar myCalendar = Calendar.getInstance();
+private LottieAnimationView lottieAnimationView;
+    private Uri imageuri;
 
     Boolean currency = false;
+   private CircleImageView product_image;
     private static final int REQUEST_CODE_SPEECH_INPUT = 1;
+
     TextInputLayout BarcodeTextInputLayout, typeTextInputLayout, priceTextInputLayout, produdateTextInputLayout,
             expdateTextInputLayout, nameTextInputLayout, searchTextInputLayout, descriptionTextInputLayout;
     TextInputEditText BarcodetextInputEditText, priceTextInputEditText, proddateTextInputEditText, expdateTextInputEditText,
             nameTextInputEditText, descriptionTextEditText;
-    AutoCompleteTextView autoCompleteTextView, searchautotextview;
+    AutoCompleteTextView autoCompleteTextView, searchautotextview,prod,exp;
     Button addbtn;
     RadioGroup radioGroup;
     RadioButton rbtn1, rbtn2, rbtn3, rbtn4, rbtn5, rbtn6, rbtn7, rbtn8, rbtn9, rbtn10, rbtn11, rbtn12, rbtn13, rbtn14, rbtn15, rbtn16, rbtn17, rbtn18, rbtn19, rbtn20, rbtn21, rbtn22, rbtn23, rbtn24;
@@ -73,6 +101,7 @@ public class Add extends Fragment implements AdapterView.OnItemClickListener{
     IntentIntegrator integrator;
     String[] some_array;
     ArrayAdapter arrayAdapter;
+
 
     public Add() {
         // Required empty public constructor
@@ -84,10 +113,50 @@ public class Add extends Fragment implements AdapterView.OnItemClickListener{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add, container, false);
+        firebaseFirestore=FirebaseFirestore.getInstance();
+        firebaseStorage=FirebaseStorage.getInstance();
+        storageReference= firebaseStorage.getReference();
+        android.app.DatePickerDialog.OnDateSetListener  datepickerdialog = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                prod.setText(dayOfMonth+"/"+(monthOfYear+1) +"/"+year);
+            }
+        };
+        android.app.DatePickerDialog.OnDateSetListener  datepickerdialog2 = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                exp.setText(dayOfMonth+"/"+(monthOfYear+1) +"/"+year);
+            }
+        };
         SignUp signUp =new SignUp();
+        ActivityResultLauncher<String> arl =registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri result) {
+                product_image.setImageURI(result);
+                imageuri=result;
+            }
+        });
+
+
 firebaseFirestore =FirebaseFirestore.getInstance();
         thiscontext = container.getContext();
         initViews(view);
+        product_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            arl.launch("image/*");
+            }
+        });
 
         priceTextInputLayout.setStartIconOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,12 +197,22 @@ firebaseFirestore =FirebaseFirestore.getInstance();
             }
         });
         addbtn.setOnClickListener(View -> {
-            if (TextUtils.isEmpty(nameTextInputEditText.getText().toString()) || TextUtils.isEmpty(descriptionTextEditText.getText().toString()) || TextUtils.isEmpty(autoCompleteTextView.getText().toString()) || TextUtils.isEmpty(priceTextInputEditText.getText().toString()) || TextUtils.isEmpty(proddateTextInputEditText.getText().toString()) || TextUtils.isEmpty(expdateTextInputEditText.getText().toString()) || TextUtils.isEmpty(BarcodetextInputEditText.getText().toString())) {
+            if (TextUtils.isEmpty(nameTextInputEditText.getText().toString()) || TextUtils.isEmpty(descriptionTextEditText.getText().toString()) || TextUtils.isEmpty(autoCompleteTextView.getText().toString()) || TextUtils.isEmpty(priceTextInputEditText.getText().toString()) || TextUtils.isEmpty(prod.getText().toString()) || TextUtils.isEmpty(exp.getText().toString()) || TextUtils.isEmpty(BarcodetextInputEditText.getText().toString())) {
                 addtextboxcheck();
             } else {
                 Addproduct();
 
             }
+        });
+        prod.setOnClickListener(View->{
+            DatePickerDialog datePickerDialog=  new DatePickerDialog(thiscontext,R.style.DialogTheme, datepickerdialog, myCalendar
+                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH));
+            datePickerDialog.show();
+        });
+        exp.setOnClickListener(View->{
+            DatePickerDialog datePickerDialog2=  new DatePickerDialog(thiscontext,R.style.DialogTheme, datepickerdialog2, myCalendar
+                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH));
+            datePickerDialog2.show();
         });
         return view;
     }
@@ -144,11 +223,13 @@ String product_name,Description,product_type,price,pord_date,exp_date,barcode;
         Description=descriptionTextEditText.getText().toString();
         product_type=autoCompleteTextView.getText().toString();
         price=priceTextInputEditText.getText().toString();
-        pord_date=proddateTextInputEditText.getText().toString();
-        exp_date=expdateTextInputEditText.getText().toString();
+        pord_date=prod.getText().toString();
+        exp_date=exp.getText().toString();
         barcode=BarcodetextInputEditText.getText().toString();
+        final String product_photo_id=UUID.randomUUID().toString();
 
         HashMap<String,String> data= new HashMap<>();
+        data.put("product_image_id",product_photo_id);
         data.put("product_name",product_name);
         data.put("Description",Description);
         data.put("product_type",product_type);
@@ -156,21 +237,34 @@ String product_name,Description,product_type,price,pord_date,exp_date,barcode;
         data.put("pord_date",pord_date);
         data.put("exp_date",exp_date);
         data.put("barcode",barcode);
-
         firebaseFirestore.collection("Products").add(data).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
             @Override
             public void onComplete(@NonNull Task<DocumentReference> task) {
                 if (task.isSuccessful()){
-                    successfuldialog();
-                    Toast
-                            .makeText(thiscontext, " product add successful" ,
-                                    Toast.LENGTH_SHORT)
-                            .show();
+
+           // Create a reference to "mountains.jpg"
+                    //final String randomkey= UUID.randomUUID().toString();
+                    StorageReference SR = storageReference.child("products/"+product_photo_id);
+                    SR.putFile(imageuri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {successfuldialog();
+                        }
+                    })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Snackbar.make(getView().findViewById(android.R.id.content)," Field To Add Product",Snackbar.LENGTH_LONG).show();
+
+                                }
+                            });
+
+
                 }else{
 
                 }
             }
         });
+
 
     }
     public void successfuldialog () {
@@ -179,7 +273,7 @@ String product_name,Description,product_type,price,pord_date,exp_date,barcode;
         dialog.setContentView(R.layout.successfuldialog);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.setCancelable(true);
-        LottieAnimationView lottieAnimationView =dialog.findViewById(R.id.fireworks);
+        LottieAnimationView lottieAnimationView =dialog.findViewById(R.id.lottie);
 lottieAnimationView.setAnimation(R.raw.add_product);
 
         ((Button) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
@@ -195,15 +289,17 @@ lottieAnimationView.setAnimation(R.raw.add_product);
     }
 
     private void initViews(View view) {
-        addbtn = view.findViewById(R.id.addbtn);
-        expdateTextInputEditText = view.findViewById(R.id.ed_Expiration_date);
+
+        product_image=view.findViewById(R.id.product_image);
+                addbtn = view.findViewById(R.id.addbtn);
+        exp = view.findViewById(R.id.ed_Expiration_date);
         expdateTextInputLayout = view.findViewById(R.id.lay_Expiration_date);
         descriptionTextInputLayout = view.findViewById(R.id.descriptionlay);
         descriptionTextEditText = view.findViewById(R.id.ed_description);
         nameTextInputLayout = view.findViewById(R.id.layname);
         nameTextInputEditText = view.findViewById(R.id.edname);
         produdateTextInputLayout = view.findViewById(R.id.lay_Production_date);
-        proddateTextInputEditText = view.findViewById(R.id.ed_Production_date);
+        prod = view.findViewById(R.id.ed_Production_date);
         priceTextInputLayout = view.findViewById(R.id.Pricelay);
         priceTextInputEditText = view.findViewById(R.id.ed_Price);
         autoCompleteTextView = view.findViewById(R.id.filled_exposed_dropdown);
@@ -409,6 +505,7 @@ lottieAnimationView.setAnimation(R.raw.add_product);
     }
 
 
+
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == REQUEST_CODE_SPEECH_INPUT) {
             super.onActivityResult(requestCode, resultCode, intent);
@@ -417,9 +514,9 @@ lottieAnimationView.setAnimation(R.raw.add_product);
                         RecognizerIntent.EXTRA_RESULTS);
 
                 searchautotextview.setText(Objects.requireNonNull(result).get(0));
-              //  texttospeechautoselect();
+                //  texttospeechautoselect();
                 //استبدلنا هاي الميثود بميثود تانية بتمررلها قيمة نص وبتشغتل لحالها
-              autoselectmethod( searchautotextview.getText().toString());
+                autoselectmethod( searchautotextview.getText().toString());
             }
         } else {
             IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
@@ -435,7 +532,6 @@ lottieAnimationView.setAnimation(R.raw.add_product);
         }
 
     }
-
 
     public void addtextboxcheck() {
         if (TextUtils.isEmpty(nameTextInputEditText.getText().toString())) {
@@ -496,7 +592,7 @@ lottieAnimationView.setAnimation(R.raw.add_product);
             priceTextInputLayout.setHelperText("");
         }
 
-        if (TextUtils.isEmpty(proddateTextInputEditText.getText().toString())) {
+        if (TextUtils.isEmpty(prod.getText().toString())) {
             produdateTextInputLayout.setError(getString(R.string.thisfieldcantbeempty));
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -509,7 +605,7 @@ lottieAnimationView.setAnimation(R.raw.add_product);
         } else {
             produdateTextInputLayout.setHelperText("");
         }
-        if (TextUtils.isEmpty(expdateTextInputEditText.getText().toString())) {
+        if (TextUtils.isEmpty(exp.getText().toString())) {
             expdateTextInputLayout.setError(getString(R.string.thisfieldcantbeempty));
             new Handler().postDelayed(new Runnable() {
                 @Override

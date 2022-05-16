@@ -59,6 +59,11 @@ private FirebaseAuth firebaseAuth;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String value = extras.getString("password");
+            password_ed.setText(value);
+        }
         firebaseAuth=FirebaseAuth.getInstance();
         Log.v(TAG, "current language"+(Locale.getDefault().getDisplayLanguage().toString()));
         initViews();
@@ -94,6 +99,28 @@ private FirebaseAuth firebaseAuth;
             Toast.makeText(context, "en " , Toast.LENGTH_LONG).show();
 
         }
+        usernamelayout.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (usernamelayout.getSuffixText().toString()){
+                    case "@gmail.com":
+                        usernamelayout.setSuffixText("@hotmail.com");
+
+                        break;
+                    case "@hotmail.com":
+                        usernamelayout.setSuffixText("@mail.com");
+
+                        break;
+                    case "@mail.com":
+                        usernamelayout.setSuffixText("@gmail.com");
+
+                        break;
+
+
+                }
+
+            }
+        });
         tv_arabic.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
@@ -150,7 +177,20 @@ private FirebaseAuth firebaseAuth;
         String email,password;
         email=username_ed.getText().toString();
         password=password_ed.getText().toString();
+        switch (usernamelayout.getSuffixText().toString()){
 
+            case "@gmail.com":
+                email=username_ed.getText().toString()+"@gmail.com";
+
+                break;
+            case "@hotmail.com":
+                email=username_ed.getText().toString()+"@hotmail.com";
+
+                break;
+            case "@mail.com":
+                email=username_ed.getText().toString()+"@mail.com";
+
+                break;}
         if (TextUtils.isEmpty(username_ed.getText().toString())||TextUtils.isEmpty(password_ed.getText().toString())){
         if (TextUtils.isEmpty(username_ed.getText().toString())) {
             usernamelayout.setError(resources.getString(R.string.thisfieldcantbeempty));
@@ -252,7 +292,6 @@ private FirebaseAuth firebaseAuth;
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("language",current_app_language);
         // editor.remove("language");
-
         editor.commit();
 
         context = LocaleHelper.setLocale(login.this, "ar");

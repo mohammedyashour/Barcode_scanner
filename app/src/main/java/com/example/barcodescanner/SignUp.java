@@ -1,6 +1,8 @@
 package com.example.barcodescanner;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
@@ -9,6 +11,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -22,6 +25,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -41,15 +45,23 @@ import android.widget.Toast;
 import com.bitvale.switcher.Switcher;
 import com.bitvale.switcher.SwitcherX;
 import com.example.barcodescanner.Fragments.Scanner;
+import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.google.zxing.integration.android.IntentIntegrator;
 
 import java.security.SecureRandom;
@@ -60,6 +72,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Random;
+import java.util.UUID;
 import java.util.regex.Matcher;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -74,9 +87,11 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener  {
     static char[] UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
     static char[] NUMBERS = "0123456789".toCharArray();
     static char[] ALL_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789^$*.[]{}()?-\"!@#%&/\\,><':;|_~`".toCharArray();
-
+public Uri imageuri;
    private FirebaseAuth firebaseAuth;
    private FirebaseFirestore firebaseFirestore;
+   private FirebaseStorage firebaseStorage;
+   private StorageReference storageReference;
     final Calendar myCalendar = Calendar.getInstance();
 Boolean not_a_robot;
     private SwitcherX switcher;
@@ -84,7 +99,7 @@ TextView switchtv;
     CircleImageView addprofileimg;
     private int check;
     private AutoCompleteTextView date;
-    private TextInputEditText username_et,password_et,confirmpassword_et,email_et;
+    public TextInputEditText username_et,password_et,confirmpassword_et,email_et;
   private   TextInputLayout username_lay,password_lay,dateofbirth_lay,confirmpass_lay,email_lay;
     private SensorManager mSensorManager;
     private float mAccel;
@@ -99,6 +114,8 @@ private Button signupbtn;
         setContentView(R.layout.activity_sign_up);
         firebaseAuth=FirebaseAuth.getInstance();
         firebaseFirestore=FirebaseFirestore.getInstance();
+        firebaseStorage=FirebaseStorage.getInstance();
+        storageReference= firebaseStorage.getReference();
         initViews();
         android.app.DatePickerDialog.OnDateSetListener  datedialog = new DatePickerDialog.OnDateSetListener() {
 
@@ -111,6 +128,15 @@ private Button signupbtn;
                 date.setText(dayOfMonth+"/"+(monthOfYear+1) +"/"+year);
             }
         };
+
+
+        password_lay.setStartIconOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                return false;
+            }
+        });
+
 password_lay.setStartIconOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
@@ -129,7 +155,6 @@ signupbtn.setOnClickListener(new View.OnClickListener() {
         addprofileimg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ActivityCompat.requestPermissions(SignUp.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
 
             }
         });
@@ -453,7 +478,7 @@ check=0;
                 }, 4000);
             }
             if(not_a_robot!=true){
-                Snackbar.make(findViewById(android.R.id.content),"please chacke that your are not a robot",Snackbar.LENGTH_LONG).show();
+                Snackbar.make(findViewById(android.R.id.content),"please check that your are not a robot",Snackbar.LENGTH_LONG).show();
 
             }
             if(TextUtils.isEmpty(username_et.getText().toString())||TextUtils.isEmpty(email_et.getText().toString()) ||
@@ -464,23 +489,64 @@ check=0;
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
-                            HashMap<String,String> data= new HashMap<>();
-                            data.put("Username",username);
-                            data.put("Email",email);
-                            data.put("dateofbirth",dateofbirth);
-                            firebaseFirestore.collection("users").add(data).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentReference> task) {
-                                    if (task.isSuccessful()){
+                         FirebaseUser user= firebaseAuth.getCurrentUser();
+                         if (user!=null){
+                            String uid= user.getUid();
+                             HashMap<String,String> data= new HashMap<>();
+                             data.put("Uid",uid);
+                            data.put("Password",password);
+                             data.put("Username",username);
+                             data.put("Email",email);
+                             data.put("dateofbirth",dateofbirth);
+                             firebaseFirestore.collection("users").add(data).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                 @Override
+                                 public void onComplete(@NonNull Task<DocumentReference> task) {
+                                     if (task.isSuccessful()){
+                                         ProgressDialog progressDialog =new ProgressDialog(SignUp.this);
+                                         progressDialog.setTitle("Uploading Image....");
+                                         progressDialog.show();
+                                         // Create a reference to "mountains.jpg"
+                                         final String profile_photo_id=user.getEmail().toString();
+                                         //final String randomkey= UUID.randomUUID().toString();
+                                         StorageReference SR = storageReference.child("images/"+profile_photo_id);
+                                         SR.putFile(imageuri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                             @Override
+                                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                 progressDialog.dismiss();
+                                                 successfuldialog();
 
-                                        successfuldialog();
+                                             }
+                                         })
+                                                 .addOnFailureListener(new OnFailureListener() {
+                                                     @Override
+                                                     public void onFailure(@NonNull Exception e) {
+                                                         progressDialog.dismiss();
 
-                                    }else{
-                                        Snackbar.make(findViewById(android.R.id.content),"SignUp Field",Snackbar.LENGTH_LONG).show();
+                                                     }
+                                                 }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                                             @Override
+                                             public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                                                 double Progress =((100 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount());
+                                                 progressDialog.setMessage("Percentage:"+ (int)Progress+"%");
+                                             }
+                                         });
+                                         new Handler().postDelayed(new Runnable() {
+                                             @Override
+                                             public void run() {
 
-                                    }
-                                }
-                            });
+
+                                             }
+                                         },3000);
+
+
+                                     }else{
+                                         Snackbar.make(findViewById(android.R.id.content),"SignUp Field",Snackbar.LENGTH_LONG).show();
+
+                                     }
+                                 }
+                             });
+                         }
+
                         }else{
                             Snackbar.make(findViewById(android.R.id.content),"SignUp Field",Snackbar.LENGTH_LONG).show();
                         }
@@ -502,6 +568,10 @@ check=0;
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                Intent intent =new Intent(SignUp.this,MainActivity.class);
+                intent.putExtra("email",email);
+                intent.putExtra("password",password);
+                startActivity(intent);
 
             }
         });
@@ -512,6 +582,20 @@ check=0;
 
     @Override
     public void onClick(View view) {
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==1 && resultCode == RESULT_OK && data!=null && data.getData()!=null){
+            imageuri=data.getData();
+            addprofileimg.setImageURI(imageuri);
+        }
+    }
+
+    private void UploadPhoto() {
+
 
     }
 }

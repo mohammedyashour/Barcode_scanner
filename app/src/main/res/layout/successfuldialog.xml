@@ -9,7 +9,7 @@
     android:layout_margin="5dp"
     android:padding="4dp">
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/fireworks"
+        android:id="@+id/lottie"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:lottie_rawRes="@raw/thank_you"

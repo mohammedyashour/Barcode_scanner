@@ -41,9 +41,9 @@ BubbleNavigationLinearView bubbleNavigationLinearView ;
         bubbleNavigationLinearView.setBadgeValue(3,"10");
         bubbleNavigationLinearView.setBadgeValue(4,"5");
         //***
-//        fragmentTransaction=getSupportFragmentManager().beginTransaction();
-//        fragmentTransaction.replace(R.id.fragment_container,new Dashboard());
-//        fragmentTransaction.commit();
+        fragmentTransaction=getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container,new Dashboard());
+       fragmentTransaction.commit();
         bubbleNavigationLinearView.setNavigationChangeListener(new BubbleNavigationChangeListener() {
             @Override
             public void onNavigationChanged(View view, int position) {
