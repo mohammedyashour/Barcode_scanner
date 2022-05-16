@@ -136,22 +136,8 @@ scan.setOnLongClickListener(new View.OnLongClickListener() {
                                // Toast.makeText(getContext(), "Scanned : " +q.getData().get("product_name").toString(),Toast.LENGTH_LONG);
                                 scannumber++;
                                  tvscannumber.setText(Integer.toString(scannumber));
-                                 storageReference=FirebaseStorage.getInstance().getReference();
-                                StorageReference ref = storageReference.child("products/")
-                                        .child(q.getData().get("product_image_id").toString());
-                                ref.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Uri> task) {
-                                        if (task.isSuccessful()) {
-                                             downUri = task.getResult();
-                                            String imageUrl = downUri.toString();
-                                            Toast.makeText(thiscontext, imageUrl , Toast.LENGTH_SHORT).show();
-                                        }else{
-                                            Toast.makeText(thiscontext, ""+task.getException(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
-                                Product_Dialog(q.getData().get("product_name").toString(),q.getData().get("product_type").toString(),q.getData().get("Description").toString(),q.getData().get("price").toString());
+
+                                Product_Dialog(q.getData().get("product_name").toString(),q.getData().get("product_type").toString(),q.getData().get("Description").toString(),q.getData().get("price").toString()/*,q.getData().get("product_image_uri").toString()*/);
                             }
                         } else{
 
@@ -226,7 +212,7 @@ switcherbeepsound.setOnCheckedChangeListener(new Function1<Boolean, Unit>() {
                  beepsoundischaked =false;
              }
          }
-    public void Product_Dialog (String name, String type, String description, String price) {
+    public void Product_Dialog (String name, String type, String description, String price/*,String product_image_uri*/) {
 
         final Dialog dialog = new Dialog(thiscontext);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
@@ -236,7 +222,8 @@ switcherbeepsound.setOnCheckedChangeListener(new Function1<Boolean, Unit>() {
         product_description=dialog.findViewById(R.id.product_description);
         product_price=dialog.findViewById(R.id.product_price);
         product_image=dialog.findViewById(R.id.product_image);
-
+//Uri uristring=Uri.parse(product_image_uri);
+//product_image.setImageURI(uristring);
         product_name.setText(name);
         product_Type.setText(type);
         product_description.setText(description);

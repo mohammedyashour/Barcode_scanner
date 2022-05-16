@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -81,6 +82,8 @@ public class Add extends Fragment implements AdapterView.OnItemClickListener{
     private FirebaseFirestore firebaseFirestore;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
+    private Boolean imageisselected=false;
+    private String prduct_image_uri;
     final Calendar myCalendar = Calendar.getInstance();
 private LottieAnimationView lottieAnimationView;
     private Uri imageuri;
@@ -143,6 +146,7 @@ private LottieAnimationView lottieAnimationView;
             @Override
             public void onActivityResult(Uri result) {
                 product_image.setImageURI(result);
+                imageisselected=true;
                 imageuri=result;
             }
         });
@@ -175,7 +179,7 @@ firebaseFirestore =FirebaseFirestore.getInstance();
         typeTextInputLayout.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkboxdialog();
+
             }
         });
         autoCompleteTextView.setOnClickListener(new View.OnClickListener() {
@@ -197,7 +201,7 @@ firebaseFirestore =FirebaseFirestore.getInstance();
             }
         });
         addbtn.setOnClickListener(View -> {
-            if (TextUtils.isEmpty(nameTextInputEditText.getText().toString()) || TextUtils.isEmpty(descriptionTextEditText.getText().toString()) || TextUtils.isEmpty(autoCompleteTextView.getText().toString()) || TextUtils.isEmpty(priceTextInputEditText.getText().toString()) || TextUtils.isEmpty(prod.getText().toString()) || TextUtils.isEmpty(exp.getText().toString()) || TextUtils.isEmpty(BarcodetextInputEditText.getText().toString())) {
+            if (TextUtils.isEmpty(nameTextInputEditText.getText().toString()) || TextUtils.isEmpty(descriptionTextEditText.getText().toString()) || TextUtils.isEmpty(autoCompleteTextView.getText().toString()) || TextUtils.isEmpty(priceTextInputEditText.getText().toString()) || TextUtils.isEmpty(prod.getText().toString()) || TextUtils.isEmpty(exp.getText().toString()) || TextUtils.isEmpty(BarcodetextInputEditText.getText().toString())||imageisselected==false) {
                 addtextboxcheck();
             } else {
                 Addproduct();
@@ -227,8 +231,10 @@ String product_name,Description,product_type,price,pord_date,exp_date,barcode;
         exp_date=exp.getText().toString();
         barcode=BarcodetextInputEditText.getText().toString();
         final String product_photo_id=UUID.randomUUID().toString();
-
+        prduct_image_uri=imageuri.toString();
         HashMap<String,String> data= new HashMap<>();
+        data.put("product_image_uri",prduct_image_uri);
+
         data.put("product_image_id",product_photo_id);
         data.put("product_name",product_name);
         data.put("Description",Description);
@@ -237,33 +243,43 @@ String product_name,Description,product_type,price,pord_date,exp_date,barcode;
         data.put("pord_date",pord_date);
         data.put("exp_date",exp_date);
         data.put("barcode",barcode);
-        firebaseFirestore.collection("Products").add(data).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentReference> task) {
-                if (task.isSuccessful()){
 
-           // Create a reference to "mountains.jpg"
-                    //final String randomkey= UUID.randomUUID().toString();
-                    StorageReference SR = storageReference.child("products/"+product_photo_id);
-                    SR.putFile(imageuri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {successfuldialog();
-                        }
-                    })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Snackbar.make(getView().findViewById(android.R.id.content)," Field To Add Product",Snackbar.LENGTH_LONG).show();
+        if (imageisselected==true) {
+            //doTheThing()
+            firebaseFirestore.collection("Products").add(data).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentReference> task) {
+                    if (task.isSuccessful()){
 
-                                }
-                            });
+                        // Create a reference to "mountains.jpg"
+                        //final String randomkey= UUID.randomUUID().toString();
+                        StorageReference SR = storageReference.child("products/"+product_photo_id);
+                        SR.putFile(imageuri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {successfuldialog();
+                            }
+                        })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Snackbar.make(getActivity().findViewById(android.R.id.content)," Field To Add Product",Snackbar.LENGTH_LONG).show();
+
+                                    }
+                                });
 
 
-                }else{
+                    }else{
 
+                    }
                 }
-            }
-        });
+            });
+
+        } else {
+            Snackbar.make(getActivity().findViewById(android.R.id.content), " Please Select Product Image", Snackbar.LENGTH_LONG).show();
+
+            product_image.setBorderWidth(5);
+            product_image.setBorderColor(Color.RED);
+        }
 
 
     }
@@ -632,7 +648,14 @@ lottieAnimationView.setAnimation(R.raw.add_product);
         } else {
             BarcodeTextInputLayout.setHelperText("");
         }
+        if (imageuri != null && !imageuri.equals(Uri.EMPTY)) {
+            //doTheThing()
+        } else {
+            Snackbar.make(getActivity().findViewById(android.R.id.content), " Please Select Product Image", Snackbar.LENGTH_LONG).show();
 
+product_image.setBorderWidth(5);
+            product_image.setBorderColor(Color.RED);
+        }
     }
 
 
