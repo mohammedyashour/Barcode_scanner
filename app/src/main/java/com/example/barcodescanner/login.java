@@ -23,6 +23,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,10 +40,12 @@ import com.jaeger.library.StatusBarUtil;
 import java.util.Locale;
 import java.util.Objects;
 
+import tyrantgit.explosionfield.ExplosionField;
+
 public class login extends AppCompatActivity {
-private FirebaseAuth firebaseAuth;
+    private FirebaseAuth firebaseAuth;
     private static final String TAG = "moudy";
-    TextView tv_english,tv_arabic,tv_forget,tv_Signintocontinue,tv_newuser,tv_SignUp;
+    TextView tv_english, tv_arabic, tv_forget, tv_Signintocontinue, tv_newuser, tv_SignUp;
     private Button login;
     private View parent_view;
     private TextInputLayout usernamelayout, passwordlayout;
@@ -52,33 +55,44 @@ private FirebaseAuth firebaseAuth;
     private float mAccel;
     private float mAccelCurrent;
     private float mAccelLast;
+    private ExplosionField explosionField;
     private static final String SELECTED_LANGUAGE = "Locale.Helper.Selected.Language";
-    private static SharedPreferences sp ;
-    String current_Device_language,current_app_language;
-    SharedPreferences sharedPreferences ;
+    private static SharedPreferences sp;
+    private ImageView imageView;
+    String current_Device_language, current_app_language;
+    SharedPreferences sharedPreferences;
     Context context;
     Resources resources;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        explosionField = ExplosionField.attach2Window(this);
+        imageView = findViewById(R.id.logo);
+        imageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                explosionField.explode(imageView);
+                return false;
+            }
+        });
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String value = extras.getString("password");
             password_ed.setText(value);
         }
-        firebaseAuth=FirebaseAuth.getInstance();
-        Log.v(TAG, "current language"+(Locale.getDefault().getDisplayLanguage().toString()));
+        firebaseAuth = FirebaseAuth.getInstance();
+        Log.v(TAG, "current language" + (Locale.getDefault().getDisplayLanguage().toString()));
         initViews();
-        tv_arabic=findViewById(R.id.tv_arabic);
-        tv_english=findViewById(R.id.tv_english);
+        tv_arabic = findViewById(R.id.tv_arabic);
+        tv_english = findViewById(R.id.tv_english);
 
-        fireworks=findViewById(R.id.fireworks);
-        tv_forget=findViewById(R.id.tv_forget);
-        tv_Signintocontinue=findViewById(R.id.tv_Signintocontinue);
-        tv_newuser=findViewById(R.id.tv_newuser);
-        tv_SignUp=findViewById(R.id.tv_SignUp);
+        fireworks = findViewById(R.id.fireworks);
+        tv_forget = findViewById(R.id.tv_forget);
+        tv_Signintocontinue = findViewById(R.id.tv_Signintocontinue);
+        tv_newuser = findViewById(R.id.tv_newuser);
+        tv_SignUp = findViewById(R.id.tv_SignUp);
 
         //******
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -88,25 +102,25 @@ private FirebaseAuth firebaseAuth;
         mAccelCurrent = SensorManager.GRAVITY_EARTH;
         mAccelLast = SensorManager.GRAVITY_EARTH;
 
-        sharedPreferences = getSharedPreferences("MySP",MODE_PRIVATE); //open
-       if((Locale.getDefault().getDisplayLanguage().toString()).equals("العربية")&&sharedPreferences.getString("language","").isEmpty()){
-           allarabic();
-       }else if((Locale.getDefault().getDisplayLanguage().toString()).equalsIgnoreCase("English")&&sharedPreferences.getString("language","").isEmpty()){
-           allenglish();
-       }
-
-        if (sharedPreferences.getString("language","").equals("ar")){
+        sharedPreferences = getSharedPreferences("MySP", MODE_PRIVATE); //open
+        if ((Locale.getDefault().getDisplayLanguage().toString()).equals("العربية") && sharedPreferences.getString("language", "").isEmpty()) {
             allarabic();
-            Toast.makeText(context, "ar " , Toast.LENGTH_LONG).show();
-        }else if(sharedPreferences.getString("language","").equals("en")){
+        } else if ((Locale.getDefault().getDisplayLanguage().toString()).equalsIgnoreCase("English") && sharedPreferences.getString("language", "").isEmpty()) {
             allenglish();
-            Toast.makeText(context, "en " , Toast.LENGTH_LONG).show();
+        }
+
+        if (sharedPreferences.getString("language", "").equals("ar")) {
+            allarabic();
+            Toast.makeText(context, "ar ", Toast.LENGTH_LONG).show();
+        } else if (sharedPreferences.getString("language", "").equals("en")) {
+            allenglish();
+            Toast.makeText(context, "en ", Toast.LENGTH_LONG).show();
 
         }
         usernamelayout.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch (usernamelayout.getSuffixText().toString()){
+                switch (usernamelayout.getSuffixText().toString()) {
                     case "@gmail.com":
                         usernamelayout.setSuffixText("@hotmail.com");
 
@@ -126,13 +140,13 @@ private FirebaseAuth firebaseAuth;
             }
         });
         tv_arabic.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-        allarabic();
-    }
+            @Override
+            public void onClick(View view) {
+                allarabic();
+            }
 
 
-});
+        });
         tv_english.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -178,78 +192,79 @@ private FirebaseAuth firebaseAuth;
     }
 
     public void LogIn() {
-        String email,password;
-        email=username_ed.getText().toString();
-        password=password_ed.getText().toString();
-        switch (usernamelayout.getSuffixText().toString()){
+        String email, password;
+        email = username_ed.getText().toString();
+        password = password_ed.getText().toString();
+        switch (usernamelayout.getSuffixText().toString()) {
 
             case "@gmail.com":
-                email=username_ed.getText().toString()+"@gmail.com";
+                email = username_ed.getText().toString() + "@gmail.com";
 
                 break;
             case "@hotmail.com":
-                email=username_ed.getText().toString()+"@hotmail.com";
+                email = username_ed.getText().toString() + "@hotmail.com";
 
                 break;
             case "@mail.com":
-                email=username_ed.getText().toString()+"@mail.com";
+                email = username_ed.getText().toString() + "@mail.com";
 
-                break;}
-        if (TextUtils.isEmpty(username_ed.getText().toString())||TextUtils.isEmpty(password_ed.getText().toString())){
-        if (TextUtils.isEmpty(username_ed.getText().toString())) {
-            usernamelayout.setError(resources.getString(R.string.thisfieldcantbeempty));
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    usernamelayout.setError("");
-                    usernamelayout.setHelperText(resources.getString(R.string.Required));
-
-                }
-            }, 4000);
-        } else {
-            usernamelayout.setHelperText("");
+                break;
         }
-        if (TextUtils.isEmpty(password_ed.getText().toString())) {
-            passwordlayout.setError(resources.getString(R.string.thisfieldcantbeempty));
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    passwordlayout.setError("");
-                    passwordlayout.setHelperText(resources.getString(R.string.Required));
-
-                }
-            }, 4000);
-        } else {
-            passwordlayout.setHelperText("");
-
-        }}else{
-        firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-            if(task.isSuccessful()){
-                Log.v(TAG, "Successfully login");
-
-                 Thread t1 = new Thread(new Runnable() {
+        if (TextUtils.isEmpty(username_ed.getText().toString()) || TextUtils.isEmpty(password_ed.getText().toString())) {
+            if (TextUtils.isEmpty(username_ed.getText().toString())) {
+                usernamelayout.setError(resources.getString(R.string.thisfieldcantbeempty));
+                new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent intent = new Intent(login.this, MainActivity.class);
-                        Log.v(TAG, "Successfully intent");
-
-                        startActivity(intent);
-                        Log.v(TAG, "Successfully start");
+                        usernamelayout.setError("");
+                        usernamelayout.setHelperText(resources.getString(R.string.Required));
 
                     }
-                });
-                t1.start();
+                }, 4000);
+            } else {
+                usernamelayout.setHelperText("");
+            }
+            if (TextUtils.isEmpty(password_ed.getText().toString())) {
+                passwordlayout.setError(resources.getString(R.string.thisfieldcantbeempty));
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        passwordlayout.setError("");
+                        passwordlayout.setHelperText(resources.getString(R.string.Required));
 
-                         }else{
+                    }
+                }, 4000);
+            } else {
+                passwordlayout.setHelperText("");
 
             }
-            }
-        });
+        } else {
+            firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        Log.v(TAG, "Successfully login");
+
+                        Thread t1 = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(login.this, MainActivity.class);
+                                Log.v(TAG, "Successfully intent");
+
+                                startActivity(intent);
+                                Log.v(TAG, "Successfully start");
+
+                            }
+                        });
+                        t1.start();
+
+                    } else {
+
+                    }
+                }
+            });
         }
     }
-
 
 
     private final SensorEventListener mSensorListener = new SensorEventListener() {
@@ -265,36 +280,39 @@ private FirebaseAuth firebaseAuth;
 
             if (mAccel > 12) {
 
-                if (fireworks.isAnimating()){
+                if (fireworks.isAnimating()) {
                     fireworks.cancelAnimation();
 
-                }else{
+                } else {
                     fireworks.playAnimation();
                 }
 
 
-
             }
         }
+
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
         }
     };
+
     @Override
     protected void onResume() {
         mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_NORMAL);
         super.onResume();
     }
+
     @Override
     protected void onPause() {
         mSensorManager.unregisterListener(mSensorListener);
         super.onPause();
     }
+
     private void allarabic() {
-        current_app_language="ar";
+        current_app_language = "ar";
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("language",current_app_language);
+        editor.putString("language", current_app_language);
         // editor.remove("language");
         editor.commit();
 
@@ -312,10 +330,11 @@ private FirebaseAuth firebaseAuth;
         tv_arabic.setTextColor(getResources().getColor(R.color.green_300));
         tv_english.setTextColor(getResources().getColor(R.color.default_text_view_color));
     }
+
     private void allenglish() {
-        current_app_language="en";
+        current_app_language = "en";
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("language",current_app_language);
+        editor.putString("language", current_app_language);
         // editor.remove("language");
 
 
@@ -334,7 +353,6 @@ private FirebaseAuth firebaseAuth;
         tv_english.setTextColor(getResources().getColor(R.color.green_300));
         tv_arabic.setTextColor(getResources().getColor(R.color.default_text_view_color));
     }
-
 
 
 }

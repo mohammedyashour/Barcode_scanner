@@ -77,26 +77,26 @@ import java.util.UUID;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class Add extends Fragment implements AdapterView.OnItemClickListener{
+public class Add extends Fragment implements AdapterView.OnItemClickListener {
 
     private FirebaseFirestore firebaseFirestore;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
-    private Boolean imageisselected=false;
+    private Boolean imageisselected = false;
     private String prduct_image_uri;
     final Calendar myCalendar = Calendar.getInstance();
-private LottieAnimationView lottieAnimationView;
-    private Uri imageuri;
+    private LottieAnimationView lottieAnimationView;
+    Uri imageuri;
 
     Boolean currency = false;
-   private CircleImageView product_image;
+    private CircleImageView product_image;
     private static final int REQUEST_CODE_SPEECH_INPUT = 1;
 
     TextInputLayout BarcodeTextInputLayout, typeTextInputLayout, priceTextInputLayout, produdateTextInputLayout,
             expdateTextInputLayout, nameTextInputLayout, searchTextInputLayout, descriptionTextInputLayout;
     TextInputEditText BarcodetextInputEditText, priceTextInputEditText, proddateTextInputEditText, expdateTextInputEditText,
             nameTextInputEditText, descriptionTextEditText;
-    AutoCompleteTextView autoCompleteTextView, searchautotextview,prod,exp;
+    AutoCompleteTextView autoCompleteTextView, searchautotextview, prod, exp;
     Button addbtn;
     RadioGroup radioGroup;
     RadioButton rbtn1, rbtn2, rbtn3, rbtn4, rbtn5, rbtn6, rbtn7, rbtn8, rbtn9, rbtn10, rbtn11, rbtn12, rbtn13, rbtn14, rbtn15, rbtn16, rbtn17, rbtn18, rbtn19, rbtn20, rbtn21, rbtn22, rbtn23, rbtn24;
@@ -116,10 +116,10 @@ private LottieAnimationView lottieAnimationView;
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add, container, false);
-        firebaseFirestore=FirebaseFirestore.getInstance();
-        firebaseStorage=FirebaseStorage.getInstance();
-        storageReference= firebaseStorage.getReference();
-        android.app.DatePickerDialog.OnDateSetListener  datepickerdialog = new DatePickerDialog.OnDateSetListener() {
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseStorage = FirebaseStorage.getInstance();
+        storageReference = firebaseStorage.getReference();
+        android.app.DatePickerDialog.OnDateSetListener datepickerdialog = new DatePickerDialog.OnDateSetListener() {
 
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
@@ -127,10 +127,10 @@ private LottieAnimationView lottieAnimationView;
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                prod.setText(dayOfMonth+"/"+(monthOfYear+1) +"/"+year);
+                prod.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
             }
         };
-        android.app.DatePickerDialog.OnDateSetListener  datepickerdialog2 = new DatePickerDialog.OnDateSetListener() {
+        android.app.DatePickerDialog.OnDateSetListener datepickerdialog2 = new DatePickerDialog.OnDateSetListener() {
 
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
@@ -138,27 +138,27 @@ private LottieAnimationView lottieAnimationView;
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                exp.setText(dayOfMonth+"/"+(monthOfYear+1) +"/"+year);
+                exp.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
             }
         };
-        SignUp signUp =new SignUp();
-        ActivityResultLauncher<String> arl =registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+        SignUp signUp = new SignUp();
+        ActivityResultLauncher<String> arl = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
             @Override
             public void onActivityResult(Uri result) {
                 product_image.setImageURI(result);
-                imageisselected=true;
-                imageuri=result;
+                imageisselected = true;
+                imageuri = result;
             }
         });
 
 
-firebaseFirestore =FirebaseFirestore.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
         thiscontext = container.getContext();
         initViews(view);
         product_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            arl.launch("image/*");
+                arl.launch("image/*");
             }
         });
 
@@ -201,79 +201,82 @@ firebaseFirestore =FirebaseFirestore.getInstance();
             }
         });
         addbtn.setOnClickListener(View -> {
-            if (TextUtils.isEmpty(nameTextInputEditText.getText().toString()) || TextUtils.isEmpty(descriptionTextEditText.getText().toString()) || TextUtils.isEmpty(autoCompleteTextView.getText().toString()) || TextUtils.isEmpty(priceTextInputEditText.getText().toString()) || TextUtils.isEmpty(prod.getText().toString()) || TextUtils.isEmpty(exp.getText().toString()) || TextUtils.isEmpty(BarcodetextInputEditText.getText().toString())||imageisselected==false) {
+            if (TextUtils.isEmpty(nameTextInputEditText.getText().toString()) || TextUtils.isEmpty(descriptionTextEditText.getText().toString()) || TextUtils.isEmpty(autoCompleteTextView.getText().toString()) || TextUtils.isEmpty(priceTextInputEditText.getText().toString()) || TextUtils.isEmpty(prod.getText().toString()) || TextUtils.isEmpty(exp.getText().toString()) || TextUtils.isEmpty(BarcodetextInputEditText.getText().toString()) || imageisselected == false) {
                 addtextboxcheck();
             } else {
                 Addproduct();
 
             }
         });
-        prod.setOnClickListener(View->{
-            DatePickerDialog datePickerDialog=  new DatePickerDialog(thiscontext,R.style.DialogTheme, datepickerdialog, myCalendar
-                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH));
+        prod.setOnClickListener(View -> {
+            DatePickerDialog datePickerDialog = new DatePickerDialog(thiscontext, R.style.DialogTheme, datepickerdialog, myCalendar
+                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
             datePickerDialog.show();
         });
-        exp.setOnClickListener(View->{
-            DatePickerDialog datePickerDialog2=  new DatePickerDialog(thiscontext,R.style.DialogTheme, datepickerdialog2, myCalendar
-                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH));
+        exp.setOnClickListener(View -> {
+            DatePickerDialog datePickerDialog2 = new DatePickerDialog(thiscontext, R.style.DialogTheme, datepickerdialog2, myCalendar
+                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
             datePickerDialog2.show();
         });
         return view;
     }
 
     private void Addproduct() {
-String product_name,Description,product_type,price,pord_date,exp_date,barcode;
-        product_name=nameTextInputEditText.getText().toString();
-        Description=descriptionTextEditText.getText().toString();
-        product_type=autoCompleteTextView.getText().toString();
-        price=priceTextInputEditText.getText().toString();
-        pord_date=prod.getText().toString();
-        exp_date=exp.getText().toString();
-        barcode=BarcodetextInputEditText.getText().toString();
-        final String product_photo_id=UUID.randomUUID().toString();
-        prduct_image_uri=imageuri.toString();
-        HashMap<String,String> data= new HashMap<>();
-        data.put("product_image_uri",prduct_image_uri);
+        String product_name, Description, product_type, price, pord_date, exp_date, barcode;
+        product_name = nameTextInputEditText.getText().toString();
+        Description = descriptionTextEditText.getText().toString();
+        product_type = autoCompleteTextView.getText().toString();
+        price = priceTextInputEditText.getText().toString();
+        pord_date = prod.getText().toString();
+        exp_date = exp.getText().toString();
+        barcode = BarcodetextInputEditText.getText().toString();
+        final String product_photo_id = UUID.randomUUID().toString();
+        prduct_image_uri = imageuri.toString();
+        HashMap<String, String> data = new HashMap<>();
+        data.put("product_image_uri", prduct_image_uri);
 
-        data.put("product_image_id",product_photo_id);
-        data.put("product_name",product_name);
-        data.put("Description",Description);
-        data.put("product_type",product_type);
-        data.put("price",price);
-        data.put("pord_date",pord_date);
-        data.put("exp_date",exp_date);
-        data.put("barcode",barcode);
+        data.put("product_image_id", product_photo_id);
+        data.put("product_name", product_name);
+        data.put("Description", Description);
+        data.put("product_type", product_type);
+        data.put("price", price);
+        data.put("pord_date", pord_date);
+        data.put("exp_date", exp_date);
+        data.put("barcode", barcode);
 
-        if (imageisselected==true) {
+        if (imageisselected == true) {
             //doTheThing()
             firebaseFirestore.collection("Products").add(data).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentReference> task) {
-                    if (task.isSuccessful()){
+                    if (task.isSuccessful()) {
 
                         // Create a reference to "mountains.jpg"
                         //final String randomkey= UUID.randomUUID().toString();
-                        StorageReference SR = storageReference.child("products/"+product_photo_id);
+                        StorageReference SR = storageReference.child("products/" + barcode);
                         SR.putFile(imageuri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {successfuldialog();
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                successfuldialog();
                             }
                         })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Snackbar.make(getActivity().findViewById(android.R.id.content)," Field To Add Product",Snackbar.LENGTH_LONG).show();
+                                        Snackbar.make(getActivity().findViewById(android.R.id.content), " Field To Add Product", Snackbar.LENGTH_LONG).show();
 
                                     }
                                 });
 
 
-                    }else{
+                    } else {
 
                     }
                 }
             });
+            if (imageuri != null) {
 
+            }
         } else {
             Snackbar.make(getActivity().findViewById(android.R.id.content), " Please Select Product Image", Snackbar.LENGTH_LONG).show();
 
@@ -283,14 +286,15 @@ String product_name,Description,product_type,price,pord_date,exp_date,barcode;
 
 
     }
-    public void successfuldialog () {
+
+    public void successfuldialog() {
         final Dialog dialog = new Dialog(thiscontext);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
         dialog.setContentView(R.layout.successfuldialog);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.setCancelable(true);
-        LottieAnimationView lottieAnimationView =dialog.findViewById(R.id.lottie);
-lottieAnimationView.setAnimation(R.raw.add_product);
+        LottieAnimationView lottieAnimationView = dialog.findViewById(R.id.lottie);
+        lottieAnimationView.setAnimation(R.raw.add_product);
 
         ((Button) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -306,8 +310,8 @@ lottieAnimationView.setAnimation(R.raw.add_product);
 
     private void initViews(View view) {
 
-        product_image=view.findViewById(R.id.product_image);
-                addbtn = view.findViewById(R.id.addbtn);
+        product_image = view.findViewById(R.id.product_image);
+        addbtn = view.findViewById(R.id.addbtn);
         exp = view.findViewById(R.id.ed_Expiration_date);
         expdateTextInputLayout = view.findViewById(R.id.lay_Expiration_date);
         descriptionTextInputLayout = view.findViewById(R.id.descriptionlay);
@@ -371,7 +375,7 @@ lottieAnimationView.setAnimation(R.raw.add_product);
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                         RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,
-                        Locale.getDefault() );//.getDefault() to get and make speak language as your device language
+                        Locale.getDefault());//.getDefault() to get and make speak language as your device language
                 //you  can use "Locale.US" OR "Locale.forLanguageTag("ar")"
                 intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to text");
 
@@ -521,7 +525,6 @@ lottieAnimationView.setAnimation(R.raw.add_product);
     }
 
 
-
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == REQUEST_CODE_SPEECH_INPUT) {
             super.onActivityResult(requestCode, resultCode, intent);
@@ -532,7 +535,7 @@ lottieAnimationView.setAnimation(R.raw.add_product);
                 searchautotextview.setText(Objects.requireNonNull(result).get(0));
                 //  texttospeechautoselect();
                 //استبدلنا هاي الميثود بميثود تانية بتمررلها قيمة نص وبتشغتل لحالها
-                autoselectmethod( searchautotextview.getText().toString());
+                autoselectmethod(searchautotextview.getText().toString());
             }
         } else {
             IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
@@ -653,7 +656,7 @@ lottieAnimationView.setAnimation(R.raw.add_product);
         } else {
             Snackbar.make(getActivity().findViewById(android.R.id.content), " Please Select Product Image", Snackbar.LENGTH_LONG).show();
 
-product_image.setBorderWidth(5);
+            product_image.setBorderWidth(5);
             product_image.setBorderColor(Color.RED);
         }
     }
@@ -670,56 +673,57 @@ product_image.setBorderWidth(5);
         autoselectmethod(item);
         // set user selected value to the TextView
     }
-    public String autoselectmethod(String s){
+
+    public String autoselectmethod(String s) {
         //this improved function just pass a string to the method and it will run auto and select auto
         //العناصر كلها بفنكشن وحدة بتمررلها متغير من نوع نص عند الاستدعاء
-        if(s.toString().equalsIgnoreCase(getString(R.string.Pt1))){
+        if (s.toString().equalsIgnoreCase(getString(R.string.Pt1))) {
             rbtn1.setChecked(true);
-        }else if(s.toString().equalsIgnoreCase(getString(R.string.Pt2))){
+        } else if (s.toString().equalsIgnoreCase(getString(R.string.Pt2))) {
             rbtn2.setChecked(true);
-        }else if(s.toString().equalsIgnoreCase(getString(R.string.Pt3))){
+        } else if (s.toString().equalsIgnoreCase(getString(R.string.Pt3))) {
             rbtn3.setChecked(true);
-        }else if(s.toString().equalsIgnoreCase(getString(R.string.Pt4))){
+        } else if (s.toString().equalsIgnoreCase(getString(R.string.Pt4))) {
             rbtn4.setChecked(true);
-        }else if(s.toString().equalsIgnoreCase(getString(R.string.Pt5))){
+        } else if (s.toString().equalsIgnoreCase(getString(R.string.Pt5))) {
             rbtn5.setChecked(true);
-        }else if(s.toString().equalsIgnoreCase(getString(R.string.Pt6))){
+        } else if (s.toString().equalsIgnoreCase(getString(R.string.Pt6))) {
             rbtn6.setChecked(true);
-        }else if(s.toString().equalsIgnoreCase(getString(R.string.Pt7))){
+        } else if (s.toString().equalsIgnoreCase(getString(R.string.Pt7))) {
             rbtn7.setChecked(true);
-        }else if(s.toString().equalsIgnoreCase(getString(R.string.Pt8))){
+        } else if (s.toString().equalsIgnoreCase(getString(R.string.Pt8))) {
             rbtn8.setChecked(true);
-        }else if(s.toString().equalsIgnoreCase(getString(R.string.Pt9))){
+        } else if (s.toString().equalsIgnoreCase(getString(R.string.Pt9))) {
             rbtn9.setChecked(true);
-        }else if(s.toString().equalsIgnoreCase(getString(R.string.Pt10))){
+        } else if (s.toString().equalsIgnoreCase(getString(R.string.Pt10))) {
             rbtn10.setChecked(true);
-        }else if(s.toString().equalsIgnoreCase(getString(R.string.Pt11))){
+        } else if (s.toString().equalsIgnoreCase(getString(R.string.Pt11))) {
             rbtn11.setChecked(true);
-        }else if(s.toString().equalsIgnoreCase(getString(R.string.Pt12))){
+        } else if (s.toString().equalsIgnoreCase(getString(R.string.Pt12))) {
             rbtn12.setChecked(true);
-        }else if(s.toString().equalsIgnoreCase(getString(R.string.Pt13))){
+        } else if (s.toString().equalsIgnoreCase(getString(R.string.Pt13))) {
             rbtn13.setChecked(true);
-        }else if(s.toString().equalsIgnoreCase(getString(R.string.Pt14))){
+        } else if (s.toString().equalsIgnoreCase(getString(R.string.Pt14))) {
             rbtn14.setChecked(true);
-        }else if(s.toString().equalsIgnoreCase(getString(R.string.Pt15))){
+        } else if (s.toString().equalsIgnoreCase(getString(R.string.Pt15))) {
             rbtn15.setChecked(true);
-        }else if(s.toString().equalsIgnoreCase(getString(R.string.Pt16))){
+        } else if (s.toString().equalsIgnoreCase(getString(R.string.Pt16))) {
             rbtn16.setChecked(true);
-        }else if(s.toString().equalsIgnoreCase(getString(R.string.Pt17))){
+        } else if (s.toString().equalsIgnoreCase(getString(R.string.Pt17))) {
             rbtn17.setChecked(true);
-        }else if(s.toString().equalsIgnoreCase(getString(R.string.Pt18))){
+        } else if (s.toString().equalsIgnoreCase(getString(R.string.Pt18))) {
             rbtn18.setChecked(true);
-        }else if(s.toString().equalsIgnoreCase(getString(R.string.Pt19))){
+        } else if (s.toString().equalsIgnoreCase(getString(R.string.Pt19))) {
             rbtn19.setChecked(true);
-        }else if(s.toString().equalsIgnoreCase(getString(R.string.Pt20))){
+        } else if (s.toString().equalsIgnoreCase(getString(R.string.Pt20))) {
             rbtn20.setChecked(true);
-        }else if(s.toString().equalsIgnoreCase(getString(R.string.Pt21))){
+        } else if (s.toString().equalsIgnoreCase(getString(R.string.Pt21))) {
             rbtn21.setChecked(true);
-        }else if(s.toString().equalsIgnoreCase(getString(R.string.Pt22))){
+        } else if (s.toString().equalsIgnoreCase(getString(R.string.Pt22))) {
             rbtn22.setChecked(true);
-        }else if(s.toString().equalsIgnoreCase(getString(R.string.Pt23))){
+        } else if (s.toString().equalsIgnoreCase(getString(R.string.Pt23))) {
             rbtn23.setChecked(true);
-        }else if(s.toString().equalsIgnoreCase(getString(R.string.Pt24))){
+        } else if (s.toString().equalsIgnoreCase(getString(R.string.Pt24))) {
             rbtn24.setChecked(true);
         }
         return s;

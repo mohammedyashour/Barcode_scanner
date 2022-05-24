@@ -34,7 +34,7 @@
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="PRODUCT NAME"
+                    android:text="NAME:PRODUCT NAME"
                     android:textSize="34sp"
                     android:textStyle="bold"
                     android:textColor="@color/gray"
@@ -44,7 +44,7 @@
                     android:id="@+id/product_Type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="PRODUCT TYPE"
+                    android:text="TYPE:PRODUCT TYPE"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     android:textColor="@color/gray"
