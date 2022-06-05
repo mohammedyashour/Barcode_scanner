@@ -8,6 +8,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -19,12 +20,21 @@ import com.example.barcodescanner.Fragments.Menu;
 import com.example.barcodescanner.Fragments.Scanner;
 import com.gauravk.bubblenavigation.BubbleNavigationLinearView;
 import com.gauravk.bubblenavigation.listener.BubbleNavigationChangeListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 public class MainActivity extends AppCompatActivity {
  private Button scan;
 private TextView textView;
+    FirebaseFirestore firebaseFirestore;
+    FirebaseAuth firebaseAuth;
 FragmentTransaction fragmentTransaction;
 BubbleNavigationLinearView bubbleNavigationLinearView ;
     @Override
@@ -34,6 +44,14 @@ BubbleNavigationLinearView bubbleNavigationLinearView ;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        firebaseFirestore=FirebaseFirestore.getInstance();
+        firebaseAuth=FirebaseAuth.getInstance();
+
+
+
+
+
         bubbleNavigationLinearView=findViewById(R.id.bottom_navigation_view_linear);
         bubbleNavigationLinearView.setBadgeValue(0,"30");
         bubbleNavigationLinearView.setBadgeValue(1,"25");

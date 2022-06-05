@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.barcodescanner.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,6 +24,7 @@ public class Dashboard extends Fragment {
 FirebaseFirestore firebaseFirestore;
 FirebaseAuth firebaseAuth;
 TextView name,email;
+
     public Dashboard() {
         // Required empty public constructor
     }
@@ -39,26 +41,32 @@ TextView name,email;
         initViews(view);
         firebaseFirestore=FirebaseFirestore.getInstance();
         firebaseAuth=FirebaseAuth.getInstance();
-        firebaseFirestore.collection("users")
-                .whereEqualTo("uid",firebaseAuth.getCurrentUser().getUid())
+        Toast.makeText(getContext(), "Scanned : " +firebaseAuth.getCurrentUser().getEmail().toString(),Toast.LENGTH_LONG).show();
+name.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+
+        firebaseFirestore.collection("users" )
+                .whereEqualTo("Email",firebaseAuth.getCurrentUser().getEmail().toString())
                 .limit(1)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-            if(task.isSuccessful()){
-                for (QueryDocumentSnapshot q:task.getResult()) {
-                    name.setText(q.getData().get("Username").toString());
-                    email.setText(q.getData().get("Email").toString());
-                    Snackbar.make(view.findViewById(R.id.content),"done",Snackbar.LENGTH_LONG).show();
+                if(task.isSuccessful()){
+                    for (QueryDocumentSnapshot q : task.getResult()) {
+                        Toast.makeText(getContext(), "Scanned : " +q.getData().get("Username").toString(),Toast.LENGTH_LONG).show();
+                    }
+                }
+                else{
+                    Toast.makeText(getContext(), "failed " ,Toast.LENGTH_LONG).show();
 
                 }
-            } else{
-                Snackbar.make(view.findViewById(R.id.content),"faild",Snackbar.LENGTH_LONG).show();
-            }
             }
         });
 
+    }
+});
 
 
         return view;
