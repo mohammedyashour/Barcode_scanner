@@ -7,8 +7,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
-public class SplashScreen extends AppCompatActivity {
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+public class SplashScreen extends AppCompatActivity {
+    FirebaseFirestore firebaseFirestore;
+    FirebaseAuth firebaseAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         View decorView = getWindow().getDecorView();
@@ -21,12 +26,24 @@ public class SplashScreen extends AppCompatActivity {
         decorView.setSystemUiVisibility(uiOptions);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+        firebaseFirestore=FirebaseFirestore.getInstance();
+        firebaseAuth=FirebaseAuth.getInstance();
+        FirebaseUser CurrentUser = firebaseAuth.getCurrentUser();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent =new Intent(SplashScreen.this,login.class);
-                startActivity(intent);
-                finish();
+                if (CurrentUser !=null){
+                    Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+
+                } else {
+
+                    Intent intent =new Intent(SplashScreen.this,login.class);
+                    startActivity(intent);
+                    finish();
+                }
+
             }
         },3000);
     }
