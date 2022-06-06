@@ -20,5 +20,10 @@
         app:lottie_loop="true"
         android:scaleType="fitXY"
         />
+    <Button
+        android:id="@+id/btnlogout"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="@string/logout"/>
 </FrameLayout>
 

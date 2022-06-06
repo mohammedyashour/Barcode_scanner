@@ -60,4 +60,5 @@
     <string name="lessthen6">لا يمكن أن تكون كلمة المرور أقل من 6 أحرف</string>
     <string name="passerror">كلمة المرور غير صحيحة</string>
     <string name="email">الايميل</string>
+    <string name="logout">تسجيل خروج</string>
 </resources>

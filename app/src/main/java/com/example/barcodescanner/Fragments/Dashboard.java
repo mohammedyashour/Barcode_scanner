@@ -1,5 +1,6 @@
 package com.example.barcodescanner.Fragments;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -14,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.barcodescanner.R;
+import com.example.barcodescanner.SplashScreen;
+import com.example.barcodescanner.login;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
