@@ -60,7 +60,7 @@
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/font/blo.xml" value="0.4" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/font/breul.xml" value="0.24722222222222223" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout-land/Calendar_Dialog.xml" value="0.12169312169312169" />
-        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout-land/activity_login.xml" value="0.176" />
+        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout-land/activity_login.xml" value="0.4" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout-land/calendar_dialog.xml" value="0.6" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout-land/productinfodialog.xml" value="0.12874779541446207" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout-port/calendar_dialog.xml" value="0.12943262411347517" />
@@ -73,6 +73,7 @@
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/fragment_add.xml" value="0.536" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/fragment_dashboard.xml" value="0.2" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/fragment_scanner.xml" value="0.21195652173913043" />
+        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/notification.xml" value="0.1802536231884058" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/product_info_dialog.xml" value="0.264" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/successfuldialog.xml" value="0.536" />
       </map>

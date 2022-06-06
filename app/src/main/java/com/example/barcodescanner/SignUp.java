@@ -107,6 +107,10 @@ TextView switchtv;
     private float mAccelCurrent;
     private float mAccelLast;
   private   String username,email,dateofbirth,password,confirmpassword;
+    CheckInternetStatus mCheckInternetStatus;
+    boolean is_internet_connected = false;
+    Context context;
+
     Resources resources;
 private Button signupbtn;
     @Override
@@ -172,6 +176,7 @@ check=0;
 
 
                 if (switcher.isChecked()){
+
                     showDialogCongrat();
                     not_a_robot=true;
 
@@ -246,6 +251,7 @@ check=0;
 }
 
     });
+
     }
 
     private void Random_Password_Generator(int passlength) {
@@ -321,8 +327,15 @@ check=0;
                 dialog.dismiss();
 
             }
+
         });
         dialog.show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dialog.dismiss();
+            }
+        },10000);
     }
     private final SensorEventListener mSensorListener = new SensorEventListener() {
         @Override
@@ -483,81 +496,86 @@ check=0;
                 }, 4000);
             }
             if(not_a_robot!=true){
-                Snackbar.make(findViewById(android.R.id.content),"please check that your are not a robot",Snackbar.LENGTH_LONG).show();
+               Snackbar.make(findViewById(android.R.id.content),"please check that your are not a robot",Snackbar.LENGTH_LONG).show();
 
             }
             if(TextUtils.isEmpty(username_et.getText().toString())||TextUtils.isEmpty(email_et.getText().toString()) ||
             TextUtils.isEmpty(password_et.getText().toString())||TextUtils.isEmpty(date.getText().toString())||
                     TextUtils.isEmpty(confirmpassword_et.getText().toString())){
             }else{
-                firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                         FirebaseUser user= firebaseAuth.getCurrentUser();
-                         if (user!=null){
-                            String uid= user.getUid();
-                             HashMap<String,String> data= new HashMap<>();
-                             data.put("Uid",uid);
-                            data.put("Password",password);
-                             data.put("Username",username);
-                             data.put("Email",email);
-                             data.put("dateofbirth",dateofbirth);
-                             firebaseFirestore.collection("users").add(data).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                                 @Override
-                                 public void onComplete(@NonNull Task<DocumentReference> task) {
-                                     if (task.isSuccessful()){
-                                         ProgressDialog progressDialog =new ProgressDialog(SignUp.this);
-                                         progressDialog.setTitle("Uploading Image....");
-                                         progressDialog.show();
-                                         // Create a reference to "mountains.jpg"
-                                         final String profile_photo_id=user.getEmail().toString();
-                                         //final String randomkey= UUID.randomUUID().toString();
-                                         StorageReference SR = storageReference.child("images/"+profile_photo_id);
-                                         SR.putFile(imageuri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                             @Override
-                                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                                 progressDialog.dismiss();
-                                                 successfuldialog();
+//                if (is_internet_connected) {
 
-                                             }
-                                         })
-                                                 .addOnFailureListener(new OnFailureListener() {
-                                                     @Override
-                                                     public void onFailure(@NonNull Exception e) {
-                                                         progressDialog.dismiss();
+                    firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                FirebaseUser user = firebaseAuth.getCurrentUser();
+                                if (user != null) {
+                                    String uid = user.getUid();
+                                    HashMap<String, String> data = new HashMap<>();
+                                    data.put("Uid", uid);
+                                    data.put("Password", password);
+                                    data.put("Username", username);
+                                    data.put("Email", email);
+                                    data.put("dateofbirth", dateofbirth);
+                                    data.put("imageuri",imageuri+"");
+                                    firebaseFirestore.collection("users").add(data).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentReference> task) {
+                                            if (task.isSuccessful()) {
+                                                ProgressDialog progressDialog = new ProgressDialog(SignUp.this);
+                                                progressDialog.setTitle("Uploading Image....");
+                                                progressDialog.show();
+                                                final String profile_photo_id = user.getEmail().toString();
+                                                StorageReference SR = storageReference.child("images/" + profile_photo_id);
+                                                SR.putFile(imageuri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                                    @Override
+                                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                        progressDialog.dismiss();
+                                                        successfuldialog();
+                                                        Intent intent = new Intent(SignUp.this, MainActivity.class);
+                                                        startActivity(intent);
 
-                                                     }
-                                                 }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                                             @Override
-                                             public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                                                 double Progress =((100 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount());
-                                                 progressDialog.setMessage("Percentage:"+ (int)Progress+"%");
-                                             }
-                                         });
-                                         new Handler().postDelayed(new Runnable() {
-                                             @Override
-                                             public void run() {
+                                                    }
+                                                })
+                                                        .addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                progressDialog.dismiss();
+
+                                                            }
+                                                        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                                                    @Override
+                                                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                                                        double Progress = ((100 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount());
+                                                        progressDialog.setMessage("Percentage:" + (int) Progress + "%");
+                                                    }
+                                                });
+                                                new Handler().postDelayed(new Runnable() {
+                                                    @Override
+                                                    public void run() {
 
 
-                                             }
-                                         },3000);
+                                                    }
+                                                }, 3000);
 
 
-                                     }else{
-                                         Snackbar.make(findViewById(android.R.id.content),"SignUp Field",Snackbar.LENGTH_LONG).show();
+                                            } else {
+                                                Snackbar.make(findViewById(android.R.id.content), "SignUp Field", Snackbar.LENGTH_LONG).show();
 
-                                     }
-                                 }
-                             });
-                         }
+                                            }
+                                        }
+                                    });
+                                }
 
-                        }else{
-                            Snackbar.make(findViewById(android.R.id.content),"SignUp Field",Snackbar.LENGTH_LONG).show();
+                            } else {
+                           Snackbar.make(findViewById(android.R.id.content), "SignUp Field", Snackbar.LENGTH_LONG).show();
+                            }
                         }
-                    }
-                });
-
+                    });
+//                }else {
+//                    Toast.makeText(context, "Please connect to internet!", Toast.LENGTH_LONG).show();
+//                }
             }
         }
     public void successfuldialog () {

@@ -1,5 +1,6 @@
 package com.example.barcodescanner.Fragments;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +26,7 @@ public class Dashboard extends Fragment {
 FirebaseFirestore firebaseFirestore;
 FirebaseAuth firebaseAuth;
 TextView name,email;
-
+ImageView profileimage;
     public Dashboard() {
         // Required empty public constructor
     }
@@ -41,10 +43,9 @@ TextView name,email;
         initViews(view);
         firebaseFirestore=FirebaseFirestore.getInstance();
         firebaseAuth=FirebaseAuth.getInstance();
-        Toast.makeText(getContext(), "Scanned : " +firebaseAuth.getCurrentUser().getEmail().toString(),Toast.LENGTH_LONG).show();
-name.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
+
+      //  Toast.makeText(getContext(), "Scanned : " +firebaseAuth.getCurrentUser().getEmail().toString(),Toast.LENGTH_LONG).show();
+
 
         firebaseFirestore.collection("users" )
                 .whereEqualTo("Email",firebaseAuth.getCurrentUser().getEmail().toString())
@@ -55,7 +56,10 @@ name.setOnClickListener(new View.OnClickListener() {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
                     for (QueryDocumentSnapshot q : task.getResult()) {
-                        Toast.makeText(getContext(), "Scanned : " +q.getData().get("Username").toString(),Toast.LENGTH_LONG).show();
+                        name.setText(q.getData().get("Username").toString());
+                        email.setText(q.getData().get("Email").toString());
+                        profileimage.setImageURI(  Uri.parse(q.getData().get("imageuri").toString()));
+
                     }
                 }
                 else{
@@ -65,8 +69,7 @@ name.setOnClickListener(new View.OnClickListener() {
             }
         });
 
-    }
-});
+
 
 
         return view;
@@ -74,6 +77,7 @@ name.setOnClickListener(new View.OnClickListener() {
     private void initViews(View view) {
         name=view.findViewById(R.id.name);
         email=view.findViewById(R.id.email);
+        profileimage=view.findViewById(R.id.image);
 
     }
     }
