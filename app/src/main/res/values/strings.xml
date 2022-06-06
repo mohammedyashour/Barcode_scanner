@@ -89,4 +89,8 @@
     <string name="passerror">password is not true</string>
     <string name="email">Email</string>
     <string name="logout">Logout</string>
+    <string name="dateofbirth">Date of Birth</string>
+    <string name="CreateNewAccount">Create New Account</string>
+    <string name="ConfirmPassword">Confirm Password</string>
+    <string name="imnotarobot">i\'m not a robot</string>
 </resources>

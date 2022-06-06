@@ -80,7 +80,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
-public class SignUp extends AppCompatActivity implements View.OnClickListener  {
+public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
     static Random rand;
     static char[] SYMBOLS = "^$*.[]{}()?-\"!@#%&/\\,><':;|_~`".toCharArray();
@@ -88,41 +88,43 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener  {
     static char[] UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
     static char[] NUMBERS = "0123456789".toCharArray();
     static char[] ALL_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789^$*.[]{}()?-\"!@#%&/\\,><':;|_~`".toCharArray();
-public Uri imageuri;
-   private FirebaseAuth firebaseAuth;
-   private FirebaseFirestore firebaseFirestore;
-   private FirebaseStorage firebaseStorage;
-   private StorageReference storageReference;
+    public Uri imageuri;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore firebaseFirestore;
+    private FirebaseStorage firebaseStorage;
+    private StorageReference storageReference;
     final Calendar myCalendar = Calendar.getInstance();
-Boolean not_a_robot;
+    Boolean not_a_robot;
     private SwitcherX switcher;
-TextView switchtv;
+    TextView switchtv;
     CircleImageView addprofileimg;
     private int check;
     private AutoCompleteTextView date;
-    public TextInputEditText username_et,password_et,confirmpassword_et,email_et;
-  private   TextInputLayout username_lay,password_lay,dateofbirth_lay,confirmpass_lay,email_lay;
+    public TextInputEditText username_et, password_et, confirmpassword_et, email_et;
+    private TextInputLayout username_lay, password_lay, dateofbirth_lay, confirmpass_lay, email_lay;
     private SensorManager mSensorManager;
     private float mAccel;
     private float mAccelCurrent;
     private float mAccelLast;
-  private   String username,email,dateofbirth,password,confirmpassword;
+    private String username, email, dateofbirth, password, confirmpassword;
     CheckInternetStatus mCheckInternetStatus;
     boolean is_internet_connected = false;
     Context context;
+    private Boolean imageisselected = false;
 
     Resources resources;
-private Button signupbtn;
+    private Button signupbtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        firebaseAuth=FirebaseAuth.getInstance();
-        firebaseFirestore=FirebaseFirestore.getInstance();
-        firebaseStorage=FirebaseStorage.getInstance();
-        storageReference= firebaseStorage.getReference();
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseStorage = FirebaseStorage.getInstance();
+        storageReference = firebaseStorage.getReference();
         initViews();
-        android.app.DatePickerDialog.OnDateSetListener  datedialog = new DatePickerDialog.OnDateSetListener() {
+        android.app.DatePickerDialog.OnDateSetListener datedialog = new DatePickerDialog.OnDateSetListener() {
 
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
@@ -130,7 +132,7 @@ private Button signupbtn;
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                date.setText(dayOfMonth+"/"+(monthOfYear+1) +"/"+year);
+                date.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
             }
         };
 
@@ -142,26 +144,26 @@ private Button signupbtn;
             }
         });
 
-password_lay.setStartIconOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-        Random_Password_Generator(10);
+        password_lay.setStartIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Random_Password_Generator(10);
 
-    }
-});
+            }
+        });
 
-signupbtn.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-        signup();
-    }
-});
+        signupbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signup();
+            }
+        });
 
         addprofileimg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ActivityCompat.requestPermissions(SignUp.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
-                ActivityCompat.requestPermissions(SignUp.this, new String[] {Manifest.permission.CAMERA}, PackageManager.PERMISSION_GRANTED);
+                ActivityCompat.requestPermissions(SignUp.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
+                ActivityCompat.requestPermissions(SignUp.this, new String[]{Manifest.permission.CAMERA}, PackageManager.PERMISSION_GRANTED);
 
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, 1);
@@ -169,33 +171,35 @@ signupbtn.setOnClickListener(new View.OnClickListener() {
         });
 
         shake();
-check=0;
+        check = 0;
         switcher.setOnCheckedChangeListener(new Function1<Boolean, Unit>() {
             @Override
             public Unit invoke(Boolean aBoolean) {
 
 
-                if (switcher.isChecked()){
+                if (switcher.isChecked()) {
 
                     showDialogCongrat();
-                    not_a_robot=true;
+                    not_a_robot = true;
 
-                    check+=1;
+                    check += 1;
                     switchtv.setTextColor(Color.parseColor("#48ea8b"));
                     //color start icon mode
-                    if (password_et.getText().toString().equals(confirmpassword_et.getText().toString())&& !TextUtils.isEmpty(password_et.getText().toString())){
-                        confirmpass_lay.setStartIconTintList(ColorStateList.valueOf(Color.parseColor("#48ea8b")));}else{
+                    if (password_et.getText().toString().equals(confirmpassword_et.getText().toString()) && !TextUtils.isEmpty(password_et.getText().toString())) {
+                        confirmpass_lay.setStartIconTintList(ColorStateList.valueOf(Color.parseColor("#48ea8b")));
+                    } else {
                         password_lay.setStartIconTintList(ColorStateList.valueOf(Color.parseColor("#ff4651")));
                         confirmpass_lay.setStartIconTintList(ColorStateList.valueOf(Color.parseColor("#ff4651")));
                     }
-                }else{
+                } else {
                     switchtv.setTextColor(Color.parseColor("#ff4651"));
                     //color start icon mode
 
-                    if (password_et.getText().toString().equals(confirmpassword_et.getText().toString())&& !TextUtils.isEmpty(password_et.getText().toString())){
-                        confirmpass_lay.setStartIconTintList(ColorStateList.valueOf(Color.parseColor("#48ea8b")));}else{
+                    if (password_et.getText().toString().equals(confirmpassword_et.getText().toString()) && !TextUtils.isEmpty(password_et.getText().toString())) {
+                        confirmpass_lay.setStartIconTintList(ColorStateList.valueOf(Color.parseColor("#48ea8b")));
+                    } else {
                         confirmpass_lay.setStartIconTintList(ColorStateList.valueOf(Color.parseColor("#ff4651")));
-                        not_a_robot=false;
+                        not_a_robot = false;
                     }
                 }
 
@@ -206,8 +210,8 @@ check=0;
             @Override
             public void onClick(View view) {
 
-                DatePickerDialog datePickerDialog=  new DatePickerDialog(SignUp.this,R.style.DialogTheme, datedialog, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH));
+                DatePickerDialog datePickerDialog = new DatePickerDialog(SignUp.this, R.style.DialogTheme, datedialog, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
 
 
@@ -218,16 +222,16 @@ check=0;
         dateofbirth_lay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatePickerDialog datePickerDialog=  new DatePickerDialog(SignUp.this,R.style.DialogTheme, datedialog, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH));
+                DatePickerDialog datePickerDialog = new DatePickerDialog(SignUp.this, R.style.DialogTheme, datedialog, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
             }
         });
-    email_lay.setEndIconOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
+        email_lay.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-                switch (email_lay.getSuffixText().toString()){
+                switch (email_lay.getSuffixText().toString()) {
                     case "@gmail.com":
                         email_lay.setSuffixText("@hotmail.com");
 
@@ -245,19 +249,16 @@ check=0;
                 }
 
 
+            }
 
-
-
-}
-
-    });
+        });
 
     }
 
     private void Random_Password_Generator(int passlength) {
 
         for (int i = 0; i < 100; i++) {
-            String password=getPassword(passlength).toString();
+            String password = getPassword(passlength).toString();
             password_et.setText(password);
             confirmpassword_et.setText(password);
             confirmpass_lay.setStartIconTintList(ColorStateList.valueOf(Color.parseColor("#48ea8b")));
@@ -291,6 +292,7 @@ check=0;
 
         return new String(password);
     }
+
     public void showDialogCongrat() {
         final Dialog dialogconfrim = new Dialog(this);
         dialogconfrim.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
@@ -310,10 +312,11 @@ check=0;
             public void run() {
                 dialogconfrim.dismiss();
             }
-        },7000);
+        }, 7000);
 
     }
-    private void showDialogverify () {
+
+    private void showDialogverify() {
 
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
@@ -335,8 +338,9 @@ check=0;
             public void run() {
                 dialog.dismiss();
             }
-        },10000);
+        }, 10000);
     }
+
     private final SensorEventListener mSensorListener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
@@ -349,30 +353,33 @@ check=0;
             mAccel = mAccel * 0.9f + delta;
 
             if (mAccel > 12) {
-                if (check==1) {
+                if (check == 1) {
                     showDialogverify();
                 }
 
 
-
             }
         }
+
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
         }
     };
+
     @Override
     protected void onResume() {
         mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_NORMAL);
         super.onResume();
     }
+
     @Override
     protected void onPause() {
         mSensorManager.unregisterListener(mSensorListener);
         super.onPause();
     }
-    public void shake(){
+
+    public void shake() {
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         Objects.requireNonNull(mSensorManager).registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_NORMAL);
@@ -380,205 +387,221 @@ check=0;
 
         mAccel = 10f;
         mAccelCurrent = SensorManager.GRAVITY_EARTH;
-        mAccelLast = SensorManager.GRAVITY_EARTH;}
-    public static  boolean IsValidEmail(String email){
-        //    String email_pattern ="[a-zA-0z-9._-]+@gmail.com";
-    String email_pattern ="[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\\.+[a-z]+";
-    return email.matches(email_pattern);
+        mAccelLast = SensorManager.GRAVITY_EARTH;
     }
+
+    public static boolean IsValidEmail(String email) {
+        //    String email_pattern ="[a-zA-0z-9._-]+@gmail.com";
+        String email_pattern = "[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\\.+[a-z]+";
+        return email.matches(email_pattern);
+    }
+
     private void initViews() {
-          rand = new SecureRandom();
-        not_a_robot=false;
-        username_et=findViewById(R.id.ed_user);
-        email_et=findViewById(R.id.ed_email);
-        date=findViewById(R.id.ed_date);
-        password_et=findViewById(R.id.ed_password);
-        confirmpassword_et=findViewById(R.id.ed_conpassword);
+        rand = new SecureRandom();
+        not_a_robot = false;
+        username_et = findViewById(R.id.ed_user);
+        email_et = findViewById(R.id.ed_email);
+        date = findViewById(R.id.ed_date);
+        password_et = findViewById(R.id.ed_password);
+        confirmpassword_et = findViewById(R.id.ed_conpassword);
 //**************************************
-        username_lay=findViewById(R.id.lay_user);
-        password_lay=findViewById(R.id.lay_password);
-        email_lay=findViewById(R.id.lay_email);
-        confirmpass_lay=findViewById(R.id.lay_conpassword);
-        dateofbirth_lay=findViewById(R.id.lay_date);
+        username_lay = findViewById(R.id.lay_user);
+        password_lay = findViewById(R.id.lay_password);
+        email_lay = findViewById(R.id.lay_email);
+        confirmpass_lay = findViewById(R.id.lay_conpassword);
+        dateofbirth_lay = findViewById(R.id.lay_date);
         //****************************************
         resources = getApplicationContext().getResources();
 
-        switcher =findViewById(R.id.switcher);
-        signupbtn=findViewById(R.id.signup_btn);
-        switchtv=findViewById(R.id.robotchecktextview);
-        addprofileimg=findViewById(R.id.addprofileimage);
+        switcher = findViewById(R.id.switcher);
+        signupbtn = findViewById(R.id.signup_btn);
+        switchtv = findViewById(R.id.robotchecktextview);
+        addprofileimg = findViewById(R.id.addprofileimage);
 
 
     }
-        private void signup(){
- switch (email_lay.getSuffixText().toString()){
 
-         case "@gmail.com":
-             email=email_et.getText().toString()+"@gmail.com";
+    private void signup() {
+        switch (email_lay.getSuffixText().toString()) {
 
-             break;
-         case "@hotmail.com":
-             email=email_et.getText().toString()+"@hotmail.com";
+            case "@gmail.com":
+                email = email_et.getText().toString() + "@gmail.com";
 
-             break;
-     case "@mail.com":
-         email=email_et.getText().toString()+"@mail.com";
+                break;
+            case "@hotmail.com":
+                email = email_et.getText().toString() + "@hotmail.com";
 
-         break;
- }
+                break;
+            case "@mail.com":
+                email = email_et.getText().toString() + "@mail.com";
+
+                break;
+        }
 
 
-            username=username_et.getText().toString();
+        username = username_et.getText().toString();
 
-            dateofbirth=date.getText().toString();
-            password=password_et.getText().toString();
-            confirmpassword=confirmpassword_et.getText().toString();
+        dateofbirth = date.getText().toString();
+        password = password_et.getText().toString();
+        confirmpassword = confirmpassword_et.getText().toString();
 
-            if (username.isEmpty()){
-                username_lay.setError(resources.getString(R.string.thisfieldcantbeempty));
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        username_lay.setError("");
-                        username_lay.setHelperText(resources.getString(R.string.Required));
+        if (username.isEmpty()) {
+            username_lay.setError(resources.getString(R.string.thisfieldcantbeempty));
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    username_lay.setError("");
+                    username_lay.setHelperText(resources.getString(R.string.Required));
 
-                    }
-                }, 4000);
-            }  if (email.isEmpty()){
-                email_lay.setError(resources.getString(R.string.thisfieldcantbeempty));
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        email_lay.setError("");
-                        email_lay.setHelperText(resources.getString(R.string.Required));
+                }
+            }, 4000);
+        }
+        if (email.isEmpty()) {
+            email_lay.setError(resources.getString(R.string.thisfieldcantbeempty));
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    email_lay.setError("");
+                    email_lay.setHelperText(resources.getString(R.string.Required));
 
-                    }
-                }, 4000);
-            }  if (dateofbirth.isEmpty()){
-                dateofbirth_lay.setError(resources.getString(R.string.thisfieldcantbeempty));
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        dateofbirth_lay.setError("");
-                        dateofbirth_lay.setHelperText(resources.getString(R.string.Required));
+                }
+            }, 4000);
+        }
+        if (dateofbirth.isEmpty()) {
+            dateofbirth_lay.setError(resources.getString(R.string.thisfieldcantbeempty));
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    dateofbirth_lay.setError("");
+                    dateofbirth_lay.setHelperText(resources.getString(R.string.Required));
 
-                    }
-                }, 4000);
-            }  if (password.length()<6){
-                password_lay.setError(resources.getString(R.string.lessthen6));
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        password_lay.setError("");
-                        password_lay.setHelperText(resources.getString(R.string.Required));
+                }
+            }, 4000);
+        }
+        if (password.length() < 6) {
+            password_lay.setError(resources.getString(R.string.lessthen6));
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    password_lay.setError("");
+                    password_lay.setHelperText(resources.getString(R.string.Required));
 
-                    }
-                }, 4000);
-            }  if (confirmpassword.isEmpty()){
-                confirmpass_lay.setError(resources.getString(R.string.thisfieldcantbeempty));
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        confirmpass_lay.setError("");
-                        confirmpass_lay.setHelperText(resources.getString(R.string.Required));
+                }
+            }, 4000);
+        }
+        if (confirmpassword.isEmpty()) {
+            confirmpass_lay.setError(resources.getString(R.string.thisfieldcantbeempty));
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    confirmpass_lay.setError("");
+                    confirmpass_lay.setHelperText(resources.getString(R.string.Required));
 
-                    }
-                }, 4000);
-            }  if (!password.equals(confirmpassword)){
-                confirmpass_lay.setError(resources.getString(R.string.passerror));
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        confirmpass_lay.setError("");
-                        confirmpass_lay.setHelperText(resources.getString(R.string.Required));
+                }
+            }, 4000);
+        }
+        if (!password.equals(confirmpassword)) {
+            confirmpass_lay.setError(resources.getString(R.string.passerror));
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    confirmpass_lay.setError("");
+                    confirmpass_lay.setHelperText(resources.getString(R.string.Required));
 
-                    }
-                }, 4000);
+                }
+            }, 4000);
+        }
+        if (not_a_robot != true) {
+            Snackbar.make(findViewById(android.R.id.content), "please check that your are not a robot", Snackbar.LENGTH_LONG).show();
+
+        }
+        if (TextUtils.isEmpty(username_et.getText().toString()) || TextUtils.isEmpty(email_et.getText().toString()) ||
+                TextUtils.isEmpty(password_et.getText().toString()) || TextUtils.isEmpty(date.getText().toString()) ||
+                TextUtils.isEmpty(confirmpassword_et.getText().toString())||imageisselected==false){
+            if (imageisselected==false){
+                Snackbar.make(findViewById(android.R.id.content), " Please Select Profile Image", Snackbar.LENGTH_LONG).show();
+
+                addprofileimg.setBorderWidth(5);
+                addprofileimg.setBorderColor(Color.RED);
             }
-            if(not_a_robot!=true){
-               Snackbar.make(findViewById(android.R.id.content),"please check that your are not a robot",Snackbar.LENGTH_LONG).show();
-
-            }
-            if(TextUtils.isEmpty(username_et.getText().toString())||TextUtils.isEmpty(email_et.getText().toString()) ||
-            TextUtils.isEmpty(password_et.getText().toString())||TextUtils.isEmpty(date.getText().toString())||
-                    TextUtils.isEmpty(confirmpassword_et.getText().toString())){
-            }else{
+        } else {
 //                if (is_internet_connected) {
 
-                    firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                FirebaseUser user = firebaseAuth.getCurrentUser();
-                                if (user != null) {
-                                    String uid = user.getUid();
-                                    HashMap<String, String> data = new HashMap<>();
-                                    data.put("Uid", uid);
-                                    data.put("Password", password);
-                                    data.put("Username", username);
-                                    data.put("Email", email);
-                                    data.put("dateofbirth", dateofbirth);
-                                    data.put("imageuri",imageuri+"");
-                                    firebaseFirestore.collection("users").add(data).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<DocumentReference> task) {
-                                            if (task.isSuccessful()) {
-                                                ProgressDialog progressDialog = new ProgressDialog(SignUp.this);
-                                                progressDialog.setTitle("Uploading Image....");
-                                                progressDialog.show();
-                                                final String profile_photo_id = user.getEmail().toString();
-                                                StorageReference SR = storageReference.child("images/" + profile_photo_id);
-                                                SR.putFile(imageuri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                                    @Override
-                                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                                        progressDialog.dismiss();
-                                                        successfuldialog();
-                                                        Intent intent = new Intent(SignUp.this, MainActivity.class);
-                                                        startActivity(intent);
-
-                                                    }
-                                                })
-                                                        .addOnFailureListener(new OnFailureListener() {
-                                                            @Override
-                                                            public void onFailure(@NonNull Exception e) {
-                                                                progressDialog.dismiss();
-
-                                                            }
-                                                        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                                                    @Override
-                                                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                                                        double Progress = ((100 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount());
-                                                        progressDialog.setMessage("Percentage:" + (int) Progress + "%");
-                                                    }
-                                                });
-                                                new Handler().postDelayed(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-
-
-                                                    }
-                                                }, 3000);
-
-
-                                            } else {
-                                                Snackbar.make(findViewById(android.R.id.content), "SignUp Field", Snackbar.LENGTH_LONG).show();
+            firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = firebaseAuth.getCurrentUser();
+                        if (user != null) {
+                            String uid = user.getUid();
+                            HashMap<String, String> data = new HashMap<>();
+                            data.put("Uid", uid);
+                            data.put("Password", password);
+                            data.put("Username", username);
+                            data.put("Email", email);
+                            data.put("dateofbirth", dateofbirth);
+                            data.put("imageuri", imageuri + "");
+                            firebaseFirestore.collection("users").add(data).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                    if (task.isSuccessful()) {
+                                        ProgressDialog progressDialog = new ProgressDialog(SignUp.this);
+                                        progressDialog.setTitle("Uploading Image....");
+                                        progressDialog.show();
+                                        final String profile_photo_id = user.getEmail().toString();
+                                        StorageReference SR = storageReference.child("images/" + profile_photo_id);
+                                        SR.putFile(imageuri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                            @Override
+                                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                progressDialog.dismiss();
+                                                successfuldialog();
+                                                Intent intent = new Intent(SignUp.this, MainActivity.class);
+                                                startActivity(intent);
 
                                             }
-                                        }
-                                    });
-                                }
+                                        })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        progressDialog.dismiss();
 
-                            } else {
-                           Snackbar.make(findViewById(android.R.id.content), "SignUp Field", Snackbar.LENGTH_LONG).show();
-                            }
+                                                    }
+                                                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                                            @Override
+                                            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                                                double Progress = ((100 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount());
+                                                progressDialog.setMessage("Percentage:" + (int) Progress + "%");
+                                            }
+                                        });
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+
+
+                                            }
+                                        }, 3000);
+
+
+                                    } else {
+                                        Snackbar.make(findViewById(android.R.id.content), "SignUp Field", Snackbar.LENGTH_LONG).show();
+
+                                    }
+                                }
+                            });
                         }
-                    });
+
+                    } else {
+                        Snackbar.make(findViewById(android.R.id.content), "SignUp Field", Snackbar.LENGTH_LONG).show();
+                    }
+                }
+            });
 //                }else {
 //                    Toast.makeText(context, "Please connect to internet!", Toast.LENGTH_LONG).show();
 //                }
-            }
         }
-    public void successfuldialog () {
+    }
+
+    public void successfuldialog() {
 
         final Dialog dialog = new Dialog(SignUp.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
@@ -591,9 +614,9 @@ check=0;
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Intent intent =new Intent(SignUp.this,MainActivity.class);
-                intent.putExtra("email",email);
-                intent.putExtra("password",password);
+                Intent intent = new Intent(SignUp.this, MainActivity.class);
+                intent.putExtra("email", email);
+                intent.putExtra("password", password);
                 startActivity(intent);
 
             }
@@ -611,9 +634,11 @@ check=0;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==1 && resultCode == RESULT_OK && data!=null && data.getData()!=null){
-            imageuri=data.getData();
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            imageuri = data.getData();
             addprofileimg.setImageURI(imageuri);
+            imageisselected = true;
+
         }
     }
 

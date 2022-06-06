@@ -10,7 +10,6 @@
         android:id="@+id/animationView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:lottie_rawRes="@raw/animationbackground"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         android:scaleType="fitXY"
@@ -21,6 +20,7 @@
         android:src="@drawable/scannerbg"
         android:layout_marginTop="30dp"/>
     <androidx.constraintlayout.widget.ConstraintLayout
+
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -28,7 +28,7 @@
             android:id="@+id/cardView"
             android:layout_width="100dp"
             android:layout_height="60dp"
-   android:layout_marginBottom="80dp"
+   android:layout_marginBottom="100dp"
             android:layout_marginEnd="150dp"
             android:translationZ="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="160dp"
-            android:layout_marginBottom="172dp"
+            android:layout_marginBottom="192dp"
             android:text="Scan"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"

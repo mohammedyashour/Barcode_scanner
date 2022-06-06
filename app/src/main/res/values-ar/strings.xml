@@ -61,4 +61,8 @@
     <string name="passerror">كلمة المرور غير صحيحة</string>
     <string name="email">الايميل</string>
     <string name="logout">تسجيل خروج</string>
+    <string name="dateofbirth">تاريخ الميلاد</string>
+    <string name="CreateNewAccount">انشاء حساب جديد</string>
+    <string name="ConfirmPassword">تأكيد كلمة المرور</string>
+    <string name="imnotarobot">انا لست روبوت</string>
 </resources>
