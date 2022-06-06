@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -55,6 +56,7 @@ public class login extends AppCompatActivity {
     private float mAccel;
     private float mAccelCurrent;
     private float mAccelLast;
+    public   ProgressDialog progressDialog;
     private ExplosionField explosionField;
     private static final String SELECTED_LANGUAGE = "Locale.Helper.Selected.Language";
     private static SharedPreferences sp;
@@ -68,6 +70,7 @@ public class login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         explosionField = ExplosionField.attach2Window(this);
         imageView = findViewById(R.id.logo);
         imageView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -189,6 +192,9 @@ public class login extends AppCompatActivity {
         usernamelayout = findViewById(R.id.usernamelay);
         password_ed = findViewById(R.id.ed_pass);
         passwordlayout = findViewById(R.id.passwordil);
+        progressDialog = new ProgressDialog(com.example.barcodescanner.login.this);
+        progressDialog.setTitle("Please wait");
+        progressDialog.setMessage("Logging In...");
     }
 
     public void LogIn() {
@@ -244,10 +250,12 @@ public class login extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         Log.v(TAG, "Successfully login");
+                        progressDialog.show();
 
                         Thread t1 = new Thread(new Runnable() {
                             @Override
                             public void run() {
+
                                 Intent intent = new Intent(login.this, MainActivity.class);
                                 Log.v(TAG, "Successfully intent");
 
@@ -259,6 +267,7 @@ public class login extends AppCompatActivity {
                         t1.start();
 
                     } else {
+                        Snackbar.make(findViewById(android.R.id.content), "please check Your Email and password ", Snackbar.LENGTH_LONG).show();
 
                     }
                 }
