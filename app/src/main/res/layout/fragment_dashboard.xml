@@ -75,7 +75,7 @@
                 android:layout_marginStart="18dp"
                 android:layout_marginTop="8dp"
 
-                android:text="Main Menus"
+                android:text="@string/MainMenus"
                 android:textColor="@color/gray1"
                 android:textSize="16sp" />
 
@@ -96,13 +96,13 @@
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_marginBottom="8dp"
-                        android:src="@drawable/appicon"
+                        android:src="@drawable/ic_home"
                         android:scaleType="fitXY"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="scan"
+                        android:text="@string/home"
                         android:textColor="#172646"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -117,13 +117,36 @@
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_marginBottom="8dp"
-                        android:src="@drawable/appicon"
+                        android:src="@drawable/ic_qr_code_scanner"
                         android:scaleType="fitXY"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="scan"
+                        android:text="@string/Scanner"
+                        android:textColor="#172646"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/inventory"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="8dp"
+                        android:src="@drawable/inventory"
+                        android:scaleType="fitXY"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/inventory"
                         android:textColor="#172646"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -139,35 +162,13 @@
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_marginBottom="8dp"
-                        android:src="@drawable/appicon"
+                        android:src="@drawable/ic_personn"
                         android:scaleType="fitXY"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="scan"
-                        android:textColor="#172646"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_marginBottom="8dp"
-                        android:src="@drawable/appicon"
-                        android:scaleType="fitXY"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="scan"
+                        android:text="@string/Profile"
                         android:textColor="#172646"
                         android:textSize="16sp" />
                 </LinearLayout>
