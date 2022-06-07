@@ -1,17 +1,21 @@
 package com.example.barcodescanner.Fragments;
 
+import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.barcodescanner.MainActivity;
@@ -27,6 +31,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -35,12 +40,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Menu extends Fragment {
 
     Button btn;
-    private TextInputEditText edname, edemail, eddate;
-    private TextInputLayout layname, layemail, laydate;
-    private CircleImageView profileimage;
+   private TextView username,email;
+    private CircularImageView profileimage;
 
     ProgressDialog progressDialog;
-
+private LinearLayout logout;
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth firebaseAuth;
 
@@ -54,10 +58,11 @@ public class Menu extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_menu, container, false);
+        Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
+
+
+
         initViews(v);
-        edname.setEnabled(false);
-        eddate.setEnabled(false);
-        edemail.setEnabled(false);
 
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("Please wait");
@@ -74,9 +79,9 @@ public class Menu extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
                             for (QueryDocumentSnapshot q : task.getResult()) {
-                                edname.setText(q.getData().get("Username").toString());
-                                edemail.setText(q.getData().get("Email").toString());
-                                eddate.setText(q.getData().get("dateofbirth").toString());
+                                username.setText(q.getData().get("Username").toString());
+                                email.setText(q.getData().get("Email").toString());
+                               // eddate.setText(q.getData().get("dateofbirth").toString());
                                 profileimage.setImageURI(  Uri.parse(q.getData().get("imageuri").toString()));
 
                             }
@@ -87,32 +92,28 @@ public class Menu extends Fragment {
                         }
                     }
                 });
-        btn.setOnClickListener(new View.OnClickListener() {
+        logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 progressDialog.show();
 
-                firebaseAuth.signOut();
+               firebaseAuth.signOut();
 
-                Intent intent = new Intent(getActivity(), login.class);
-                startActivity(intent);
+               Intent intent = new Intent(getActivity(), login.class);
+               startActivity(intent);
                 getActivity().finishAffinity();
-
-            }
+           }
         });
         return v;
     }
 
     private void initViews(View v) {
-        edname = v.findViewById(R.id.edname);
-        edemail = v.findViewById(R.id.edemail);
-        eddate = v.findViewById(R.id.eddate);
-        layname = v.findViewById(R.id.layname);
-        layemail = v.findViewById(R.id.layemail);
-        laydate = v.findViewById(R.id.laydate);
-        btn = v.findViewById(R.id.btnlogout);
-        profileimage=v.findViewById(R.id.profile_image);
+        username = v.findViewById(R.id.menuusername);
+        email = v.findViewById(R.id.menuemail);
+       // btn = v.findViewById(R.id.btnlogout);
+        profileimage=v.findViewById(R.id.image);
         //User info
-
+profileimage.setBorderWidth(3);
+logout=v.findViewById(R.id.logout);
     }
 }

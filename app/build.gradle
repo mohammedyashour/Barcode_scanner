@@ -57,9 +57,7 @@ implementation 'com.journeyapps:zxing-android-embedded:4.3.0'//QR&BARCODE READER
     implementation 'com.google.firebase:firebase-storage'
     implementation 'tyrantgit:explosionfield:1.0.1' //for expload effect
     implementation 'com.google.firebase:firebase-analytics'
-
-
-
+    implementation 'com.mikhaellopez:circularimageview:3.2.0'          // circle image view
     implementation 'com.tapadoo.android:alerter:2.0.4'    // for Alerter
 
 }
