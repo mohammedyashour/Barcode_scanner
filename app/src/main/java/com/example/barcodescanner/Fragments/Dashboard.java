@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ FirebaseFirestore firebaseFirestore;
 FirebaseAuth firebaseAuth;
 TextView name,email;
 ImageView profileimage;
+LinearLayout inventory;
     public Dashboard() {
         // Required empty public constructor
     }
@@ -73,7 +75,13 @@ ImageView profileimage;
         });
 
 
+inventory.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
 
+
+    }
+});
 
         return view;
     }
@@ -81,6 +89,7 @@ ImageView profileimage;
         name=view.findViewById(R.id.name);
         email=view.findViewById(R.id.email);
         profileimage=view.findViewById(R.id.image);
+        inventory=view.findViewById(R.id.inventory);
 
     }
     }

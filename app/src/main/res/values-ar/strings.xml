@@ -67,4 +67,6 @@
     <string name="imnotarobot">انا لست روبوت</string>
     <string name="welcome">استمتع بوقتك 😍</string>
     <string name="textalert">مرحبا بعودتك مجددا</string>
+    <string name="Profile">الملف الشخصي</string>
+    <string name="MainMenus">القوائم الرئيسية</string>
 </resources>

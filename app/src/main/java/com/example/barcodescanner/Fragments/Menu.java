@@ -1,23 +1,23 @@
 package com.example.barcodescanner.Fragments;
 
-import android.app.ActionBar;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.barcodescanner.LocaleHelper;
 import com.example.barcodescanner.MainActivity;
 import com.example.barcodescanner.R;
 import com.example.barcodescanner.login;
@@ -31,20 +31,26 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.mikhaellopez.circularimageview.CircularImageView;
+import com.tapadoo.alerter.Alerter;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Menu extends Fragment {
 
     Button btn;
-   private TextView username,email;
-    private CircularImageView profileimage;
-
+    private TextInputEditText edname, edemail, eddate;
+    private TextInputLayout layname, layemail, laydate;
+    private CircleImageView profileimage;
+    private static final String SELECTED_LANGUAGE = "Locale.Helper.Selected.Language";
+    private TextView name,email,date;
     ProgressDialog progressDialog;
-private LinearLayout logout;
+    Context context;
+    Resources resources;
+
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth firebaseAuth;
 
@@ -58,11 +64,17 @@ private LinearLayout logout;
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_menu, container, false);
-        Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
-
-
-
         initViews(v);
+
+        if (SELECTED_LANGUAGE.equals("العربية") ) {
+            arabic();
+        } else if (SELECTED_LANGUAGE.equalsIgnoreCase("English") ) {
+            english();
+        }
+
+        edname.setEnabled(false);
+        eddate.setEnabled(false);
+        edemail.setEnabled(false);
 
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("Please wait");
@@ -79,9 +91,9 @@ private LinearLayout logout;
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
                             for (QueryDocumentSnapshot q : task.getResult()) {
-                                username.setText(q.getData().get("Username").toString());
-                                email.setText(q.getData().get("Email").toString());
-                               // eddate.setText(q.getData().get("dateofbirth").toString());
+                                edname.setText(q.getData().get("Username").toString());
+                                edemail.setText(q.getData().get("Email").toString());
+                                eddate.setText(q.getData().get("dateofbirth").toString());
                                 profileimage.setImageURI(  Uri.parse(q.getData().get("imageuri").toString()));
 
                             }
@@ -92,28 +104,60 @@ private LinearLayout logout;
                         }
                     }
                 });
-        logout.setOnClickListener(new View.OnClickListener() {
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 progressDialog.show();
 
-               firebaseAuth.signOut();
+                firebaseAuth.signOut();
 
-               Intent intent = new Intent(getActivity(), login.class);
-               startActivity(intent);
+                Intent intent = new Intent(getActivity(), login.class);
+                startActivity(intent);
                 getActivity().finishAffinity();
-           }
+
+            }
         });
         return v;
     }
 
+    private void english() {
+        Alerter("changed to english language",getActivity().getString(R.string.welcome) );
+
+    }
+
+    private void arabic() {
+
+        Alerter("تم التحويل الى اللغة العربية","استمتع بوقتك");
+
+    }
+
     private void initViews(View v) {
-        username = v.findViewById(R.id.menuusername);
-        email = v.findViewById(R.id.menuemail);
-       // btn = v.findViewById(R.id.btnlogout);
-        profileimage=v.findViewById(R.id.image);
+        edname = v.findViewById(R.id.edname);
+        edemail = v.findViewById(R.id.edemail);
+        eddate = v.findViewById(R.id.eddate);
+        layname = v.findViewById(R.id.layname);
+        layemail = v.findViewById(R.id.layemail);
+        laydate = v.findViewById(R.id.laydate);
+        btn = v.findViewById(R.id.btnlogout);
+        profileimage=v.findViewById(R.id.profile_image);
         //User info
-profileimage.setBorderWidth(3);
-logout=v.findViewById(R.id.logout);
+        name=v.findViewById(R.id.tv_nameTitle);
+        date=v.findViewById(R.id.date);
+        email=v.findViewById(R.id.email);
+
+
+    }
+    private void Alerter(String title,String text ) {
+        Alerter.create(getActivity())
+                .setIcon(R.drawable.alerter_ic_face)
+                .setBackgroundColorRes(R.color.Coloralert)
+                .setTitle(title)
+                .setText(text)
+                .enableProgress(true)
+                .setProgressColorRes(R.color.Coloralert2)
+                .enableSwipeToDismiss()
+
+                .show();
+
     }
 }
