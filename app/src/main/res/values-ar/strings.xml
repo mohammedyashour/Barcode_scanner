@@ -65,4 +65,6 @@
     <string name="CreateNewAccount">انشاء حساب جديد</string>
     <string name="ConfirmPassword">تأكيد كلمة المرور</string>
     <string name="imnotarobot">انا لست روبوت</string>
+    <string name="welcome">استمتع بوقتك 😍</string>
+    <string name="textalert">مرحبا بعودتك مجددا</string>
 </resources>

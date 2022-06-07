@@ -7,6 +7,8 @@
     <color name="GREEN">#00818A</color>
     <color name="trans">#00000000</color>
     <color name="default_text_view_color">#757575</color>
+    <color name="Coloralert">#00818A</color>
+    <color name="Coloralert2">#cc7fb5</color>
 
     <color name="bg">#DED8D8</color>
     <color name="gray1">#818181</color>

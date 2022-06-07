@@ -30,6 +30,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.tapadoo.alerter.Alerter;
 
 public class MainActivity extends AppCompatActivity {
  private Button scan;
@@ -45,6 +46,7 @@ BubbleNavigationLinearView bubbleNavigationLinearView ;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Alerter();
 
         firebaseFirestore=FirebaseFirestore.getInstance();
         firebaseAuth=FirebaseAuth.getInstance();
@@ -149,4 +151,18 @@ public void ScaneButton (View view) {
         IntentIntegrator  intentIntegrator =new IntentIntegrator(this);
         intentIntegrator.initiateScan();
     }*/
+
+    private void Alerter() {
+        Alerter.create(this)
+                .setIcon(R.drawable.alerter_ic_face)
+                .setBackgroundColorRes(R.color.Coloralert)
+                .setTitle(R.string.textalert)
+                .setText(R.string.welcome)
+                .enableProgress(true)
+                .setProgressColorRes(R.color.Coloralert2)
+                .enableSwipeToDismiss()
+
+                .show();
+
+    }
 }

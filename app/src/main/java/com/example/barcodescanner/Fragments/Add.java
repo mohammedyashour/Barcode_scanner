@@ -87,6 +87,7 @@ public class Add extends Fragment implements AdapterView.OnItemClickListener {
     final Calendar myCalendar = Calendar.getInstance();
     private LottieAnimationView lottieAnimationView;
     Uri imageuri;
+    private   ProgressDialog progressDialog;
 
     Boolean currency = false;
     private CircleImageView product_image;
@@ -119,6 +120,8 @@ public class Add extends Fragment implements AdapterView.OnItemClickListener {
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
+        progressDialog = new ProgressDialog(getContext());
+
         android.app.DatePickerDialog.OnDateSetListener datepickerdialog = new DatePickerDialog.OnDateSetListener() {
 
             @Override
@@ -233,7 +236,7 @@ public class Add extends Fragment implements AdapterView.OnItemClickListener {
         final String product_photo_id = UUID.randomUUID().toString();
         prduct_image_uri = imageuri.toString();
         HashMap<String, String> data = new HashMap<>();
-        data.put("product_image_uri", prduct_image_uri);
+        data.put("product_image_uri", prduct_image_uri+"");
 
         data.put("product_image_id", product_photo_id);
         data.put("product_name", product_name);
@@ -257,7 +260,11 @@ public class Add extends Fragment implements AdapterView.OnItemClickListener {
                         SR.putFile(imageuri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                successfuldialog();
+                                progressDialog.show();
+if (progressDialog.isShowing()){
+
+}else                                successfuldialog();
+
                             }
                         })
                                 .addOnFailureListener(new OnFailureListener() {
@@ -326,6 +333,10 @@ public class Add extends Fragment implements AdapterView.OnItemClickListener {
         typeTextInputLayout = view.findViewById(R.id.type_lay);
         BarcodeTextInputLayout = (TextInputLayout) view.findViewById(R.id.lay_Barcode);
         BarcodetextInputEditText = (TextInputEditText) view.findViewById(R.id.ed_barcode);
+        progressDialog.setTitle("Please wait");
+        progressDialog.setMessage("Adding Product...");
+        progressDialog.setCanceledOnTouchOutside(false);
+
     }
 
 

@@ -60,4 +60,6 @@ implementation 'com.journeyapps:zxing-android-embedded:4.3.0'//QR&BARCODE READER
 
 
 
+    implementation 'com.tapadoo.android:alerter:2.0.4'    // for Alerter
+
 }

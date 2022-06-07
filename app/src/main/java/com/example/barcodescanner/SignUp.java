@@ -107,7 +107,6 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
     private float mAccelCurrent;
     private float mAccelLast;
     private String username, email, dateofbirth, password, confirmpassword;
-    CheckInternetStatus mCheckInternetStatus;
     boolean is_internet_connected = false;
     Context context;
     private Boolean imageisselected = false;
