@@ -146,6 +146,9 @@ public class login extends AppCompatActivity {
         tv_arabic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                context = LocaleHelper.setLocale(login.this, "ar");
+                resources = context.getResources();
+                Alerter("تم التحويل الى اللغة العربية",resources.getString(R.string.welcome) );
                 allarabic();
             }
 
@@ -154,6 +157,9 @@ public class login extends AppCompatActivity {
         tv_english.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                context = LocaleHelper.setLocale(login.this, "en");
+                resources = context.getResources();
+                Alerter("changed to english language",resources.getString(R.string.welcome) );
                 allenglish();
             }
 
@@ -330,7 +336,6 @@ public class login extends AppCompatActivity {
 
         context = LocaleHelper.setLocale(login.this, "ar");
         resources = context.getResources();
-        Alerter("تم التحويل الى اللغة العربية",resources.getString(R.string.welcome) );
         usernamelayout.setHint(resources.getString(R.string.email));
         login.setText(resources.getString(R.string.signin));
         tv_forget.setText(resources.getString(R.string.forgetpasswoed));
@@ -355,7 +360,6 @@ public class login extends AppCompatActivity {
         editor.commit();
         context = LocaleHelper.setLocale(login.this, "en");
         resources = context.getResources();
-        Alerter("changed to english language",resources.getString(R.string.welcome) );
 
         usernamelayout.setHint(resources.getString(R.string.email));
         login.setText(resources.getString(R.string.signin));
