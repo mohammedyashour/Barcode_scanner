@@ -37,6 +37,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.jaeger.library.StatusBarUtil;
+import com.tapadoo.alerter.Alerter;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -319,6 +320,8 @@ public class login extends AppCompatActivity {
     }
 
     private void allarabic() {
+
+
         current_app_language = "ar";
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("language", current_app_language);
@@ -327,7 +330,8 @@ public class login extends AppCompatActivity {
 
         context = LocaleHelper.setLocale(login.this, "ar");
         resources = context.getResources();
-        usernamelayout.setHint(resources.getString(R.string.Username));
+        Alerter("تم التحويل الى اللغة العربية",resources.getString(R.string.welcome) );
+        usernamelayout.setHint(resources.getString(R.string.email));
         login.setText(resources.getString(R.string.signin));
         tv_forget.setText(resources.getString(R.string.forgetpasswoed));
         passwordlayout.setHint(resources.getString(R.string.Password));
@@ -341,6 +345,7 @@ public class login extends AppCompatActivity {
     }
 
     private void allenglish() {
+
         current_app_language = "en";
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("language", current_app_language);
@@ -350,7 +355,9 @@ public class login extends AppCompatActivity {
         editor.commit();
         context = LocaleHelper.setLocale(login.this, "en");
         resources = context.getResources();
-        usernamelayout.setHint(resources.getString(R.string.Username));
+        Alerter("changed to english language",resources.getString(R.string.welcome) );
+
+        usernamelayout.setHint(resources.getString(R.string.email));
         login.setText(resources.getString(R.string.signin));
         tv_forget.setText(resources.getString(R.string.forgetpasswoed));
         passwordlayout.setHint(resources.getString(R.string.Password));
@@ -362,6 +369,18 @@ public class login extends AppCompatActivity {
         tv_english.setTextColor(getResources().getColor(R.color.green_300));
         tv_arabic.setTextColor(getResources().getColor(R.color.default_text_view_color));
     }
+    private void Alerter(String title,String text ) {
+        Alerter.create(this)
+                .setIcon(R.drawable.alerter_ic_face)
+                .setBackgroundColorRes(R.color.Coloralert)
+                .setTitle(title)
+                .setText(text)
+                .enableProgress(true)
+                .setProgressColorRes(R.color.Coloralert2)
+                .enableSwipeToDismiss()
 
+                .show();
+
+    }
 
 }

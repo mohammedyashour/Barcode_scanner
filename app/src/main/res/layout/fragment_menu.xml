@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
- >
+    >
 
     <!--  Fill with your views, just like you would in a normal ConstraintLayout  -->
 
@@ -29,6 +29,7 @@
         android:orientation="vertical"
         android:translationZ="10dp"
         android:background="@color/bg"
+
         >
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="170dp"
@@ -50,7 +51,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_marginLeft="-112dp"
         android:textSize="20sp"
-     />
+            />
         <!--**************  Name Edit Text***********************-->
 
         <com.google.android.material.textfield.TextInputLayout
