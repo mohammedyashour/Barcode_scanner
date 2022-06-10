@@ -33,12 +33,12 @@ import com.google.zxing.integration.android.IntentResult;
 import com.tapadoo.alerter.Alerter;
 
 public class MainActivity extends AppCompatActivity {
- private Button scan;
-private TextView textView;
+    private Button scan;
+    private TextView textView;
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth firebaseAuth;
-FragmentTransaction fragmentTransaction;
-BubbleNavigationLinearView bubbleNavigationLinearView ;
+    FragmentTransaction fragmentTransaction;
+    BubbleNavigationLinearView bubbleNavigationLinearView ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -52,16 +52,16 @@ BubbleNavigationLinearView bubbleNavigationLinearView ;
         firebaseAuth=FirebaseAuth.getInstance();
         FirebaseUser CurrentUser = firebaseAuth.getCurrentUser();
 
-if (CurrentUser !=null){
+        if (CurrentUser !=null){
 
-   // Snackbar.make(findViewById(android.R.id.content),  firebaseAuth.getCurrentUser().getEmail().toString(), Snackbar.LENGTH_LONG).show();
+            // Snackbar.make(findViewById(android.R.id.content),  firebaseAuth.getCurrentUser().getEmail().toString(), Snackbar.LENGTH_LONG).show();
 
-} else{
-    Intent intent =new Intent(MainActivity.this,SplashScreen.class);
-    startActivity(intent);
-    finish();
+        } else{
+            Intent intent =new Intent(MainActivity.this,SplashScreen.class);
+            startActivity(intent);
+            finish();
 
-}
+        }
 
 
         bubbleNavigationLinearView=findViewById(R.id.bottom_navigation_view_linear);
@@ -73,37 +73,37 @@ if (CurrentUser !=null){
         //***
         fragmentTransaction=getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container,new Dashboard());
-       fragmentTransaction.commit();
+        fragmentTransaction.commit();
         bubbleNavigationLinearView.setNavigationChangeListener(new BubbleNavigationChangeListener() {
             @Override
             public void onNavigationChanged(View view, int position) {
-            switch (position){
-                case 0:
-                    fragmentTransaction=getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_container,new Dashboard());
-                    fragmentTransaction.commit();
-                    break;
-                case 1:
-                    fragmentTransaction=getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_container,new Scanner());
-                    fragmentTransaction.commit();
-                    break;
-                case 2:
-                    fragmentTransaction=getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_container,new Inventory());
-                    fragmentTransaction.commit();
-                    break;
-                case 3:
-                    fragmentTransaction=getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_container,new Add());
-                    fragmentTransaction.commit();
-                    break;
-                case 4:
-                    fragmentTransaction=getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_container,new Menu());
-                    fragmentTransaction.commit();
-                    break;
-            }
+                switch (position){
+                    case 0:
+                        fragmentTransaction=getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.fragment_container,new Dashboard());
+                        fragmentTransaction.commit();
+                        break;
+                    case 1:
+                        fragmentTransaction=getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.fragment_container,new Scanner());
+                        fragmentTransaction.commit();
+                        break;
+                    case 2:
+                        fragmentTransaction=getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.fragment_container,new Inventory());
+                        fragmentTransaction.commit();
+                        break;
+                    case 3:
+                        fragmentTransaction=getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.fragment_container,new Add());
+                        fragmentTransaction.commit();
+                        break;
+                    case 4:
+                        fragmentTransaction=getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.fragment_container,new Menu());
+                        fragmentTransaction.commit();
+                        break;
+                }
             }
         });
 

@@ -69,4 +69,8 @@
     <string name="textalert">مرحبا بعودتك مجددا</string>
     <string name="Profile">الملف الشخصي</string>
     <string name="MainMenus">القوائم الرئيسية</string>
+    <string name="Adminpage">صفحة الادمن</string>
+    <string name="Inbox">الرسائل</string>
+    <string name="version_unknown">v-1.0.0</string>
+    <string name="Settings">الإعدادات</string>
 </resources>

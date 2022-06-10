@@ -97,4 +97,8 @@
     <string name="textalert">Welcome Backe Again</string>
     <string name="Profile">Profile</string>
     <string name="MainMenus">Main Menus</string>
+    <string name="Adminpage">Admin Page</string>
+    <string name="Inbox">Inbox</string>
+    <string name="version_unknown">v-1.0.0</string>
+    <string name="Settings">Settings</string>
 </resources>

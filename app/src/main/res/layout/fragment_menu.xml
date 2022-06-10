@@ -33,6 +33,7 @@
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
             <LinearLayout
+                android:id="@+id/profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -41,8 +42,8 @@
 
                 <com.mikhaellopez.circularimageview.CircularImageView
                     android:id="@+id/image"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:src="@drawable/ic_preson"
                     app:civ_border="true"
                     app:civ_border_color="@color/green_500"
@@ -55,6 +56,7 @@
                     android:layout_height="0dp" />
 
                 <LinearLayout
+                    android:id="@+id/usernameandemail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -66,7 +68,8 @@
                         android:text="@string/Username"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@android:color/white"
-                        app:fontFamily="sans-serif-medium" />
+                        app:fontFamily="sans-serif-medium"
+                        android:textSize="22sp"/>
 
                     <TextView
                         android:id="@+id/menuemail"
@@ -75,7 +78,8 @@
                         android:layout_marginTop="5dp"
                         android:text="@string/email"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-                        android:textColor="@color/green_500" />
+                        android:textColor="@color/green_500"
+                        android:textSize="15sp"/>
 
                 </LinearLayout>
 
@@ -88,6 +92,42 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="10dp">
+                <LinearLayout
+                    android:id="@+id/adminpage"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    >
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparent"
+                        app:srcCompat="@drawable/ic_admin"
+                        app:tint="@color/green_500" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:text="@string/Adminpage"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                        android:textColor="@color/grey_20"
+                        app:fontFamily="sans-serif-medium" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -112,7 +152,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
-                        android:text="Inbox"
+                        android:text="@string/Inbox"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         android:textColor="@color/grey_20"
                         app:fontFamily="sans-serif-medium" />
@@ -257,6 +297,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/Settings"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:background="?attr/selectableItemBackground"
@@ -278,7 +319,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
-                        android:text="Language"
+                        android:text="@string/Settings"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         android:textColor="@color/grey_20"
                         app:fontFamily="sans-serif-medium" />
