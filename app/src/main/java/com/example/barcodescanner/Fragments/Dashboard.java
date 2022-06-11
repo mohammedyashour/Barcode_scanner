@@ -1,12 +1,7 @@
 package com.example.barcodescanner.Fragments;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +10,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 import com.example.barcodescanner.R;
-import com.example.barcodescanner.SplashScreen;
-import com.example.barcodescanner.login;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -52,28 +47,36 @@ LinearLayout inventory;
       //  Toast.makeText(getContext(), "Scanned : " +firebaseAuth.getCurrentUser().getEmail().toString(),Toast.LENGTH_LONG).show();
 
 
-        firebaseFirestore.collection("users" )
-                .whereEqualTo("Email",firebaseAuth.getCurrentUser().getEmail().toString())
-                .limit(1)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        Thread thread = new Thread() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    for (QueryDocumentSnapshot q : task.getResult()) {
-                        name.setText(q.getData().get("Username").toString());
-                        email.setText(q.getData().get("Email").toString());
-                        profileimage.setImageURI(  Uri.parse(q.getData().get("imageuri").toString()));
+            public void run() {
+                firebaseFirestore.collection("users" )
+                        .whereEqualTo("Email",firebaseAuth.getCurrentUser().getEmail().toString())
+                        .limit(1)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful()){
+                                    for (QueryDocumentSnapshot q : task.getResult()) {
+                                        name.setText(q.getData().get("Username").toString());
+                                        email.setText(q.getData().get("Email").toString());
+                                        profileimage.setImageURI(  Uri.parse(q.getData().get("imageuri").toString()));
 
-                    }
-                }
-                else{
-                    Toast.makeText(getContext(), "failed " ,Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                                else{
+                                    Toast.makeText(getContext(), "failed " ,Toast.LENGTH_LONG).show();
 
-                }
+                                }
+                            }
+                        });
+
+
+
             }
-        });
-
+        };
+        thread.start();
 
 inventory.setOnClickListener(new View.OnClickListener() {
     @Override
