@@ -59,7 +59,7 @@
     <string name="Dates">تواريخ</string>
     <string name="lessthen6">لا يمكن أن تكون كلمة المرور أقل من 6 أحرف</string>
     <string name="passerror">كلمة المرور غير صحيحة</string>
-    <string name="email">الايميل</string>
+    <string name="email">البريد الالكتروني</string>
     <string name="logout">تسجيل خروج</string>
     <string name="dateofbirth">تاريخ الميلاد</string>
     <string name="CreateNewAccount">انشاء حساب جديد</string>
@@ -73,4 +73,10 @@
     <string name="Inbox">الرسائل</string>
     <string name="version_unknown">v-1.0.0</string>
     <string name="Settings">الإعدادات</string>
+    <string name="Resetpassword">استعادة كلمةالمرور</string>
+    <string name="EnterYourEmail">ادخل البريد الالكتروني</string>
+    <string name="Invalidemailformat">تنسيق بريد إلكتروني غير صالح</string>
+    <string name="noemail">إذا لم يظهر البريد الإلكتروني، فتحقق منه في قائمة الرسائل غير المرغوب فيها.</string>
+    <string name="Checkyouremail">تحقق من بريدك الإلكتروني لإعادة تعيين كلمة المرور</string>
+    <string name="Users">المستخدمين </string>
 </resources>

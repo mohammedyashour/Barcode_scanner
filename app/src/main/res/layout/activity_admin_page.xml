@@ -42,6 +42,7 @@
                 android:paddingRight="10dp">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/userscardview"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="2dp"
@@ -92,6 +93,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/users_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="92776"
@@ -100,9 +102,10 @@
                                 android:textStyle="bold" />
 
                             <TextView
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Viewer"
+                                android:text="@string/Users"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                 android:textColor="@color/green_500" />
 
@@ -251,6 +254,8 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/products_tv"
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
@@ -605,26 +610,29 @@
                         android:background="@drawable/shadow">
 
                         <ImageView
+                            android:id="@+id/githubbtn"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:foreground="?attr/selectableItemBackground"
-                            android:src="@drawable/img_social_twitter" />
+                            android:src="@drawable/ic__github" />
 
                         <View
                             android:layout_width="15dp"
                             android:layout_height="0dp" />
 
                         <ImageView
+                            android:id="@+id/behancebtn"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:foreground="?attr/selectableItemBackground"
-                            android:src="@drawable/img_social_youtube" />
+                            android:src="@drawable/img_social_behance" />
 
                         <View
                             android:layout_width="15dp"
                             android:layout_height="0dp" />
 
                         <ImageView
+                            android:id="@+id/facebookbtn"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:foreground="?attr/selectableItemBackground"
@@ -635,6 +643,7 @@
                             android:layout_height="0dp" />
 
                         <ImageView
+                            android:id="@+id/instabtn"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:foreground="?attr/selectableItemBackground"

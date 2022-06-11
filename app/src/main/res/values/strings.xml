@@ -101,4 +101,10 @@
     <string name="Inbox">Inbox</string>
     <string name="version_unknown">v-1.0.0</string>
     <string name="Settings">Settings</string>
+    <string name="Resetpassword">Reset password</string>
+    <string name="EnterYourEmail">Enter Your Email</string>
+    <string name="Invalidemailformat">Invalid email format</string>
+    <string name="noemail">If the email doesn\'t appear, check it in the spam list.</string>
+    <string name="Checkyouremail">Check your email to reset your password</string>
+    <string name="Users">Users</string>
 </resources>

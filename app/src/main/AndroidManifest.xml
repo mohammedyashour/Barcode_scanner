@@ -13,6 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BarcodeScanner">
         <activity
+            android:name=".All_users"
+            android:exported="true"
+            android:theme="@style/Theme.noActionBar.NoStatusBar" />
+
+        <activity
             android:name=".Admin.Settings"
             android:exported="true" />
         <activity
@@ -22,7 +27,7 @@
         <activity
             android:name=".ForgetPassword"
             android:exported="true"
-            android:theme="@style/Theme.noActionBar.NoStatusBar" />
+            android:theme="@style/Theme.login" />
         <activity
             android:name=".SplashScreen"
             android:exported="true"
