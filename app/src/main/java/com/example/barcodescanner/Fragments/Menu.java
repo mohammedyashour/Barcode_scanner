@@ -38,7 +38,7 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 
 import tyrantgit.explosionfield.ExplosionField;
 
-public class Menu extends Fragment {
+public class Menu extends Fragment implements View.OnClickListener{
     private ExplosionField explosionField;
 
     Button btn;
@@ -121,12 +121,7 @@ String uri;
                 startActivity(intent);
             }
         });
-        profileimage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showImage();
-            }
-        });
+
         return v;
     }
     public void showImage(){
@@ -192,9 +187,22 @@ imageView.setOnClickListener(new View.OnClickListener() {
         profileimage.setBorderWidth(3);
         logout = v.findViewById(R.id.logout);
         admin = v.findViewById(R.id.adminpage);
-        profile = v.findViewById(R.id.usernameandemail);
+        profile = v.findViewById(R.id.profile);
         settings = v.findViewById(R.id.Settings);
         explosionField = ExplosionField.attach2Window(getActivity());
+        profileimage.setOnClickListener(this);
 
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+
+            case R.id.image:
+                showImage();
+
+                break;
+        }
+
+        }
 }

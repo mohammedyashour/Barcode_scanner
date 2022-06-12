@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BarcodeScanner">
         <activity
-            android:name=".All_users"
+            android:name=".Adapter.All_users"
             android:exported="true"
             android:theme="@style/Theme.noActionBar.NoStatusBar" />
 
