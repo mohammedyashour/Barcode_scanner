@@ -13,10 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BarcodeScanner">
         <activity
+            android:name=".UserProfile"
+            android:exported="true" />
+        <activity
             android:name=".Adapter.All_users"
             android:exported="true"
             android:theme="@style/Theme.noActionBar.NoStatusBar" />
-
         <activity
             android:name=".Admin.Settings"
             android:exported="true" />

@@ -67,10 +67,14 @@
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable-v24/shape_round_corner.xml" value="0.26666666666666666" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable/bottombarcolor.xml" value="0.26615384615384613" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable/btn_rounded_green.xml" value="0.2703125" />
+        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable/btn_rounded_green_outline.xml" value="0.24537037037037038" />
+        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable/circular_progress_bar_blue.xml" value="0.24537037037037038" />
+        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable/circular_progress_bar_green.xml" value="0.24537037037037038" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable/ic__add.xml" value="0.14635416666666667" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable/ic__charcteradd.xml" value="0.152" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable/ic__email.xml" value="0.14635416666666667" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable/ic_admin.xml" value="0.26615384615384613" />
+        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable/ic_more_horiz.xml" value="0.24537037037037038" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable/ic_personn.xml" value="0.15052083333333333" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable/ic_preson.xml" value="0.14895833333333333" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable/ic_top_of_dashboard.xml" value="0.2324074074074074" />
@@ -93,9 +97,10 @@
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/activity_all_users.xml" value="0.1" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/activity_forget_password.xml" value="0.2" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/activity_login.xml" value="0.25052083333333336" />
-        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/activity_main.xml" value="0.536" />
+        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/activity_sign_up.xml" value="0.4" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/activity_splash_screen.xml" value="0.12360688956433637" />
+        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/activity_user_profile.xml" value="0.264" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/checkboxdialog.xml" value="0.12360688956433637" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/confirm_dialog.xml" value="0.12943262411347517" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/donedialog.xml" value="0.12183383991894631" />

@@ -1,5 +1,6 @@
 package com.example.barcodescanner.Fragments;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -26,6 +27,7 @@ import androidx.fragment.app.Fragment;
 import com.example.barcodescanner.Admin.Admin_page;
 import com.example.barcodescanner.Admin.Settings;
 import com.example.barcodescanner.R;
+import com.example.barcodescanner.UserProfile;
 import com.example.barcodescanner.login;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -97,30 +99,10 @@ String uri;
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressDialog.show();
-
-                firebaseAuth.signOut();
-
-                Intent intent = new Intent(getActivity(), login.class);
-                startActivity(intent);
-                getActivity().finishAffinity();
-            }
-        });
-        admin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), Admin_page.class);
-                startActivity(intent);
 
             }
         });
-        settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), Settings.class);
-                startActivity(intent);
-            }
-        });
+
 
         return v;
     }
@@ -190,10 +172,16 @@ imageView.setOnClickListener(new View.OnClickListener() {
         profile = v.findViewById(R.id.profile);
         settings = v.findViewById(R.id.Settings);
         explosionField = ExplosionField.attach2Window(getActivity());
-        profileimage.setOnClickListener(this);
 
+//**********************************************************************
+        profileimage.setOnClickListener(this);
+        settings.setOnClickListener(this);
+        admin.setOnClickListener(this);
+        logout.setOnClickListener(this);
+        profile.setOnClickListener(this);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -201,6 +189,27 @@ imageView.setOnClickListener(new View.OnClickListener() {
             case R.id.image:
                 showImage();
 
+                break;
+            case R.id.Settings:
+                Intent intent = new Intent(getActivity(), Settings.class);
+                startActivity(intent);
+                break;
+            case R.id.adminpage:
+                Intent adminintent = new Intent(getActivity(), Admin_page.class);
+                startActivity(adminintent);
+                break;
+            case R.id.logout:
+                progressDialog.show();
+
+                firebaseAuth.signOut();
+
+                Intent logoutintent = new Intent(getActivity(), login.class);
+                startActivity(logoutintent);
+                getActivity().finishAffinity();
+                break;
+            case R.id.profile:
+                Intent profileintent = new Intent(getActivity(), UserProfile.class);
+                startActivity(profileintent);
                 break;
         }
 
