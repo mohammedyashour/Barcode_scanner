@@ -2,17 +2,17 @@ package com.example.barcodescanner;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.barcodescanner.Admin.AdminDrawerFragment;
 import com.example.barcodescanner.Fragments.Add;
 import com.example.barcodescanner.Fragments.Dashboard;
 import com.example.barcodescanner.Fragments.Inventory;
@@ -20,19 +20,16 @@ import com.example.barcodescanner.Fragments.Menu;
 import com.example.barcodescanner.Fragments.Scanner;
 import com.gauravk.bubblenavigation.BubbleNavigationLinearView;
 import com.gauravk.bubblenavigation.listener.BubbleNavigationChangeListener;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
+import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
+import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
 import com.tapadoo.alerter.Alerter;
 
 public class MainActivity extends AppCompatActivity {
+    private FlowingDrawer mDrawer;
+
     private Button scan;
     private TextView textView;
     FirebaseFirestore firebaseFirestore;
@@ -41,17 +38,29 @@ public class MainActivity extends AppCompatActivity {
     BubbleNavigationLinearView bubbleNavigationLinearView ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        View decorView = getWindow().getDecorView();
+// Hide both the navigation bar and the status bar.
+// SYSTEM_UI_FLAG_FULLSCREEN is only available on Android 4.1 and higher, but as
+// a general rule, you should design your app to hide the status bar whenever you
+// hide the navigation bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Alerter();
 
+        Alerter();
+        initAdminViews();
         firebaseFirestore=FirebaseFirestore.getInstance();
         firebaseAuth=FirebaseAuth.getInstance();
         FirebaseUser CurrentUser = firebaseAuth.getCurrentUser();
+        if (firebaseAuth.getCurrentUser().getEmail().equalsIgnoreCase("medo.ash.2019@gmail.com")) {
 
+            initAdminViews();
+        }
         if (CurrentUser !=null){
 
             // Snackbar.make(findViewById(android.R.id.content),  firebaseAuth.getCurrentUser().getEmail().toString(), Snackbar.LENGTH_LONG).show();
@@ -126,6 +135,8 @@ animationDrawable.start();*/
         textView=findViewById(R.id.textview);
         ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, PackageManager.PERMISSION_GRANTED);*/
     }
+
+
 /*
 public void ScaneButton (View view) {
     IntentIntegrator  intentIntegrator =new IntentIntegrator(this);
@@ -164,5 +175,24 @@ public void ScaneButton (View view) {
 
                 .show();
 
+    }
+    private void initAdminViews() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.id_container_menu, new AdminDrawerFragment()).addToBackStack(null).commit();
+        mDrawer = findViewById(R.id.drawerlayout);
+        mDrawer.setTouchMode(ElasticDrawer.TOUCH_MODE_BEZEL);
+        mDrawer.bringToFront();
+        mDrawer.setOnDrawerStateChangeListener(new ElasticDrawer.OnDrawerStateChangeListener() {
+            @Override
+            public void onDrawerStateChange(int oldState, int newState) {
+                if (newState == ElasticDrawer.STATE_CLOSED) {
+                    Log.i("MainActivity", "Drawer STATE_CLOSED");
+                }
+            }
+
+            @Override
+            public void onDrawerSlide(float openRatio, int offsetPixels) {
+                Log.i("MainActivity", "openRatio=" + openRatio + " ,offsetPixels=" + offsetPixels);
+            }
+        });
     }
 }

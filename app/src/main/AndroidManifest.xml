@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BarcodeScanner">
         <activity
+            android:name=".Admin.AdminActivity"
+            android:exported="false" />
+        <activity
             android:name=".UserProfile"
             android:exported="true" />
         <activity

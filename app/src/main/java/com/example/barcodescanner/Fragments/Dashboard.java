@@ -20,9 +20,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
 
 public class Dashboard extends Fragment {
-FirebaseFirestore firebaseFirestore;
+    private FlowingDrawer mDrawer;
+
+    FirebaseFirestore firebaseFirestore;
 FirebaseAuth firebaseAuth;
 TextView name,email;
 ImageView profileimage;
@@ -88,6 +91,11 @@ inventory.setOnClickListener(new View.OnClickListener() {
 
         return view;
     }
+
+
+
+
+
     private void initViews(View view) {
         name=view.findViewById(R.id.name);
         email=view.findViewById(R.id.email);

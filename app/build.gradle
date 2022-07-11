@@ -40,7 +40,8 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-implementation 'com.journeyapps:zxing-android-embedded:4.3.0'//QR&BARCODE READER
+
+    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'//QR&BARCODE READER
     implementation 'com.jaeger.statusbarutil:library:1.4.0'//StatusBarUtil transparnt
     implementation 'com.henley.android:shadowlayout:1.0.2'//for shadow layout
     implementation 'com.wdullaer:materialdatetimepicker:3.2.0'         // date & time picker
@@ -62,5 +63,8 @@ implementation 'com.journeyapps:zxing-android-embedded:4.3.0'//QR&BARCODE READER
     implementation 'com.github.bumptech.glide:glide:4.12.0'//for glide
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'//for glide
     implementation 'com.google.android:flexbox:0.3.2'                  // google flexible box
+    implementation 'com.mxn.soul:flowingdrawer-core:2.1.0'//FlowingDrawer
+    implementation 'com.nineoldandroids:library:2.4.0'//FlowingDrawer
+    implementation 'com.tbuonomo:morph-bottom-navigation:1.0.1'
 
 }
