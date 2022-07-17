@@ -51,6 +51,7 @@
             android:name=".login"
             android:exported="true"
             android:theme="@style/Theme.login" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

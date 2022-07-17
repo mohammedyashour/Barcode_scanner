@@ -1,17 +1,9 @@
 package com.example.barcodescanner;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
-import android.Manifest;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -19,16 +11,20 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.barcodescanner.explosionfield.ExplosionField;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -36,13 +32,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.jaeger.library.StatusBarUtil;
 import com.tapadoo.alerter.Alerter;
 
 import java.util.Locale;
 import java.util.Objects;
-
-import tyrantgit.explosionfield.ExplosionField;
+import java.util.concurrent.TimeUnit;
 
 public class login extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
@@ -58,7 +52,6 @@ public class login extends AppCompatActivity {
     private float mAccelCurrent;
     private float mAccelLast;
     public   ProgressDialog progressDialog;
-    private ExplosionField explosionField;
     private static final String SELECTED_LANGUAGE = "Locale.Helper.Selected.Language";
     private static SharedPreferences sp;
     private ImageView imageView;
@@ -67,20 +60,33 @@ public class login extends AppCompatActivity {
     Context context;
     Resources resources;
 
+    ExplosionField explosionField;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+ explosionField =new ExplosionField(this);
         explosionField = ExplosionField.attach2Window(this);
         imageView = findViewById(R.id.logo);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                explosionField.explode(imageView);
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         imageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                explosionField.explode(imageView);
+              explosionField.reset(imageView,ExplosionField.SEQUENTIAL);
                 return false;
             }
         });
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String value = extras.getString("password");
@@ -386,5 +392,16 @@ public class login extends AppCompatActivity {
                 .show();
 
     }
+    private void reset(View root) {
+        if (root instanceof ViewGroup) {
+            ViewGroup parent = (ViewGroup) root;
+            for (int i = 0; i < parent.getChildCount(); i++) {
+                reset(parent.getChildAt(i));
+            }
+        } else {
+            root.setScaleX(1);
+            root.setScaleY(1);
+            root.setAlpha(1);
+        }}
 
 }

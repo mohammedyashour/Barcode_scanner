@@ -48,17 +48,23 @@
                     app:civ_border_color="@color/grey_10"
                     app:civ_border_width="0dp"
                     app:civ_shadow="true"
-                    app:civ_shadow_radius="0" />
+                    app:civ_shadow_radius="0"
+                    android:contentDescription="@string/Profile"/>
 
 
                 <ImageView
+
+                    android:id="@+id/top_bedge"
                     android:layout_width="@dimen/spacing_mlarge"
                     android:layout_height="@dimen/spacing_mlarge"
-                    android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:layout_margin="@dimen/spacing_small"
-                    app:srcCompat="@drawable/badge_crown" />
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="@dimen/spacing_small"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginEnd="@dimen/spacing_small"
+                    android:layout_marginBottom="@dimen/spacing_small"
+                    app:srcCompat="@drawable/ic_add_circle" />
 
             </RelativeLayout>
 

@@ -48,6 +48,7 @@
         <entry key="..\:/Users/Moudy/Desktop/Barcode_Scanner/app/src/main/res/drawable/language.xml" value="0.209" />
         <entry key="..\:/Users/Moudy/Desktop/Barcode_Scanner/app/src/main/res/layout/activity_login.xml" value="0.7072243346007605" />
         <entry key="..\:/Users/Moudy/Desktop/Barcode_Scanner/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable-v24/badge_background_white.xml" value="0.1095" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable-v24/btn_rounded_green1.xml" value="0.14791666666666667" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable-v24/btn_rounded_green_300.xml" value="0.2703125" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable-v24/ic_add.xml" value="0.26256410256410256" />
@@ -65,7 +66,10 @@
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable-v24/ic_subject.xml" value="0.26256410256410256" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable-v24/shape_circle.xml" value="0.26256410256410256" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable-v24/shape_round_corner.xml" value="0.26666666666666666" />
+        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable/background1.xml" value="0.1095" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable/background_bottom_nav_item.xml" value="0.1" />
+        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable/bade_background.xml" value="0.1465" />
+        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable/badge_shape.xml" value="0.1095" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable/bottombarcolor.xml" value="0.26615384615384613" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable/btn_rounded_green.xml" value="0.2703125" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/drawable/btn_rounded_green_outline.xml" value="0.24537037037037038" />
@@ -103,7 +107,8 @@
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/activity_sign_up.xml" value="0.4" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/activity_splash_screen.xml" value="0.12360688956433637" />
-        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/activity_user_profile.xml" value="0.264" />
+        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/activity_user_profile.xml" value="0.17699115044247787" />
+        <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/badgedialog.xml" value="0.2" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/checkboxdialog.xml" value="0.12360688956433637" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/confirm_dialog.xml" value="0.12943262411347517" />
         <entry key="..\:/programming/Barcode_scanner/app/src/main/res/layout/donedialog.xml" value="0.12183383991894631" />
@@ -128,5 +133,8 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="SuppressKotlinCodeStyleNotification">
+    <option name="disableForAll" value="true" />
   </component>
 </project>

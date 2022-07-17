@@ -96,12 +96,6 @@ String uri;
                         }
                     }
                 });
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
 
 
         return v;
@@ -125,6 +119,7 @@ imageView.setLayoutParams(layoutParams);
         builder.addContentView(imageView, new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
+
 imageView.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
@@ -179,7 +174,10 @@ imageView.setOnClickListener(new View.OnClickListener() {
         admin.setOnClickListener(this);
         logout.setOnClickListener(this);
         profile.setOnClickListener(this);
+
     }
+
+
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -199,13 +197,7 @@ imageView.setOnClickListener(new View.OnClickListener() {
                 startActivity(adminintent);
                 break;
             case R.id.logout:
-                progressDialog.show();
-
-                firebaseAuth.signOut();
-
-                Intent logoutintent = new Intent(getActivity(), login.class);
-                startActivity(logoutintent);
-                getActivity().finishAffinity();
+              logoutfun();
                 break;
             case R.id.profile:
                 Intent profileintent = new Intent(getActivity(), UserProfile.class);
@@ -214,4 +206,13 @@ imageView.setOnClickListener(new View.OnClickListener() {
         }
 
         }
+    private void logoutfun() {
+        progressDialog.show();
+
+        firebaseAuth.signOut();
+
+        Intent logoutintent = new Intent(getActivity(), login.class);
+        startActivity(logoutintent);
+        getActivity().finishAffinity();
+    }
 }
