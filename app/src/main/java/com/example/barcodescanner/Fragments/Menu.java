@@ -3,12 +3,15 @@ package com.example.barcodescanner.Fragments;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,9 +31,9 @@ import com.example.barcodescanner.Admin.Admin_page;
 import com.example.barcodescanner.Admin.Settings;
 import com.example.barcodescanner.R;
 import com.example.barcodescanner.UserProfile;
-import com.example.barcodescanner.login;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -53,6 +56,7 @@ public class Menu extends Fragment implements View.OnClickListener{
     FirebaseAuth firebaseAuth;
     String currentUserID;
 String uri;
+    SharedPreferences sharedPreferences;
     public Menu() {
         // Required empty public constructor
     }
@@ -64,7 +68,6 @@ String uri;
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_menu, container, false);
         Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
-
 
         initViews(v);
         CheckAdmin();
@@ -156,6 +159,7 @@ imageView.setOnClickListener(new View.OnClickListener() {
     }
 
     private void initViews(View v) {
+
         username = v.findViewById(R.id.menuusername);
         email = v.findViewById(R.id.menuemail);
         // btn = v.findViewById(R.id.btnlogout);
@@ -209,10 +213,28 @@ imageView.setOnClickListener(new View.OnClickListener() {
     private void logoutfun() {
         progressDialog.show();
 
-        firebaseAuth.signOut();
+       // firebaseAuth.signOut();
+          setDefaults("currentbadge","empty",getContext());
 
-        Intent logoutintent = new Intent(getActivity(), login.class);
-        startActivity(logoutintent);
-        getActivity().finishAffinity();
+        String s=  getDefaults("currentbadge",getContext());
+       //  sharedPreferences = getActivity().getSharedPreferences("Mysp", MODE_PRIVATE);
+
+
+        Snackbar.make(getActivity().findViewById(android.R.id.content),s, Snackbar.LENGTH_LONG).show();
+
+//        Intent logoutintent = new Intent(getActivity(), login.class);
+//        startActivity(logoutintent);
+//        getActivity().finishAffinity();
+    }
+    public static void setDefaults(String key, String value, Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(key, value);
+        editor.apply(); // or editor.commit() in case you want to write data instantly
+    }
+
+    public static String getDefaults(String key, Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getString(key, null);
     }
 }

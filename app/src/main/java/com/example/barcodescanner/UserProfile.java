@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
@@ -35,6 +36,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.util.HashMap;
+
 
 public class UserProfile extends AppCompatActivity {
     private FirebaseFirestore firebaseFirestore;
@@ -50,8 +53,8 @@ public class UserProfile extends AppCompatActivity {
     private Context context;
     private String currentbadge="empty";
     private ExplosionField explosionField;
-    SharedPreferences sharedPreferences;
-
+      SharedPreferences sharedPreferences;
+    private   HashMap<String, String> data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,9 +62,14 @@ public class UserProfile extends AppCompatActivity {
         context = getApplicationContext();
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
+       data = new HashMap<>();
+
+
+
         initViews();
         addbadge();
-        String sp_currentbadge=sharedPreferences.getString("currentbadge","");
+
+        String sp_currentbadge=getDefaults("currentbadge",context);
 switch (sp_currentbadge){
     case "crown":
         top_bedge.setImageResource(R.drawable.badge_crown);
@@ -181,11 +189,8 @@ explosionField = ExplosionField.attach2Window(this);
                                 public void run() {
                                     top_bedge.setImageResource(R.drawable.badge_crown);
                                     explosionField.reset(top_bedge,ExplosionField.FROM_BOTTOM);
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    setDefaults("currentbadge", currentbadge,context);
 
-                                    editor.putString("currentbadge", currentbadge);
-
-                                    editor.commit();
 
                                 }
                             },1000);
@@ -200,11 +205,8 @@ explosionField = ExplosionField.attach2Window(this);
                                 public void run() {
                                     top_bedge.setImageResource(R.drawable.badge_goal);
                                     explosionField.reset(top_bedge,ExplosionField.FROM_BOTTOM);
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    setDefaults("currentbadge", currentbadge,context);
 
-                                    editor.putString("currentbadge", currentbadge);
-
-                                    editor.commit();
                                 }
                             },1000);
 
@@ -219,11 +221,8 @@ explosionField = ExplosionField.attach2Window(this);
                                 public void run() {
                                     top_bedge.setImageResource(R.drawable.badge_reward);
                                     explosionField.reset(top_bedge,ExplosionField.SEQUENTIAL);
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    setDefaults("currentbadge", currentbadge,context);
 
-                                    editor.putString("currentbadge", currentbadge);
-
-                                    editor.commit();
                                 }
                             },1000);
 
@@ -239,11 +238,8 @@ explosionField = ExplosionField.attach2Window(this);
                                 public void run() {
                                     top_bedge.setImageResource(R.drawable.badge_trophy);
                                     explosionField.reset(top_bedge,ExplosionField.BLINK);
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    setDefaults("currentbadge", currentbadge,context);
 
-                                    editor.putString("currentbadge", currentbadge);
-
-                                    editor.commit();
                                 }
                             },1000);
 
@@ -258,11 +254,8 @@ explosionField = ExplosionField.attach2Window(this);
                                 public void run() {
                                     top_bedge.setImageResource(R.drawable.badge_verified);
                                     explosionField.reset(top_bedge,ExplosionField.FROM_BOTTOM);
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    setDefaults("currentbadge", currentbadge,context);
 
-                                    editor.putString("currentbadge", currentbadge);
-
-                                    editor.commit();
                                 }
                             },1000);
 
@@ -277,11 +270,8 @@ explosionField = ExplosionField.attach2Window(this);
                                 public void run() {
                                     top_bedge.setImageResource(R.drawable.badge_ontime);
                                     explosionField.reset(top_bedge,ExplosionField.FALL_DOWN);
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    setDefaults("currentbadge", currentbadge,context);
 
-                                    editor.putString("currentbadge", currentbadge);
-
-                                    editor.commit();
                                 }
                             },1000);
 
@@ -289,6 +279,8 @@ explosionField = ExplosionField.attach2Window(this);
 
                             break;
                     }
+                    data.put("Username",username.getText().toString());
+                    data.put("Top_Badge",currentbadge);
 
                     Snackbar.make(findViewById(android.R.id.content), "The badge has been updated.", Snackbar.LENGTH_LONG).show();
 
@@ -746,5 +738,15 @@ private void emptybadgeonclick(ImageView image){
         }
    }
 
+    public static void setDefaults(String key, String value, Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(key, value);
+        editor.apply(); // or editor.commit() in case you want to write data instantly
+    }
 
+    public static String getDefaults(String key, Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getString(key, null);
+    }
 }
