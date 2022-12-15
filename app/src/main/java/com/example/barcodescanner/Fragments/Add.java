@@ -42,8 +42,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -61,16 +64,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class Add extends Fragment implements AdapterView.OnItemClickListener {
-
+    private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFirestore;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
     private Boolean imageisselected = false;
-    private String prduct_image_uri;
+    private String prduct_image_uri, username;
     final Calendar myCalendar = Calendar.getInstance();
     private LottieAnimationView lottieAnimationView;
     Uri imageuri;
-    private   ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
 
     Boolean currency = false;
     private CircleImageView product_image;
@@ -104,7 +107,6 @@ public class Add extends Fragment implements AdapterView.OnItemClickListener {
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
         progressDialog = new ProgressDialog(getContext());
-
         android.app.DatePickerDialog.OnDateSetListener datepickerdialog = new DatePickerDialog.OnDateSetListener() {
 
             @Override
@@ -137,9 +139,9 @@ public class Add extends Fragment implements AdapterView.OnItemClickListener {
         });
 
 
-                firebaseFirestore = FirebaseFirestore.getInstance();
-                thiscontext = container.getContext();
-                initViews(view);
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        thiscontext = container.getContext();
+        initViews(view);
 
 
         product_image.setOnClickListener(new View.OnClickListener() {
@@ -220,7 +222,7 @@ public class Add extends Fragment implements AdapterView.OnItemClickListener {
         final String product_photo_id = UUID.randomUUID().toString();
         prduct_image_uri = imageuri.toString();
         HashMap<String, String> data = new HashMap<>();
-        data.put("product_image_uri", prduct_image_uri+"");
+        data.put("product_image_uri", prduct_image_uri + "");
 
         data.put("product_image_id", product_photo_id);
         data.put("product_name", product_name);
@@ -230,6 +232,7 @@ public class Add extends Fragment implements AdapterView.OnItemClickListener {
         data.put("pord_date", pord_date);
         data.put("exp_date", exp_date);
         data.put("barcode", barcode);
+        data.put("username", username = getusername());
 
         if (imageisselected == true) {
             //doTheThing()
@@ -242,15 +245,15 @@ public class Add extends Fragment implements AdapterView.OnItemClickListener {
                         //final String randomkey= UUID.randomUUID().toString();
                         StorageReference SR = storageReference.child("products/" + barcode);
                         SR.putFile(imageuri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                progressDialog.show();
-if (progressDialog.isShowing()){
+                                    @Override
+                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                        progressDialog.show();
+                                        if (progressDialog.isShowing()) {
 
-}else                                successfuldialog();
+                                        } else successfuldialog();
 
-                            }
-                        })
+                                    }
+                                })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
@@ -276,6 +279,31 @@ if (progressDialog.isShowing()){
         }
 
 
+    }
+
+    private String getusername() {
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        firebaseFirestore.collection("users")
+                .whereEqualTo("Email", firebaseAuth.getCurrentUser().getEmail().toString())
+                .limit(1)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot q : task.getResult()) {
+                                username = (q.getData().get("Username").toString());
+
+                            }
+                        } else {
+                            Toast.makeText(getContext(), "failed ", Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+                });
+        return username;
     }
 
     public void successfuldialog() {

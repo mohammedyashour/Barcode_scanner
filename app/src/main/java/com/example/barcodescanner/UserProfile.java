@@ -30,6 +30,7 @@ import com.example.barcodescanner.explosionfield.ExplosionField;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -47,13 +48,13 @@ public class UserProfile extends AppCompatActivity {
     private ImageView top_bedge, emptybadge, crown, ontime, verified, trophy, reward, goal;
     private LinearLayout linearLayout;
     Drawable favoriteBorder;
-    private String  stringtrophy, stringontime, stringverified, stringgoal, stringcrown, stringrewardn;
+    private String  stringtrophy, stringontime, stringverified, stringgoal, stringcrown, stringrewardn,stbio;
     boolean badge = false;
     String msg = "MainActivity";
     private Context context;
     private String currentbadge="empty";
     private ExplosionField explosionField;
-      SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
     private   HashMap<String, String> data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class UserProfile extends AppCompatActivity {
 
 
         initViews();
+        initBio();
         addbadge();
 
         String sp_currentbadge=getDefaults("currentbadge",context);
@@ -113,10 +115,13 @@ switch (sp_currentbadge){
 
     }
 
+    private void initBio() {
+
+    }
+
     private void initViews() {
         username = findViewById(R.id.profileusername);
         profileimage = findViewById(R.id.image);
-
 
         top_bedge = findViewById(R.id.top_bedge);
         sharedPreferences = getSharedPreferences("MySP", MODE_PRIVATE); //open

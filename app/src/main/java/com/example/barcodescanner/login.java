@@ -51,7 +51,7 @@ public class login extends AppCompatActivity {
     private float mAccel;
     private float mAccelCurrent;
     private float mAccelLast;
-    public   ProgressDialog progressDialog;
+    public ProgressDialog progressDialog;
     private static final String SELECTED_LANGUAGE = "Locale.Helper.Selected.Language";
     private static SharedPreferences sp;
     private ImageView imageView;
@@ -61,11 +61,12 @@ public class login extends AppCompatActivity {
     Resources resources;
 
     ExplosionField explosionField;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
- explosionField =new ExplosionField(this);
+        explosionField = new ExplosionField(this);
         explosionField = ExplosionField.attach2Window(this);
         imageView = findViewById(R.id.logo);
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +83,7 @@ public class login extends AppCompatActivity {
         imageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-              explosionField.reset(imageView,ExplosionField.SEQUENTIAL);
+                explosionField.reset(imageView, ExplosionField.SEQUENTIAL);
                 return false;
             }
         });
@@ -154,7 +155,7 @@ public class login extends AppCompatActivity {
             public void onClick(View view) {
                 context = LocaleHelper.setLocale(login.this, "ar");
                 resources = context.getResources();
-                Alerter("تم التحويل الى اللغة العربية",resources.getString(R.string.welcome) );
+                Alerter("تم التحويل الى اللغة العربية", resources.getString(R.string.welcome));
                 allarabic();
             }
 
@@ -165,7 +166,7 @@ public class login extends AppCompatActivity {
             public void onClick(View view) {
                 context = LocaleHelper.setLocale(login.this, "en");
                 resources = context.getResources();
-                Alerter("changed to english language",resources.getString(R.string.welcome) );
+                Alerter("changed to english language", resources.getString(R.string.welcome));
                 allenglish();
             }
 
@@ -379,7 +380,8 @@ public class login extends AppCompatActivity {
         tv_english.setTextColor(getResources().getColor(R.color.green_300));
         tv_arabic.setTextColor(getResources().getColor(R.color.default_text_view_color));
     }
-    private void Alerter(String title,String text ) {
+
+    private void Alerter(String title, String text) {
         Alerter.create(this)
                 .setIcon(R.drawable.alerter_ic_face)
                 .setBackgroundColorRes(R.color.Coloralert)
@@ -392,6 +394,7 @@ public class login extends AppCompatActivity {
                 .show();
 
     }
+
     private void reset(View root) {
         if (root instanceof ViewGroup) {
             ViewGroup parent = (ViewGroup) root;
@@ -402,6 +405,7 @@ public class login extends AppCompatActivity {
             root.setScaleX(1);
             root.setScaleY(1);
             root.setAlpha(1);
-        }}
+        }
+    }
 
 }

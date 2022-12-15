@@ -107,4 +107,8 @@
     <string name="noemail">If the email doesn\'t appear, check it in the spam list.</string>
     <string name="Checkyouremail">Check your email to reset your password</string>
     <string name="Users">Users</string>
+    <string name="webdeve">Web Development</string>
+    <string name="skills">SKILLS</string>
+    <string name="bio">BIO</string>
+    <string name="ADDBIO">ADD BIO</string>
 </resources>

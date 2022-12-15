@@ -32,6 +32,7 @@
             app:lottie_loop="true"
             android:scaleType="fitXY"
             />
+
     </FrameLayout>
 
     <com.gauravk.bubblenavigation.BubbleNavigationLinearView

@@ -13,6 +13,9 @@
     <color name="cardbg">#252C53</color>
     <color name="bg">#DED8D8</color>
     <color name="gray1">#818181</color>
+    <color name="gery_text">#B5B5B5</color>
+    <color name="black_text">#292929</color>
+    <color name="Orange">#F9A236</color>
 
     <color name="style_color_primary">#2d5d82</color>
     <color name="style_color_primary_dark">#21425d</color>

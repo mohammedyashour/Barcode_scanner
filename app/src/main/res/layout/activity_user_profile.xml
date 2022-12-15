@@ -20,6 +20,19 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/grey_5" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+         <ImageView
+             android:id="@+id/banner"
+             android:layout_width="match_parent"
+             android:layout_height="150dp"
+              android:layout_marginTop="@dimen/spacing_large"
+             android:gravity="center"
+             android:src="@drawable/banner1"
+             android:scaleType="fitXY"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,7 +41,9 @@
             android:layout_marginRight="@dimen/spacing_mlarge"
             android:layout_marginTop="@dimen/spacing_large"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+
+        >
 
             <RelativeLayout
                 android:layout_width="80dp"
@@ -55,7 +70,7 @@
                 <ImageView
 
                     android:id="@+id/top_bedge"
-                    android:layout_width="@dimen/spacing_mlarge"
+                    android:layout_width="@dimen/spacing_mxlarge"
                     android:layout_height="@dimen/spacing_mlarge"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
@@ -117,6 +132,21 @@
             </LinearLayout>
 
         </LinearLayout>
+        </FrameLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/spacing_mlarge" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_middle"
+            android:layout_marginLeft="@dimen/spacing_mlarge"
+            android:layout_marginRight="@dimen/spacing_mlarge"
+            android:text="@string/bio"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/blue_grey_500"
+            app:fontFamily="sans-serif-medium" />
 
         <View
             android:layout_width="match_parent"
@@ -410,7 +440,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SKILLS"
+                android:text="@string/skills"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/blue_grey_500"
                 app:fontFamily="sans-serif-medium" />
@@ -426,7 +456,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/btn_rounded_green_outline"
-                    android:text="Web Development"
+                    android:text="@string/webdeve"
                     android:textAllCaps="false"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/grey_90"

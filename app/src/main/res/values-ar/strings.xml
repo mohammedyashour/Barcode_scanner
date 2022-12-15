@@ -79,4 +79,8 @@
     <string name="noemail">إذا لم يظهر البريد الإلكتروني، فتحقق منه في قائمة الرسائل غير المرغوب فيها.</string>
     <string name="Checkyouremail">تحقق من بريدك الإلكتروني لإعادة تعيين كلمة المرور</string>
     <string name="Users">المستخدمين </string>
+    <string name="webdeve">تطوير صفحات الويب</string>
+    <string name="skills">المهارات</string>
+    <string name="bio">نبذة عني</string>
+    <string name="ADDBIO">اضافة نبذة</string>
 </resources>
